@@ -6,7 +6,7 @@ export default class SortingVisualizer extends Component {
   render() {
     return (
       <div>
-        
+        Hello World
       </div>
   )}
 }
