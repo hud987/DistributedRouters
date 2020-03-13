@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import './ImageEditor.css';
+import DraggableNode from './DraggableNode'
 
 export default class DistributedRouter extends Component {
   state = {   
     message: '',
     image: "",
   }
-
 
   componentDidMount() {
 
@@ -15,7 +14,7 @@ export default class DistributedRouter extends Component {
   render() {
     return (
       <div>
-        Hello
+        <DraggableNode/>
       </div>
   )}
 }
