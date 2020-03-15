@@ -83,7 +83,7 @@ export default class Node extends Component {
               fontSize: '30px',
               pointerEvents: "none",
             }}>
-              10
+              { this.props.id }
             </div>
           </div>
         </ContextMenuTrigger>

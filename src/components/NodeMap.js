@@ -6,7 +6,14 @@ export default class NodeMap extends Component {
   state = {   
     nodeCoords: [
       {x: 0, y: 0},
-      {x: 100, y: 100},
+      {x: 0, y: 200},
+      {x: 200, y: 0},
+      {x: 200, y: 200},
+    ],
+    lines: [
+      {start: 0,end: 1, val: 10},
+      {start: 1,end: 2, val: 20},
+      {start: 0,end: 3, val: 30}
     ],
     nodesRendered: false,
   }
@@ -69,56 +76,68 @@ export default class NodeMap extends Component {
     document.onmouseup = null
     document.onmousemove = null
     if ( !this.movedOnClick ) {
-      console.log( 'didnt move')
+      //console.log( 'didnt move')
       this.contextTrigger.handleContextClick(e);
     }
   }
 
   handleRemoveLink(e) {
     if (this.removeLinkActive>0) {
-      console.log('removed link')
+      //console.log('removed link')
       this.removeLinkActive--
     }
     /* if (this.wrapperRef && !this.wrapperRef.contains(e.target)) {
       alert('You clicked outside of me!');
     }*/
-    console.log('clicked')
-    console.log(this.removeLinkActive)
+    //console.log('clicked')
+    //console.log(this.removeLinkActive)
 
   }
 
   onStartRemoveLink = () => {
     this.removeLinkActive = 2
-    console.log('remove Link')
-    console.log(this.removeLinkActive)
+    //console.log('remove Link')
+    //console.log(this.removeLinkActive)
   }
 
   render() {
-    var angle=Math.atan2(this.state.nodeCoords[1].x-this.state.nodeCoords[0].x,this.state.nodeCoords[1].y-this.state.nodeCoords[0].y)
     //console.log(Math.sin(angle))
     return (
       <div>
-          <div 
-            style={{
-              left: 300+(this.state.nodeCoords[0].x+(40*Math.cos(angle))+this.state.nodeCoords[1].x+50)/2, 
-              top: (this.state.nodeCoords[0].y-(40*Math.sin(angle))+this.state.nodeCoords[1].y+50)/2,
-              fontSize: '20px',
-              position: 'absolute',
-            }}
-          >
-            10
-          </div>
-          <Node id={"0"} rm={this.onStartRemoveLink} reff={c => this.contextTrigger = c} dragMouseDown={this.dragMouseDown} x={this.state.nodeCoords[0].x} y={this.state.nodeCoords[0].y}/>
-          <Node id={"1"} rm={this.onStartRemoveLink} reff={c => this.contextTrigger = c} dragMouseDown={this.dragMouseDown} x={this.state.nodeCoords[1].x} y={this.state.nodeCoords[1].y}/>
+          { 
+            this.state.lines.map((e,i) => {
+            var angle=Math.atan2(this.state.nodeCoords[e.end].x-this.state.nodeCoords[e.start].x,this.state.nodeCoords[e.end].y-this.state.nodeCoords[e.start].y)
+            return ( 
+              <div 
+                key={i}
+                style={{
+                  left: 300+(this.state.nodeCoords[e.start].x+(40*Math.cos(angle))+this.state.nodeCoords[e.end].x+50)/2, 
+                  top: (this.state.nodeCoords[e.start].y-(40*Math.sin(angle))+this.state.nodeCoords[e.end].y+50)/2,
+                  fontSize: '20px',
+                  position: 'absolute',
+                }}
+              >
+                { e.val }
+              </div>)
+          })}
+          { this.state.nodeCoords.map((e,i) => {
+            return <Node key={i} id={i.toString()} rm={this.onStartRemoveLink} reff={c => this.contextTrigger = c} dragMouseDown={this.dragMouseDown} x={e.x} y={e.y}/>
+          })}
           <svg width={window.innerWidth} height={window.innerHeight}>
-            <line 
-              x1={this.state.nodeCoords[0].x+40}
-              y1={this.state.nodeCoords[0].y+40} 
-              x2={this.state.nodeCoords[1].x+40} 
-              y2={this.state.nodeCoords[1].y+40}
-              stroke="black"
-              strokeWidth="5"
-              />
+          
+          { this.state.lines.map((e,i) => {
+            return ( 
+              <line 
+                key={i}
+                x1={this.state.nodeCoords[e.start].x+40}
+                y1={this.state.nodeCoords[e.start].y+40} 
+                x2={this.state.nodeCoords[e.end].x+40} 
+                y2={this.state.nodeCoords[e.end].y+40}
+                stroke="black"
+                strokeWidth="5"
+              /> )
+          })}
+
           </svg>
 
         </div>
