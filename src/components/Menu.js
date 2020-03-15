@@ -31,10 +31,14 @@ export default class Menu extends Component {
           }}>
             Distributed Routers
           </div>
-          <Button style={{backgroundColor: 'white', color: 'black'}}>
+          <Button style={{backgroundColor: 'white', color: 'black'}} onClick={this.props.onAddNode}>
             Add Node
           </Button>
-          <Button style={{backgroundColor: 'white', color: 'black',}}>
+          <Button 
+            style={{backgroundColor: 'white', color: 'black',}} 
+            disabled={this.props.removeNodeActive}
+            onClick={this.props.onRemoveNode}
+          >
             Remove Node
           </Button>
           <Button style={{backgroundColor: 'white', color: 'black',}}>

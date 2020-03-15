@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Button } from 'reactstrap';
+import Draggable from 'react-draggable';
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 
 export default class Node extends Component {
   state = {
     x: this.props.x,
     y: this.props.y,
+    strokeColor: 'black'
   } 
   reff = React.createRef();     
   contextTrigger = null;
@@ -17,36 +18,15 @@ export default class Node extends Component {
     this.pos4 = 0
   }
 
-  dragMouseDown = (e) => {
-    e.preventDefault()
-    this.movedOnClick = false
-
-    document.onmouseup = this.closeDragElement
-    document.onmousemove = this.elementDrag
-  }
-
-  elementDrag = (e) => {
-    e.preventDefault()
-    //console.log('dragging')
-    this.movedOnClick = true
-  }
-
-  closeDragElement = (e) => {
-    //console.log('unclicked')
-
-    document.onmouseup = null
-    document.onmousemove = null
-    if ( !this.movedOnClick ) {
-      console.log( 'didnt move')
-      //this.contextTrigger.handleContextClick(e);
+  onMouseOver = (e) => {
+    if (this.props.removeNodeActive) {
+      this.setState({strokeColor: 'red'})
     }
   }
 
-  handleClick2 = (e) => {}
 
-  handleClick = (e, data) => {
-    this.props.rm(e)
-    //console.log(data.foo);
+  onMouseOut = (e) => {
+    this.setState({strokeColor: 'black'})
   }
 
   render() {
@@ -65,15 +45,21 @@ export default class Node extends Component {
               alignItems: 'center',
               width: '80px',
               height: '80px',
-              backgroundColor: 'red',
-              border: '3.5px solid black',
+              backgroundColor: 'blue',
+              borderColor: this.state.strokeColor,
+              border: '3.5px solid',
               borderRadius: "45px",
               left: this.props.x, 
               top: this.props.y,
               position: 'absolute',
             }}
+            className={"handle"}
             id={this.props.id}
+            onClick={this.props.onClick}
             onMouseDown={this.props.dragMouseDown}
+            onMouseOver={this.onMouseOver}
+            onMouseOut={this.onMouseOut}
+            onClick={this.props.onClick}
             ref={this.reff}
           >
             <div
@@ -112,3 +98,8 @@ export default class Node extends Component {
       </div>
   )}
 }
+
+/*
+<Draggable handle=".handle">
+</Draggable>
+*/

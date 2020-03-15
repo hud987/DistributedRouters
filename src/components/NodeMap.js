@@ -4,17 +4,7 @@ import Node from './Node'
 
 export default class NodeMap extends Component {
   state = {   
-    nodeCoords: [
-      {x: 0, y: 0},
-      {x: 0, y: 200},
-      {x: 200, y: 0},
-      {x: 200, y: 200},
-    ],
-    lines: [
-      {start: 0,end: 1, val: 10},
-      {start: 1,end: 2, val: 20},
-      {start: 0,end: 3, val: 30}
-    ],
+
     nodesRendered: false,
   }
   removeLinkActive = 0
@@ -48,7 +38,7 @@ export default class NodeMap extends Component {
     this.pos3 = e.clientX
     this.pos4 = e.clientY
     var newY,newX;
-    var nodeCoordsNew = this.state.nodeCoords
+    var nodeCoordsNew = this.props.nodeCoords
     if (this.reff.offsetTop - this.pos2 < 0) {
       newY = 0
     } else if (this.reff.offsetTop - this.pos2 > window.innerHeight-80) {
@@ -72,32 +62,12 @@ export default class NodeMap extends Component {
   }
 
   closeDragElement = (e) => {
-    //console.log('unclicked')
     document.onmouseup = null
     document.onmousemove = null
     if ( !this.movedOnClick ) {
       //console.log( 'didnt move')
-      this.contextTrigger.handleContextClick(e);
+      //this.contextTrigger.handleContextClick(e);
     }
-  }
-
-  handleRemoveLink(e) {
-    if (this.removeLinkActive>0) {
-      //console.log('removed link')
-      this.removeLinkActive--
-    }
-    /* if (this.wrapperRef && !this.wrapperRef.contains(e.target)) {
-      alert('You clicked outside of me!');
-    }*/
-    //console.log('clicked')
-    //console.log(this.removeLinkActive)
-
-  }
-
-  onStartRemoveLink = () => {
-    this.removeLinkActive = 2
-    //console.log('remove Link')
-    //console.log(this.removeLinkActive)
   }
 
   render() {
@@ -105,14 +75,14 @@ export default class NodeMap extends Component {
     return (
       <div>
           { 
-            this.state.lines.map((e,i) => {
-            var angle=Math.atan2(this.state.nodeCoords[e.end].x-this.state.nodeCoords[e.start].x,this.state.nodeCoords[e.end].y-this.state.nodeCoords[e.start].y)
+            this.props.links.map((e,i) => {
+            var angle=Math.atan2(this.props.nodeCoords[e.end].x-this.props.nodeCoords[e.start].x,this.props.nodeCoords[e.end].y-this.props.nodeCoords[e.start].y)
             return ( 
               <div 
                 key={i}
                 style={{
-                  left: 300+(this.state.nodeCoords[e.start].x+(40*Math.cos(angle))+this.state.nodeCoords[e.end].x+50)/2, 
-                  top: (this.state.nodeCoords[e.start].y-(40*Math.sin(angle))+this.state.nodeCoords[e.end].y+50)/2,
+                  left: 300+(this.props.nodeCoords[e.start].x+(40*Math.cos(angle))+this.props.nodeCoords[e.end].x+50)/2, 
+                  top: (this.props.nodeCoords[e.start].y-(40*Math.sin(angle))+this.props.nodeCoords[e.end].y+50)/2,
                   fontSize: '20px',
                   position: 'absolute',
                 }}
@@ -120,19 +90,30 @@ export default class NodeMap extends Component {
                 { e.val }
               </div>)
           })}
-          { this.state.nodeCoords.map((e,i) => {
-            return <Node key={i} id={i.toString()} rm={this.onStartRemoveLink} reff={c => this.contextTrigger = c} dragMouseDown={this.dragMouseDown} x={e.x} y={e.y}/>
+          { Object.entries(this.props.nodeCoords).map(([k,v]) => {
+            return ( 
+              <Node 
+                key={k} 
+                id={k.toString()} 
+                rm={this.onStartRemoveLink} 
+                //reff={c => this.contextTrigger = c} 
+                dragMouseDown={this.dragMouseDown} 
+                onClick={this.props.onClick}
+                x={v.x} 
+                y={v.y}
+                removeNodeActive={this.props.removeNodeActive}
+              /> )
           })}
           <svg width={window.innerWidth} height={window.innerHeight}>
           
-          { this.state.lines.map((e,i) => {
+          { this.props.links.map((e,i) => {
             return ( 
               <line 
                 key={i}
-                x1={this.state.nodeCoords[e.start].x+40}
-                y1={this.state.nodeCoords[e.start].y+40} 
-                x2={this.state.nodeCoords[e.end].x+40} 
-                y2={this.state.nodeCoords[e.end].y+40}
+                x1={this.props.nodeCoords[e.start].x+40}
+                y1={this.props.nodeCoords[e.start].y+40} 
+                x2={this.props.nodeCoords[e.end].x+40} 
+                y2={this.props.nodeCoords[e.end].y+40}
                 stroke="black"
                 strokeWidth="5"
               /> )
