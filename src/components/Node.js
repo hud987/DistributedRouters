@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { Button } from 'reactstrap';
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 
-export default class DraggableNode extends Component {
+export default class Node extends Component {
   state = {
     x: this.props.x,
     y: this.props.y,
@@ -18,10 +19,8 @@ export default class DraggableNode extends Component {
 
   dragMouseDown = (e) => {
     e.preventDefault()
-    //console.log('clicked')
     this.movedOnClick = false
-    this.pos3 = e.clientX
-    this.pos4 = e.clientY
+
     document.onmouseup = this.closeDragElement
     document.onmousemove = this.elementDrag
   }
@@ -30,29 +29,6 @@ export default class DraggableNode extends Component {
     e.preventDefault()
     //console.log('dragging')
     this.movedOnClick = true
-    this.pos1 = this.pos3 - e.clientX
-    this.pos2 = this.pos4 - e.clientY
-    this.pos3 = e.clientX
-    this.pos4 = e.clientY
-    var newY,newX;
-    if (this.reff.current.offsetTop - this.pos2 < 0) {
-      newY = 0
-    } else if (this.reff.current.offsetTop - this.pos2 > window.innerHeight-80) {
-      newY = window.innerHeight-80
-    } else {
-      newY = this.reff.current.offsetTop - this.pos2
-    }
-    if (this.reff.current.offsetLeft - this.pos1 < 0) {
-      newX = 0
-    } else if (this.reff.current.offsetLeft - this.pos1 > window.innerWidth-80) {
-      newX = window.innerWidth-80
-    } else {
-      newX = this.reff.current.offsetLeft - this.pos1
-    }
-    this.setState({
-        y:newY + "px",
-        x:newX + "px",
-    })
   }
 
   closeDragElement = (e) => {
@@ -62,20 +38,25 @@ export default class DraggableNode extends Component {
     document.onmousemove = null
     if ( !this.movedOnClick ) {
       console.log( 'didnt move')
-      this.contextTrigger.handleContextClick(e);
+      //this.contextTrigger.handleContextClick(e);
     }
   }
 
+  handleClick2 = (e) => {}
+
   handleClick = (e, data) => {
-    console.log(data.foo);
+    this.props.rm(e)
+    //console.log(data.foo);
   }
 
   render() {
     return (
-      <div>
+      <div style={{position: 'absolute'}}>
         <ContextMenuTrigger 
-          ref={c => this.contextTrigger = c} 
+          style={{backgroundColor: "blue"}}
+          ref={this.props.reff} 
           id="some_unique_identifier"
+          holdToDisplay={-1}
         >
           <div 
             style={{
@@ -84,21 +65,25 @@ export default class DraggableNode extends Component {
               alignItems: 'center',
               width: '80px',
               height: '80px',
-              backgroundColor: 'white',
+              backgroundColor: 'red',
               border: '3.5px solid black',
               borderRadius: "45px",
-              left: this.state.x, 
-              top: this.state.y,
-              position: 'absolute'
+              left: this.props.x, 
+              top: this.props.y,
+              position: 'absolute',
             }}
-            onMouseDown={this.dragMouseDown}
+            id={this.props.id}
+            onMouseDown={this.props.dragMouseDown}
             ref={this.reff}
           >
-            <div style={{
+            <div
+              id={this.props.id} 
+              style={{
               paddingBottom: "5px",
-              fontSize: '40px',
+              fontSize: '30px',
+              pointerEvents: "none",
             }}>
-              3
+              10
             </div>
           </div>
         </ContextMenuTrigger>
@@ -112,16 +97,17 @@ export default class DraggableNode extends Component {
           }} 
           id="some_unique_identifier"
         >
+          <div>
           <MenuItem data={{foo: 'bar'}} onClick={this.handleClick}>
-            ContextMenu Item 1
+            Add Link
           </MenuItem>
           <MenuItem data={{foo: 'bar'}} onClick={this.handleClick}>
-            ContextMenu Item 2
+            Remove Link
           </MenuItem>
-          <MenuItem divider />
-          <MenuItem data={{foo: 'bar'}} onClick={this.handleClick}>
-            ContextMenu Item 3
-          </MenuItem>
+          </div>
+          <div >
+            Node | Next Hop
+          </div>
         </ContextMenu>
       </div>
   )}

@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import DraggableNode from './DraggableNode'
+import { Container, Row, Col } from 'reactstrap';
+
+import NodeMap from './NodeMap'
+import Menu from './Menu'
 
 export default class DistributedRouter extends Component {
   state = {   
@@ -13,8 +16,9 @@ export default class DistributedRouter extends Component {
 
   render() {
     return (
-      <div>
-        <DraggableNode/>
+      <div style={{display:'flex'}}>
+        <Menu/>
+        <NodeMap />
       </div>
   )}
 }
