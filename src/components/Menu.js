@@ -74,16 +74,16 @@ export default class Menu extends Component {
           </div>
             <NodeList  selected="1" nodeIds={this.props.nodeIds} onChangeNodeList={this.props.onChangeNodeList}/>
           <div>
-          <Button style={{width: 270/4, backgroundColor: 'white', color: 'black',}}>
+          <Button style={{width: 270/4, backgroundColor: 'white', color: 'black',}} disabled>
             -
           </Button>
           <Button style={{width: 270/4, backgroundColor: 'white', color: 'black',}}>
             >
           </Button>
-          <Button style={{width: 270/4, backgroundColor: 'white', color: 'black',}}>
+          <Button style={{width: 270/4, backgroundColor: 'white', color: 'black',}} disabled>
             >>
           </Button>
-          <Button style={{width: 270/4, backgroundColor: 'white', color: 'black',}}>
+          <Button style={{width: 270/4, backgroundColor: 'white', color: 'black',}} disabled>
             >>>
           </Button>
           </div>

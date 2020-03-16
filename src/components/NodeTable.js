@@ -14,15 +14,22 @@ export default class NodeTable extends Component {
     return (
       <div 
         style={{
-          width: '80px',
-          height: '100px',
-          backgroundColor: 'red',
+          backgroundColor: 'white',
+          border: '3px solid black',
+          borderRadius: 3,
+          padding: 3,
           position: 'absolute',
           left: this.props.x>window.innerWidth+80 ? this.props.x-80 : this.props.x, 
           top: this.props.y>window.innerHeight+100 ? this.props.y-80 : this.props.y,
         }}
       >
-        hello
+        Node | Bw
+        { Object.entries(this.props.nodeInfo).map(([k,v]) => {
+            return (  
+              <div key={k}>{k} | {v}</div>
+            )
+          })
+        }
       </div>
   )}
 }

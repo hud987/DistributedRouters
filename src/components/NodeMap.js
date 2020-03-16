@@ -93,7 +93,7 @@ export default class NodeMap extends Component {
                   id={k.toString()}
                   style={{
                     width: 48,
-                    left: 300+(this.props.nodeCoords[v.start].x+(40*Math.cos(angle))+this.props.nodeCoords[v.end].x+50)/2, 
+                    left: 300+(this.props.nodeCoords[v.start].x+(50*Math.cos(angle))+this.props.nodeCoords[v.end].x+40)/2, 
                     top: (this.props.nodeCoords[v.start].y-(40*Math.sin(angle))+this.props.nodeCoords[v.end].y+50)/2,
                     fontSize: '20px',
                     position: 'absolute',
@@ -144,7 +144,7 @@ export default class NodeMap extends Component {
                 key={k}
                 x={this.props.nodeCoords[k].x+350} 
                 y={this.props.nodeCoords[k].y-70}
-                table={v}
+                nodeInfo={v}
               />
             )
           })}

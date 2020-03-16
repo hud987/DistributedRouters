@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import Draggable from 'react-draggable';
-import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
+//import Draggable from 'react-draggable';
 
 export default class Node extends Component {
   state = {
@@ -73,7 +72,3 @@ export default class Node extends Component {
   )}
 }
 
-/*
-<Draggable handle=".handle">
-</Draggable>
-*/
