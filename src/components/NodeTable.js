@@ -18,8 +18,8 @@ export default class NodeTable extends Component {
           height: '100px',
           backgroundColor: 'red',
           position: 'absolute',
-          left: 4,//this.props.x, 
-          top: 5//this.props.y,
+          left: this.props.x>window.innerWidth+80 ? this.props.x-80 : this.props.x, 
+          top: this.props.y>window.innerHeight+100 ? this.props.y-80 : this.props.y,
         }}
       >
         hello

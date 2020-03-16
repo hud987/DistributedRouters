@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 
 import Node from './Node'
+import NodeTable from './NodeTable'
+import Link from './Link'
 
 export default class NodeMap extends Component {
   state = {   
 
-    nodesRendered: false,
+
   }
+
   removeLinkActive = 0
 
   componentDidMount() {
@@ -64,9 +67,13 @@ export default class NodeMap extends Component {
   closeDragElement = (e) => {
     document.onmouseup = null
     document.onmousemove = null
-    if ( !this.movedOnClick ) {
-      //console.log( 'didnt move')
+    if ( !this.movedOnClick && !this.props.removeNodeActive && !this.props.addLinkActive && !this.props.removeLinkActive ) {
       //this.contextTrigger.handleContextClick(e);
+      if (e.target.id in this.props.nodeTables) {
+        this.props.onCloseNodeTable(e)
+      } else {
+        this.props.onOpenNodeTable(e)
+      }
     }
   }
 
@@ -75,21 +82,30 @@ export default class NodeMap extends Component {
     return (
       <div>
           { 
-            this.props.links.map((e,i) => {
-            var angle=Math.atan2(this.props.nodeCoords[e.end].x-this.props.nodeCoords[e.start].x,this.props.nodeCoords[e.end].y-this.props.nodeCoords[e.start].y)
-            return ( 
-              <div 
-                key={i}
-                style={{
-                  left: 300+(this.props.nodeCoords[e.start].x+(40*Math.cos(angle))+this.props.nodeCoords[e.end].x+50)/2, 
-                  top: (this.props.nodeCoords[e.start].y-(40*Math.sin(angle))+this.props.nodeCoords[e.end].y+50)/2,
-                  fontSize: '20px',
-                  position: 'absolute',
-                }}
-              >
-                { e.val }
-              </div>)
+            Object.entries(this.props.links).map(([k,v]) => {
+            if (v.end!=-1) {
+              var angle=Math.atan2(this.props.nodeCoords[v.end].x-this.props.nodeCoords[v.start].x,this.props.nodeCoords[v.end].y-this.props.nodeCoords[v.start].y)
+              return ( 
+                <input
+                  type='text' 
+                  value={v.val}
+                  key={k}
+                  id={k.toString()}
+                  style={{
+                    width: 48,
+                    left: 300+(this.props.nodeCoords[v.start].x+(40*Math.cos(angle))+this.props.nodeCoords[v.end].x+50)/2, 
+                    top: (this.props.nodeCoords[v.start].y-(40*Math.sin(angle))+this.props.nodeCoords[v.end].y+50)/2,
+                    fontSize: '20px',
+                    position: 'absolute',
+                    backgroundColor: 'transparent',
+                    borderColor: 'transparent',
+                  }}
+                  onChange={this.props.onLinkValChange}
+                >
+                </input>)
+            }
           })}
+          
           { Object.entries(this.props.nodeCoords).map(([k,v]) => {
             return ( 
               <Node 
@@ -98,29 +114,40 @@ export default class NodeMap extends Component {
                 rm={this.onStartRemoveLink} 
                 //reff={c => this.contextTrigger = c} 
                 dragMouseDown={this.dragMouseDown} 
-                onClick={this.props.onClick}
+                onClick={this.props.onNodeClick}
                 x={v.x} 
                 y={v.y}
                 removeNodeActive={this.props.removeNodeActive}
+                addLinkActive={this.props.addLinkActive}
               /> )
           })}
           <svg width={window.innerWidth} height={window.innerHeight}>
           
-          { this.props.links.map((e,i) => {
+          { Object.entries(this.props.links).map(([k,v]) => {
             return ( 
-              <line 
-                key={i}
-                x1={this.props.nodeCoords[e.start].x+40}
-                y1={this.props.nodeCoords[e.start].y+40} 
-                x2={this.props.nodeCoords[e.end].x+40} 
-                y2={this.props.nodeCoords[e.end].y+40}
-                stroke="black"
-                strokeWidth="5"
+              <Link 
+                key={k}
+                id={k.toString()}
+                x1={this.props.nodeCoords[v.start].x+40}
+                y1={this.props.nodeCoords[v.start].y+40} 
+                x2={v.end==-1 ? this.props.mousex-300 : this.props.nodeCoords[v.end].x+40} 
+                y2={v.end==-1 ? this.props.mousey :this.props.nodeCoords[v.end].y+40}
+                removeLinkActive={this.props.removeLinkActive}
+                onClick={this.props.onLinkClick}
               /> )
           })}
 
           </svg>
-
+          { Object.entries(this.props.nodeTables).map(([k,v]) => {
+            return (
+              <NodeTable 
+                key={k}
+                x={this.props.nodeCoords[k].x+350} 
+                y={this.props.nodeCoords[k].y-70}
+                table={v}
+              />
+            )
+          })}
         </div>
   )}
 }

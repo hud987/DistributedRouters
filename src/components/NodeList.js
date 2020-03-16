@@ -2,24 +2,22 @@ import React, { Component } from 'react';
 import { List, arrayMove } from 'react-movable';
 
 export default class NodeList extends Component {
-  state = {   
-    items: ['1', '2', '3', '4', '5', '6','7','8','9']
-  }
+  
 
   render() {
     return (
       <List
-        values={this.state.items}
-        onChange={({ oldIndex, newIndex }) =>
-          this.setState({items: arrayMove(this.state.items, oldIndex, newIndex)})
-        }
+        values={this.props.nodeIds}
+        onChange={this.props.onChangeNodeList}
 
         renderList={({ children, props, isDragged }) => <ul {...props} style={{ 
-          padding: 0, 
+          padding: 5, 
           cursor: isDragged ? 'grabbing' : undefined,
           overflowY: 'scroll',
-          borderTop: '5px solid #AAA',
-          borderBottom: '5px solid #AAA'
+          height: 375,
+          //borderTop: '5px solid #F9F9F9',
+          //borderBottom: '5px solid #F9F9F9',
+          //borderLeft: '5px solid #F9F9F9',
         }}>{children}</ul>}
 
         renderItem={({ value, index, props, isDragged, isSelected }) => <li {...props} style={{
@@ -28,8 +26,8 @@ export default class NodeList extends Component {
           margin: '0.5em 0em',
           listStyleType: 'none',
           cursor: isDragged ? 'grabbing' : 'grab',
-          border: '2px solid #CCC',
-          boxShadow: '3px 3px #AAA',
+          //border: '2px solid #CCC',
+          //boxShadow: '3px 3px #AAA',
           color: '#333',
           borderRadius: '5px',
           fontFamily: 'Arial, "Helvetica Neue", Helvetica, sans-serif',

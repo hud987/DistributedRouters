@@ -31,7 +31,10 @@ export default class Menu extends Component {
           }}>
             Distributed Routers
           </div>
-          <Button style={{backgroundColor: 'white', color: 'black'}} onClick={this.props.onAddNode}>
+          <Button 
+            style={{backgroundColor: 'white', color: 'black'}} 
+            onClick={this.props.onAddNode}
+          >
             Add Node
           </Button>
           <Button 
@@ -41,10 +44,25 @@ export default class Menu extends Component {
           >
             Remove Node
           </Button>
-          <Button style={{backgroundColor: 'white', color: 'black',}}>
+          <Button 
+            style={{backgroundColor: 'white', color: 'black',}} 
+            disabled={true}
+            onClick={this.props.onRemoveNode}
+          >
+            Kill Node
+          </Button>
+          <Button 
+            style={{backgroundColor: 'white', color: 'black',}}
+            disabled={this.props.addLinkActive}
+            onClick={this.props.onAddLink}
+          >
             Add Link
           </Button>
-          <Button style={{backgroundColor: 'white', color: 'black',}}>
+          <Button 
+            style={{backgroundColor: 'white', color: 'black',}}
+            disabled={this.props.removeLinkActive}
+            onClick={this.props.onRemoveLink}
+          >
             Remove Link
           </Button>
           <div style={{
@@ -54,7 +72,7 @@ export default class Menu extends Component {
           }}>
             Messaging Order
           </div>
-          <NodeList selected="1"/>
+            <NodeList  selected="1" nodeIds={this.props.nodeIds} onChangeNodeList={this.props.onChangeNodeList}/>
           <div>
           <Button style={{width: 270/4, backgroundColor: 'white', color: 'black',}}>
             -

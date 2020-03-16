@@ -21,9 +21,10 @@ export default class Node extends Component {
   onMouseOver = (e) => {
     if (this.props.removeNodeActive) {
       this.setState({strokeColor: 'red'})
+    } else if (this.props.addLinkActive ) {
+      this.setState({strokeColor: 'green'})
     }
   }
-
 
   onMouseOut = (e) => {
     this.setState({strokeColor: 'black'})
@@ -32,12 +33,7 @@ export default class Node extends Component {
   render() {
     return (
       <div style={{position: 'absolute'}}>
-        <ContextMenuTrigger 
-          style={{backgroundColor: "blue"}}
-          ref={this.props.reff} 
-          id="some_unique_identifier"
-          holdToDisplay={-1}
-        >
+
           <div 
             style={{
               display: 'flex',
@@ -72,29 +68,7 @@ export default class Node extends Component {
               { this.props.id }
             </div>
           </div>
-        </ContextMenuTrigger>
 
-        <ContextMenu 
-          style={{
-            padding: 3,
-            backgroundColor: 'white',
-            border: '3px solid black',
-            borderRadius: "4px",
-          }} 
-          id="some_unique_identifier"
-        >
-          <div>
-          <MenuItem data={{foo: 'bar'}} onClick={this.handleClick}>
-            Add Link
-          </MenuItem>
-          <MenuItem data={{foo: 'bar'}} onClick={this.handleClick}>
-            Remove Link
-          </MenuItem>
-          </div>
-          <div >
-            Node | Next Hop
-          </div>
-        </ContextMenu>
       </div>
   )}
 }
