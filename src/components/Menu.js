@@ -72,18 +72,30 @@ export default class Menu extends Component {
           }}>
             Messaging Order
           </div>
-            <NodeList  selected="1" nodeIds={this.props.nodeIds} onChangeNodeList={this.props.onChangeNodeList}/>
+            <NodeList  selected={this.props.selected} nodeIds={this.props.nodeIds} onChangeNodeList={this.props.onChangeNodeList}/>
           <div>
-          <Button style={{width: 270/4, backgroundColor: 'white', color: 'black',}} disabled>
+          <Button 
+            style={{width: 270/4, backgroundColor: 'white', color: 'black',}} 
+            disabled
+          >
             -
           </Button>
-          <Button style={{width: 270/4, backgroundColor: 'white', color: 'black',}}>
+          <Button 
+            style={{width: 270/4, backgroundColor: 'white', color: 'black',}}
+            onClick={this.props.onStepTimeForward}  
+          >
             >
           </Button>
-          <Button style={{width: 270/4, backgroundColor: 'white', color: 'black',}} disabled>
+          <Button 
+            style={{width: 270/4, backgroundColor: 'white', color: 'black',}} 
+            disabled
+          >
             >>
           </Button>
-          <Button style={{width: 270/4, backgroundColor: 'white', color: 'black',}} disabled>
+          <Button 
+            style={{width: 270/4, backgroundColor: 'white', color: 'black',}} 
+            disabled
+          >
             >>>
           </Button>
           </div>

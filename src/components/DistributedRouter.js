@@ -19,19 +19,21 @@ export default class DistributedRouter extends Component {
       2: {start: 3,end: 2, val: 30},
       3: {start: 2,end: 0, val: 40},
     },
-    nodeTables: {},
     nodeNeighbors: {
       0: {1:10, 2:40},
       1: {0:5, 3:20},
       2: {0:40, 3:30},
       3: {1:20, 2:30},
     },
+    nodeNextHops: {},
+    nodeTables: {},
     nodeIds: [ 0, 1, 2, 3],
     removeNodeActive: false,
     removeLinkActive: false,
     addLinkStartActive: false,
     addLinkEndActive: false,
     addLinkActiver: false,
+    packetOrderCurrIndex: 0,
     mousex: 0,
     mousey: 0,
   }
@@ -344,19 +346,26 @@ export default class DistributedRouter extends Component {
     }) 
   }
 
+  onStepTimeForward = (e) => {
+    if (this.state.packetOrderCurrIndex<this.state.nodeIds.length-1) {
+      this.setState({packetOrderCurrIndex: ++this.state.packetOrderCurrIndex})
+    } else {
+      this.setState({packetOrderCurrIndex: 0})
+    }
+  }
+
   render() {
     return (
       <div style={{display:'flex'}}>
         <Menu 
+          selected={this.state.packetOrderCurrIndex}
           nodeIds={this.state.nodeIds}
-          onChangeNodeList={({ oldIndex, newIndex }) => {
-          this.setState({nodeIds: arrayMove(this.state.nodeIds, oldIndex, newIndex)})
-          }
-        }
+          onChangeNodeList={({ oldIndex, newIndex }) => {this.setState({nodeIds: arrayMove(this.state.nodeIds, oldIndex, newIndex)})}}
           onAddNode={this.onAddNode} 
           onRemoveNode={this.onRemoveNode}
           onRemoveLink={this.onRemoveLink}
           onAddLink={this.onAddLink}
+          onStepTimeForward={this.onStepTimeForward}
           removeNodeActive={this.state.removeNodeActive}
           removeLinkActive={this.state.removeLinkActive}
           addLinkActive={this.state.addLinkActive}
