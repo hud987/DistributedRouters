@@ -23,10 +23,10 @@ export default class NodeTable extends Component {
           top: this.props.y>window.innerHeight+100 ? this.props.y-80 : this.props.y,
         }}
       >
-        Node | Bw
+        Dest | Hop | Cst
         { Object.entries(this.props.nodeInfo).map(([k,v]) => {
             return (  
-              <div key={k}>{k} | {v}</div>
+              <div key={k}>{k} | {v[0]} | {v[1]}</div>
             )
           })
         }

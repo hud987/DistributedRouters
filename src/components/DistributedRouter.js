@@ -21,11 +21,16 @@ export default class DistributedRouter extends Component {
     },
     nodeNeighbors: {
       0: {1:10, 2:40},
-      1: {0:5, 3:20},
+      1: {0:10, 3:20},
       2: {0:40, 3:30},
       3: {1:20, 2:30},
     },
-    nodeNextHops: {},
+    nodeNextHopsBws: {
+      0: {1:[1,10],2:[2,40]},
+      1: {0:[0,10],3:[3,20]},
+      2: {0:[0,40],3:[3,30]},
+      3: {1:[1,20],2:[2,30]},
+    },
     nodeTables: {},
     nodeIds: [ 0, 1, 2, 3],
     removeNodeActive: false,
@@ -45,9 +50,8 @@ export default class DistributedRouter extends Component {
     var arr = Object.entries(this.state.nodeCoords)
     var idOfNewNode = 0
     var newNodeIds = this.state.nodeIds
-    var newNodeNeighbors = this.state.nodeNeighbors
 
-    if (arr.length<15) {
+    if (arr.length<10) {
       for (var i=0;i<=arr.length;i++) {
         if (!(i in this.state.nodeCoords)) {
           idOfNewNode = i
@@ -57,7 +61,8 @@ export default class DistributedRouter extends Component {
 
       newNodeIds.push(idOfNewNode)
       this.setState({ 
-        nodeNeighbors: {...newNodeNeighbors, [idOfNewNode]: {}},
+        nodeNextHopsBws: {...this.state.nodeNextHopsBws, [idOfNewNode]: {}}, 
+        nodeNeighbors: {...this.state.nodeNeighbors, [idOfNewNode]: {}},
         nodeCoords: {...this.state.nodeCoords,[idOfNewNode]: {x: 0, y: 0} }, 
         nodeIds: newNodeIds,
       });
@@ -126,6 +131,7 @@ export default class DistributedRouter extends Component {
       var newLinks = {}
       var newNodes = {}
       var newNodeNeighbors = {}
+      var newNodeNextHopsBws = {}
       var newNodeTables = {}
       var newNodeIds = this.state.nodeIds
 
@@ -156,8 +162,20 @@ export default class DistributedRouter extends Component {
             }
           })
           newNodeNeighbors = {...newNodeNeighbors, [k]: newNeighbors}
-          if (k in this.state.nodeTables) {
-            newNodeTables = {...newNodeTables, [k]: newNeighbors}
+        }
+      })
+
+      Object.entries(this.state.nodeNextHopsBws).forEach(([k,v]) => {
+        if (k!=clickedId) {
+          var newNextHopsBws = {}
+          Object.entries(v).forEach(([k,v]) => {
+            if (k!=clickedId) {
+              newNextHopsBws = {...newNextHopsBws, [k]: v}
+            }
+          })
+          newNodeNextHopsBws = {...newNodeNextHopsBws, [k]: newNextHopsBws}
+          if (k in this.state.nodeTables){
+            newNodeTables = {...newNodeTables, [k]: newNextHopsBws}
           }
         }
       })
@@ -167,6 +185,7 @@ export default class DistributedRouter extends Component {
         links: newLinks,
         nodeIds: newNodeIds,
         nodeNeighbors: newNodeNeighbors,
+        nodeNextHopsBws: newNodeNextHopsBws,
         nodeTables: newNodeTables,
       })
     } else if (this.state.addLinkStartActive) {
@@ -207,21 +226,17 @@ export default class DistributedRouter extends Component {
           }
         }
         var newNodeNeighbors = this.state.nodeNeighbors
-        var newNodeTables = this.state.nodeTables
+        var newNodeNextHopsBws = this.state.nodeNextHopsBws
+        
         newNodeNeighbors[start] = {...newNodeNeighbors[start], [clickedId]: 10}
         newNodeNeighbors[clickedId] = {...newNodeNeighbors[clickedId], [start]: 10}
         
-        Object.entries(newNodeNeighbors).forEach(([k,v]) => {
-            var newNeighbors = {}
-            Object.entries(v).forEach(([k,v]) => {
-                newNeighbors = {...newNeighbors, [k]: v}
-            })
-            if (k in this.state.nodeTables) {
-              newNodeTables = {...newNodeTables, [k]: newNeighbors}
-            }
-        })
-
+        newNodeNextHopsBws[start] = {...newNodeNextHopsBws[start], [clickedId]: [clickedId, 10]}
+        newNodeNextHopsBws[clickedId] = {...newNodeNextHopsBws[clickedId], [start]: [start, 10]}
+        var newNodeTables = this.updateNodeTables(newNodeNextHopsBws)
+        
         this.setState({
+          nodeNextHopsBws: newNodeNextHopsBws,
           nodeNeighbors: newNodeNeighbors,
           nodeTables: newNodeTables,
           links: newLinks,
@@ -246,48 +261,47 @@ export default class DistributedRouter extends Component {
           deletedLinkEndingNode = v.end
         }
       })
-
-      Object.entries(this.state.nodeNeighbors).forEach(([k,v]) => {
-        var newNeighbors = {}
-        if (k==deletedLinkStartingNode) {
-          Object.entries(v).forEach(([k,v]) => {
-            if (k!=deletedLinkEndingNode) {
-              newNeighbors = {...newNeighbors, [k]: v}
-            }
-          })
-          newNodeNeighbors = {...newNodeNeighbors, [k]: newNeighbors}
-          if (k in this.state.nodeTables) {
-            newNodeTables = {...newNodeTables, [k]: newNeighbors}
-          }
-        } else if (k==deletedLinkEndingNode) {
-          Object.entries(v).forEach(([k,v]) => {
-            if (k!=deletedLinkStartingNode) {
-              newNeighbors = {...newNeighbors, [k]: v}
-            }
-          })
-          newNodeNeighbors = {...newNodeNeighbors, [k]: newNeighbors}
-          if (k in this.state.nodeTables) {
-            newNodeTables = {...newNodeTables, [k]: newNeighbors}
-          }        
-        } else {
-          Object.entries(v).forEach(([k,v]) => {
-              newNeighbors = {...newNeighbors, [k]: v}
-          })
-          newNodeNeighbors = {...newNodeNeighbors, [k]: newNeighbors}
-          if (k in this.state.nodeTables) {
-            newNodeTables = {...newNodeTables, [k]: newNeighbors}
-          }
-        }
-      })
+      var newNodeNeighbors = this.deleteLinkFromMap(this.state.nodeNeighbors,deletedLinkStartingNode,deletedLinkEndingNode)
+      var newNodeNextHopsBws = this.state.nodeNextHopsBws
+      newNodeNextHopsBws[deletedLinkStartingNode][deletedLinkEndingNode] = ['-','Inf']
+      newNodeNextHopsBws[deletedLinkEndingNode][deletedLinkStartingNode] = ['-','Inf']
+      var newNodeTables = this.updateNodeTables(newNodeNextHopsBws)
 
       this.setState({
-        links: newLinks,
         nodeNeighbors: newNodeNeighbors,
+        nodeNextHopsBws: newNodeNextHopsBws,
         nodeTables: newNodeTables,
+        links: newLinks,
       })
     }    
+  }
 
-    
+  deleteLinkFromMap = (inputMap,deletedLinkStartingNode,deletedLinkEndingNode) => {
+    var outputMap = {}
+    Object.entries(inputMap).forEach(([k,v]) => {
+      var newNeighbors = {}
+      if (k==deletedLinkStartingNode) {
+        Object.entries(v).forEach(([k,v]) => {
+          if (k!=deletedLinkEndingNode) {
+            newNeighbors = {...newNeighbors, [k]: v}
+          }
+        })
+        outputMap = {...outputMap, [k]: newNeighbors}
+      } else if (k==deletedLinkEndingNode) {
+        Object.entries(v).forEach(([k,v]) => {
+          if (k!=deletedLinkStartingNode) {
+            newNeighbors = {...newNeighbors, [k]: v}
+          }
+        })
+        outputMap = {...outputMap, [k]: newNeighbors}      
+      } else {
+        Object.entries(v).forEach(([k,v]) => {
+            newNeighbors = {...newNeighbors, [k]: v}
+        })
+        outputMap = {...outputMap, [k]: newNeighbors}
+      }
+    })
+    return outputMap
   }
 
   onLinkValChange = (e) => {
@@ -312,21 +326,17 @@ export default class DistributedRouter extends Component {
         Object.entries(v).forEach(([k,v]) => {
             newNeighbors = {...newNeighbors, [k]: v}
         })
-        if (k in this.state.nodeTables) {
-          newNodeTables = {...newNodeTables, [k]: newNeighbors}
-        }
       })
 
       this.setState({
         nodeNeighbors: newNodeNeighbors,
-        nodeTables: newNodeTables,
         links: newLinks,
       })
     }
   }
   
   onOpenNodeTable = (e) => {
-    this.setState({nodeTables: {...this.state.nodeTables, [e.target.id]: this.state.nodeNeighbors[e.target.id]}})
+    this.setState({nodeTables: {...this.state.nodeTables, [e.target.id]: this.state.nodeNextHopsBws[e.target.id]}})
   }
 
   onCloseNodeTable = (e) => {
@@ -347,11 +357,60 @@ export default class DistributedRouter extends Component {
   }
 
   onStepTimeForward = (e) => {
+    var newNodeNextHopsBws = this.state.nodeNextHopsBws
+    var nodeSendingPacket = this.state.nodeIds[this.state.packetOrderCurrIndex]
     if (this.state.packetOrderCurrIndex<this.state.nodeIds.length-1) {
       this.setState({packetOrderCurrIndex: ++this.state.packetOrderCurrIndex})
     } else {
       this.setState({packetOrderCurrIndex: 0})
     }
+
+    Object.entries(this.state.nodeNeighbors[nodeSendingPacket]).forEach(([k,v]) => {
+      if (!(nodeSendingPacket in this.state.nodeNextHopsBws[k])){
+        newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [nodeSendingPacket]: [nodeSendingPacket, v]}
+      }
+      Object.entries(this.state.nodeNextHopsBws[nodeSendingPacket]).forEach(([k1,v1]) => {
+        if (!(k1 in this.state.nodeNextHopsBws[k]) && k1!=k){
+          if (v1[1]=='Inf') {
+            newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [k1]: [nodeSendingPacket, v]}
+          } else {
+            newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [k1]: [nodeSendingPacket, v1[1]+v]}
+          }
+        } else if (k1 in this.state.nodeNextHopsBws[k]) {
+          var currentCost = this.state.nodeNextHopsBws[k][k1][1]
+          var nextHopInReceiving = this.state.nodeNextHopsBws[k][k1][0]
+          var nextHopInSending = v1[0]
+          if (((v1[1]+v<currentCost || currentCost=='Inf') && k!=nextHopInSending) || (nodeSendingPacket==nextHopInReceiving)) {
+            if (v1[1]=='Inf') {
+              newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [k1]: ['-', v1[1]]}
+            } else {
+              newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [k1]: [nodeSendingPacket, v1[1]+v]}
+            }
+          }
+        }
+      })
+    })
+
+    var newNodeTables = this.updateNodeTables(newNodeNextHopsBws)
+    this.setState({
+      nodeNextHopsBws: newNodeNextHopsBws,
+      nodeTables: newNodeTables
+    })
+    for (var i=0;i<1;i++){}
+  }
+
+  updateNodeTables = (newNodeNextHopsBws) => {
+    var newNodeTables = {}
+    Object.entries(newNodeNextHopsBws).forEach(([k,v]) => {
+      var newNextHopsBws = {}
+      Object.entries(v).forEach(([k,v]) => {
+        newNextHopsBws = {...newNextHopsBws, [k]: v}
+      })
+      if (k in this.state.nodeTables) {
+        newNodeTables = {...newNodeTables, [k]: newNextHopsBws}
+      }
+    })
+    return newNodeTables
   }
 
   render() {
