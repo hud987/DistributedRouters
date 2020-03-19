@@ -139,9 +139,11 @@ export default class DistributedRouter extends Component {
     var newLinks={}
     var newAliveLinks={}
     Object.entries(this.state.links).forEach(([k,v]) => {
-      if (v.end!=-1) {
+      if (k!=100) {
         newLinks = {...newLinks, [k]: {start:v.start, end:v.end, val:v.val}}
-        newAliveLinks = {...newAliveLinks, [k]: v}
+        if (k in this.state.aliveLinks) {
+          newAliveLinks = {...newAliveLinks, [k]: 0}
+        }
       } 
     })
     this.setState({
@@ -244,16 +246,11 @@ export default class DistributedRouter extends Component {
       })
     } else if (this.state.addLinkStartActive) {
       var arr = Object.entries(this.state.links)
-      for (var i=0;i<=arr.length;i++) {
-        if (!(i in this.state.links)) {
-          this.setState({ 
-            links: {...this.state.links,[i]: {start: clickedId, end: -1,val: -1} },
-            aliveLinks: {...this.state.aliveLinks,[i]:0 },
-            linkStrokes: {...this.state.linkStrokes, [i]: 'black'}, 
-          });
-          break
-        }
-      }
+      this.setState({ 
+        links: {...this.state.links,[100]: {start: clickedId, end: -1,val: -1} },
+        aliveLinks: {...this.state.aliveLinks,[100]:0 },
+        linkStrokes: {...this.state.linkStrokes, [100]: 'black'}, 
+      });
       this.continueAddLink()
     } else if (this.state.addLinkEndActive) {
       var newLinks = this.state.links
@@ -295,6 +292,10 @@ export default class DistributedRouter extends Component {
         newNodeNextHopsBws[clickedId] = {...newNodeNextHopsBws[clickedId], [start]: [start, 10]}
         var newNodeTables = this.updateNodeTables(newNodeNextHopsBws)
         
+        console.log(this.state.aliveLinks)
+        console.log({...this.state.aliveLinks, [newLinkId]: 0})
+        console.log(this.state.links)
+        console.log({...this.state.links,[newLinkId]: {start: start, end: clickedId, val: 10}})
         this.setState({
           aliveLinks: {...this.state.aliveLinks, [newLinkId]: 0},
           nodeNextHopsBws: newNodeNextHopsBws,
@@ -360,10 +361,6 @@ export default class DistributedRouter extends Component {
           newAliveNodes = {...newAliveNodes, [k]:v}
         } 
       })
-      console.log(newAliveLinks)
-      console.log(newAliveNodes)
-      console.log(newNodeNeighbors)
-      console.log(newNodeNextHopsBws)
 
       this.setState({
         aliveLinks: newAliveLinks,
@@ -404,11 +401,6 @@ export default class DistributedRouter extends Component {
         }
       })  
       var newNodeTables = this.updateNodeTables(newNodeNextHopsBws)
-
-      console.log(newAliveLinks)
-      console.log({...this.state.aliveNodes, [e.target.id]:0})
-      console.log(newNodeNeighbors)
-      console.log(newNodeNextHopsBws)
 
       this.setState({
         aliveLinks: newAliveLinks,
