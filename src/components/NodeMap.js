@@ -7,8 +7,6 @@ import Link from './Link'
 export default class NodeMap extends Component {
   state = {}
 
-  removeLinkActive = 0
-
   componentDidMount() {
     this.pos1 = 0
     this.pos2 = 0
@@ -31,7 +29,7 @@ export default class NodeMap extends Component {
 
   elementDrag = (e,id) => {
     e.preventDefault()
-    //console.log('dragging')
+
     this.movedOnClick = true
     this.pos1 = this.pos3 - e.clientX
     this.pos2 = this.pos4 - e.clientY
@@ -39,17 +37,17 @@ export default class NodeMap extends Component {
     this.pos4 = e.clientY
     var newY,newX;
     var nodeCoordsNew = this.props.nodeCoords
-    if (this.reff.offsetTop - this.pos2 < 0) {
-      newY = 0
-    } else if (this.reff.offsetTop - this.pos2 > window.innerHeight-80) {
-      newY = window.innerHeight-80
+    if (this.reff.offsetTop - this.pos2 < 14) {
+      newY = 14
+    } else if (this.reff.offsetTop - this.pos2 > window.innerHeight-94) {
+      newY = window.innerHeight-94
     } else {
       newY = this.reff.offsetTop - this.pos2
     }
-    if (this.reff.offsetLeft - this.pos1 < 0) {
-      newX = 0
-    } else if (this.reff.offsetLeft - this.pos1 > window.innerWidth-80) {
-      newX = window.innerWidth-80
+    if (this.reff.offsetLeft - this.pos1 < 14) {
+      newX = 14
+    } else if (this.reff.offsetLeft - this.pos1 > window.innerWidth-394) {
+      newX = window.innerWidth-394
     } else {
       newX = this.reff.offsetLeft - this.pos1
     }
@@ -76,14 +74,14 @@ export default class NodeMap extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{overflow: 'hidden'}}>
           { 
             Object.entries(this.props.links).map(([k,v]) => {
             if (v.end!=-1) {
               var angle=Math.atan2(this.props.nodeCoords[v.end].x-this.props.nodeCoords[v.start].x,this.props.nodeCoords[v.end].y-this.props.nodeCoords[v.start].y)
               return ( 
                 <input
-                  type='text' 
+                  type='visible' 
                   value={v.val}
                   key={k}
                   id={k.toString()}

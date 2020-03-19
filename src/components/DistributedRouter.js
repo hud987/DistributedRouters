@@ -677,7 +677,7 @@ export default class DistributedRouter extends Component {
     var newNodeTables = {}
     var newLabel = 'Show All'
     if (Object.entries(this.state.nodeTables).length<this.state.nodeIds.length) {
-      this.state.nodeIds.forEach(id => {
+      Object.entries(this.state.nodeCoords).forEach(([id,v]) => {
         newNodeTables = {...newNodeTables, [id]: this.state.nodeNextHopsBws[id]}
       })
       newLabel = 'Hide All'
@@ -714,6 +714,7 @@ export default class DistributedRouter extends Component {
   render() {
     return (
       <div style={{display:'flex'}}>
+
         <Menu 
           selected={this.state.packetOrderCurrIndex}
           nodeIds={this.state.nodeIds}

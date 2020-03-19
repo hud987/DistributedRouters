@@ -17,7 +17,7 @@ export default class Menu extends Component {
       <div
         style={{
           width: 300,
-          height: "99vh",
+          height: "100vh",
           backgroundColor: 'gray',
           textAlign: 'center',
           display: 'flex',
@@ -100,7 +100,8 @@ export default class Menu extends Component {
           >
             {this.props.toggleAllTablesLabel}
           </Button>
-          forced update, split horizon
+          {//forced update, split horizon
+          }
           <div style={{
             paddingTop: 50,
             width: 300,
