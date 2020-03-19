@@ -7,31 +7,33 @@ export default class Node extends Component {
     y: this.props.y,
     strokeColor: 'black'
   } 
-  reff = React.createRef();     
-  contextTrigger = null;
-
-  componentDidMount() {
-    this.pos1 = 0
-    this.pos2 = 0
-    this.pos3 = 0
-    this.pos4 = 0
-  }
 
   onMouseOver = (e) => {
-    if (this.props.removeNodeActive) {
+    if (this.props.removeNodeActive || (this.props.killNodeActive && this.props.alive)) {
       this.setState({strokeColor: 'red'})
-    } else if (this.props.addLinkActive ) {
+    }
+    else if (this.props.addLinkActive || (this.props.reviveNodeActive && !this.props.alive)) {
       this.setState({strokeColor: 'green'})
     }
   }
 
   onMouseOut = (e) => {
-    this.setState({strokeColor: 'black'})
+    if (this.props.alive) {
+      this.setState({strokeColor: 'black'})
+    } else {
+      this.setState({strokeColor: '#999999'})
+    }
   }
 
   render() {
+    var innerColor = 'blue'
+    var textColor = 'black'
+    if (!this.props.alive) {
+      innerColor = '#a6b8ff'
+      textColor = '#999999'
+    }
     return (
-      <div style={{position: 'absolute'}}>
+      <div style={{color: textColor, position: 'absolute'}}>
 
           <div 
             style={{
@@ -40,7 +42,7 @@ export default class Node extends Component {
               alignItems: 'center',
               width: '80px',
               height: '80px',
-              backgroundColor: 'blue',
+              backgroundColor: innerColor,
               borderColor: this.state.strokeColor,
               border: '3.5px solid',
               borderRadius: "45px",

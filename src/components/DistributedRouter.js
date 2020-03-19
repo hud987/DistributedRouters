@@ -31,19 +31,28 @@ export default class DistributedRouter extends Component {
       2: {0:[0,40],3:[3,30]},
       3: {1:[1,20],2:[2,30]},
     },
+    aliveNodes: {0:0,1:0,2:0,3:0},
+    aliveLinks: {0:0,1:0,2:0,3:0},
+    linkStrokes: {0:'black',1:'black',2:'black',3:'black'},
     nodeTables: {},
-    nodeIds: [ 0, 1, 2, 3],
+    nodeIds: [0, 1, 2, 3],
     removeNodeActive: false,
+    killNodeActive: false,
+    reviveNodeActive: false,
     removeLinkActive: false,
+    killLinkActive: false,
+    reviveLinkActive: false,
     addLinkStartActive: false,
     addLinkEndActive: false,
-    addLinkActiver: false,
+    addLinkActive: false,
     packetOrderCurrIndex: 0,
     mousex: 0,
     mousey: 0,
+    toggleAllTablesLabel: 'Show All',
   }
 
   componentDidMount() {
+    document.addEventListener('mousemove', this.onMouseMove);
   }
 
   onAddNode = () => {
@@ -61,6 +70,7 @@ export default class DistributedRouter extends Component {
 
       newNodeIds.push(idOfNewNode)
       this.setState({ 
+        aliveNodes: {...this.state.aliveNodes, [idOfNewNode]: 0},
         nodeNextHopsBws: {...this.state.nodeNextHopsBws, [idOfNewNode]: {}}, 
         nodeNeighbors: {...this.state.nodeNeighbors, [idOfNewNode]: {}},
         nodeCoords: {...this.state.nodeCoords,[idOfNewNode]: {x: 0, y: 0} }, 
@@ -79,40 +89,65 @@ export default class DistributedRouter extends Component {
     document.removeEventListener('click', this.endRemoveNode);
   }
 
+  onKillNode = () => {
+    this.setState({killNodeActive: true})
+    document.addEventListener('click', this.endKillNode);
+  }
+
+  endKillNode = () => {
+    this.setState({killNodeActive: false})
+    document.removeEventListener('click', this.endKillNode);
+  }
+
+  onReviveNode = () => {
+    this.setState({reviveNodeActive: true})
+    document.addEventListener('click', this.endReviveNode);
+  }
+
+  endReviveNode = () => {
+    this.setState({reviveNodeActive: false})
+    document.removeEventListener('click', this.endReviveNode);
+  }
+
   onAddLink = () => {
     this.setState({
-      addLinkActive: true,
       addLinkStartActive: true
     })
-    document.addEventListener('click', this.continueAddLink);
-    document.addEventListener('mousemove', this.onMouseMove);
+    document.addEventListener('click', this.cancelAddLink);
+  }
+
+  cancelAddLink = () => {
+    this.setState({
+      addLinkStartActive: false, 
+    })
+    document.removeEventListener('click', this.cancelAddLink);
   }
 
   continueAddLink = () => {
     this.setState({
-      addLinkStartActive: false, 
       addLinkEndActive: true
     })
-    document.removeEventListener('click', this.continueAddLink);
     document.addEventListener('click', this.endAddLink);
   }
 
   endAddLink = () => {
     this.setState({
-      addLinkActive: false,
       addLinkEndActive: false
     })
     document.removeEventListener('click', this.endAddLink);
-    document.removeEventListener('mousemove', this.onMouseMove);
-
     //delete link connected to mouse
     var newLinks={}
+    var newAliveLinks={}
     Object.entries(this.state.links).forEach(([k,v]) => {
       if (v.end!=-1) {
         newLinks = {...newLinks, [k]: {start:v.start, end:v.end, val:v.val}}
+        newAliveLinks = {...newAliveLinks, [k]: v}
       } 
     })
-    this.setState({links: newLinks})
+    this.setState({
+      links: newLinks,
+      aliveLinks: newAliveLinks,
+    })
   }
 
   onRemoveLink = () => {
@@ -125,6 +160,26 @@ export default class DistributedRouter extends Component {
     document.removeEventListener('click', this.endRemoveLink);
   }
 
+  onKillLink = () => {
+    this.setState({killLinkActive: true})
+    document.addEventListener('click', this.endKillLink);
+  }
+
+  endKillLink = () => {
+    this.setState({killLinkActive: false})
+    document.removeEventListener('click', this.endKillLink);
+  }
+
+  onReviveLink = () => {
+    this.setState({reviveLinkActive: true})
+    document.addEventListener('click', this.endReviveLink);
+  }  
+
+  endReviveLink = () => {
+    this.setState({reviveLinkActive: false})
+    document.removeEventListener('click', this.endReviveLink);
+  }
+
   onNodeClick = (e) => {
     var clickedId = parseInt(e.target.id)
     if (this.state.removeNodeActive) {
@@ -135,12 +190,11 @@ export default class DistributedRouter extends Component {
       var newNodeTables = {}
       var newNodeIds = this.state.nodeIds
 
-      newNodeIds.map((e,i) => {
-        if (clickedId==e) {
+      this.state.nodeIds.forEach((id,i) => {
+        if (id==e.target.id){
           newNodeIds.splice(i,1)
         }
       })
-
       Object.entries(this.state.nodeCoords).forEach(([k,v]) => {
         if (k!=clickedId) {
           newNodes = {...newNodes, [k]: {x:v.x, y:v.y}}
@@ -190,17 +244,20 @@ export default class DistributedRouter extends Component {
       })
     } else if (this.state.addLinkStartActive) {
       var arr = Object.entries(this.state.links)
-      var linksNew = this.state.links
       for (var i=0;i<=arr.length;i++) {
         if (!(i in this.state.links)) {
-          this.setState({ links: {...this.state.links,[i]: {start: clickedId, end: -1,val: -1} } });
-          linksNew = {...linksNew, [i]: {start: clickedId, end: -1,val: 0} } 
+          this.setState({ 
+            links: {...this.state.links,[i]: {start: clickedId, end: -1,val: -1} },
+            aliveLinks: {...this.state.aliveLinks,[i]:0 },
+            linkStrokes: {...this.state.linkStrokes, [i]: 'black'}, 
+          });
           break
         }
       }
-      console.log(linksNew)
+      this.continueAddLink()
     } else if (this.state.addLinkEndActive) {
       var newLinks = this.state.links
+      var newLinkId
       var start=0
       var validNodeClicked=true
       var len=0
@@ -209,9 +266,12 @@ export default class DistributedRouter extends Component {
         len++
         if (v.end==-1) {
           start = v.start
+          if (start==e.target.id){
+            validNodeClicked=false
+          }
         }
       })
-      
+
       Object.entries(this.state.links).forEach(([k,v]) => {
         if ( (v.start==clickedId && v.end==start) || (v.start==start && v.end==clickedId)) {
           validNodeClicked=false
@@ -221,7 +281,7 @@ export default class DistributedRouter extends Component {
       if (validNodeClicked) {
         for (var i=0;i<=len;i++) {
           if (!(i in this.state.links)) {
-            newLinks = {...newLinks,[i]: {start: start, end: clickedId, val: 10}};
+            newLinkId = i
             break
           }
         }
@@ -236,20 +296,136 @@ export default class DistributedRouter extends Component {
         var newNodeTables = this.updateNodeTables(newNodeNextHopsBws)
         
         this.setState({
+          aliveLinks: {...this.state.aliveLinks, [newLinkId]: 0},
           nodeNextHopsBws: newNodeNextHopsBws,
           nodeNeighbors: newNodeNeighbors,
           nodeTables: newNodeTables,
-          links: newLinks,
+          links: {...this.state.links,[newLinkId]: {start: start, end: clickedId, val: 10}},
+          linkStrokes: {...this.state.linkStrokes, [newLinkId]: 'black'},
         })
       }
+    } else if (this.state.killNodeActive && clickedId in this.state.aliveNodes) {
+      var newAliveNodes = {}
+      var newAliveLinks = {}
+      var newLinkStrokes = this.state.linkStrokes
+      var newlyKilledLinks = {}
+      var newNodeNeighbors = this.state.nodeNeighbors
+      var newNodeNextHopsBws = {}
+      var newNodeIds = this.state.nodeIds
+
+      Object.entries(this.state.aliveNodes).forEach(([k,v]) => {
+        if (k!=clickedId) {
+          newAliveNodes = {...newAliveNodes, [k]:v}
+        } 
+      })
+
+      Object.entries(this.state.links).forEach(([k,v]) => {
+        if (v.start==clickedId) {
+          newNodeNeighbors = this.deleteLinkFromMap(newNodeNeighbors,v.start,v.end)
+          newlyKilledLinks[k] = 0
+          newLinkStrokes[k] = '#999999'
+        } else if (v.end==clickedId) {
+          newNodeNeighbors = this.deleteLinkFromMap(newNodeNeighbors,v.start,v.end)
+          newlyKilledLinks[k] = 0
+          newLinkStrokes[k] = '#999999'
+        }
+      })    
+ 
+      Object.entries(this.state.aliveLinks).forEach(([k,v]) => {
+        if (!(k in newlyKilledLinks)) {
+          newAliveLinks = {...newAliveLinks, [k]:v}
+        } 
+      })
+
+      Object.entries(this.state.nodeNextHopsBws).forEach(([k,v]) => {
+        if (k!=clickedId) {
+          if (e.target.id in v){
+            v[e.target.id] = ['-','Inf']
+          }
+          newNodeNextHopsBws = {...newNodeNextHopsBws, [k]:v}
+        } else {
+          newNodeNextHopsBws = {...newNodeNextHopsBws, [k]:{}}
+        }
+      })
+      var newNodeTables = this.updateNodeTables(newNodeNextHopsBws)
+      
+      this.state.nodeIds.forEach((id,i) => {
+        if (id==e.target.id){
+          newNodeIds.splice(i,1)
+        }
+      })
+
+      Object.entries(this.state.aliveNodes).forEach(([k,v]) => {
+        if (k!=clickedId) {
+          newAliveNodes = {...newAliveNodes, [k]:v}
+        } 
+      })
+      console.log(newAliveLinks)
+      console.log(newAliveNodes)
+      console.log(newNodeNeighbors)
+      console.log(newNodeNextHopsBws)
+
+      this.setState({
+        aliveLinks: newAliveLinks,
+        nodeNextHopsBws: newNodeNextHopsBws,
+        nodeNeighbors: newNodeNeighbors,
+        nodeTables: newNodeTables,
+        aliveNodes: newAliveNodes,
+        linkStrokes: newLinkStrokes,
+        nodeIds: newNodeIds,
+      })
+    } else if (this.state.reviveNodeActive && !(clickedId in this.state.aliveNodes)) {
+      var newLinkStrokes = this.state.linkStrokes
+      var newNodeNeighbors = this.state.nodeNeighbors
+      var newNodeNextHopsBws = this.state.nodeNextHopsBws
+      var newAliveLinks = this.state.aliveLinks
+      var newNodeIds = this.state.nodeIds
+      newNodeIds.push(e.target.id)
+
+      Object.entries(this.state.links).forEach(([k,v]) => {
+        if (v.start==e.target.id) {
+          newNodeNeighbors[v.start] = {...newNodeNeighbors[v.start], [v.end]:v.val}
+          newNodeNeighbors[v.end] = {...newNodeNeighbors[v.end], [v.start]:v.val}
+          newNodeNextHopsBws[v.start] = {...newNodeNextHopsBws[v.start], [v.end]:[v.end,v.val]}
+          newNodeNextHopsBws[v.end] = {...newNodeNextHopsBws[v.end], [v.start]:[v.start,v.val]}
+          if (!(k in this.state.aliveLinks)){
+            newAliveLinks = {...newAliveLinks, [k]: 0}
+          }
+          newLinkStrokes[k] = 'black'
+        } else if (v.end==e.target.id) {
+          newNodeNeighbors[v.start] = {...newNodeNeighbors[v.start], [v.end]:v.val}
+          newNodeNeighbors[v.end] = {...newNodeNeighbors[v.end], [v.start]:v.val}
+          newNodeNextHopsBws[v.start] = {...newNodeNextHopsBws[v.start], [v.end]:[v.end,v.val]}
+          newNodeNextHopsBws[v.end] = {...newNodeNextHopsBws[v.end], [v.start]:[v.start,v.val]}
+          if (!(k in this.state.aliveLinks)){
+            newAliveLinks = {...newAliveLinks, [k]: 0}
+          }
+          newLinkStrokes[k] = 'black'
+        }
+      })  
+      var newNodeTables = this.updateNodeTables(newNodeNextHopsBws)
+
+      console.log(newAliveLinks)
+      console.log({...this.state.aliveNodes, [e.target.id]:0})
+      console.log(newNodeNeighbors)
+      console.log(newNodeNextHopsBws)
+
+      this.setState({
+        aliveLinks: newAliveLinks,
+        nodeNextHopsBws: newNodeNextHopsBws,
+        nodeTables: newNodeTables,        
+        nodeNeighbors: newNodeNeighbors,
+        linkStrokes: newLinkStrokes,
+        aliveNodes: {...this.state.aliveNodes, [e.target.id]:0},
+        nodeIds: newNodeIds,
+      })
     }
   }
 
   onLinkClick = (e) => {
     if (this.state.removeLinkActive) {
       var newLinks = {}
-      var newNodeNeighbors = {}
-      var newNodeTables = {}
+      var newAliveLinks = {}
       var deletedLinkStartingNode = 0
       var deletedLinkEndingNode = 0
 
@@ -261,19 +437,68 @@ export default class DistributedRouter extends Component {
           deletedLinkEndingNode = v.end
         }
       })
+
+      Object.entries(this.state.aliveLinks).forEach(([k,v]) => {
+        if (k!=e.target.id) {
+          newAliveLinks = {...newAliveLinks, [k]: v}
+        } 
+      })
+
       var newNodeNeighbors = this.deleteLinkFromMap(this.state.nodeNeighbors,deletedLinkStartingNode,deletedLinkEndingNode)
-      var newNodeNextHopsBws = this.state.nodeNextHopsBws
-      newNodeNextHopsBws[deletedLinkStartingNode][deletedLinkEndingNode] = ['-','Inf']
-      newNodeNextHopsBws[deletedLinkEndingNode][deletedLinkStartingNode] = ['-','Inf']
+      var newNodeNextHopsBws = this.deleteLinkFromMap(this.state.nodeNextHopsBws,deletedLinkStartingNode,deletedLinkEndingNode)
       var newNodeTables = this.updateNodeTables(newNodeNextHopsBws)
 
       this.setState({
         nodeNeighbors: newNodeNeighbors,
         nodeNextHopsBws: newNodeNextHopsBws,
         nodeTables: newNodeTables,
+        aliveLinks: newAliveLinks,
         links: newLinks,
       })
-    }    
+    } else if (this.state.killLinkActive && e.target.id in this.state.aliveLinks) {
+      var killedLinkStartingNode = this.state.links[e.target.id].start
+      var killedLinkEndingNode = this.state.links[e.target.id].end
+      var newAliveLinks = {}
+
+      Object.entries(this.state.aliveLinks).forEach(([k,v]) => {
+        if (k!=e.target.id) {
+          newAliveLinks = {...newAliveLinks, [k]: v}
+        } 
+      })
+
+      var newNodeNeighbors = this.deleteLinkFromMap(this.state.nodeNeighbors,killedLinkStartingNode,killedLinkEndingNode)
+      var newNodeNextHopsBws = this.state.nodeNextHopsBws
+      newNodeNextHopsBws[killedLinkStartingNode][killedLinkEndingNode] = ['-','Inf']
+      newNodeNextHopsBws[killedLinkEndingNode][killedLinkStartingNode] = ['-','Inf']
+      var newNodeTables = this.updateNodeTables(newNodeNextHopsBws)
+
+      this.setState({
+        nodeNeighbors: newNodeNeighbors,
+        nodeNextHopsBws: newNodeNextHopsBws,
+        nodeTables: newNodeTables,
+        aliveLinks: newAliveLinks,
+      })
+    } else if (this.state.reviveLinkActive && !(e.target.id in this.state.aliveLinks) && this.state.links[e.target.id].start in this.state.aliveNodes && this.state.links[e.target.id].end in this.state.aliveNodes ) {
+      var revivedLinkStartingNode = this.state.links[e.target.id].start
+      var revivedLinkEndingNode = this.state.links[e.target.id].end
+      var revivedLinkVal = this.state.links[e.target.id].val
+      var newNodeNeighbors = this.state.nodeNeighbors
+      var newNodeNextHopsBws = this.state.nodeNextHopsBws
+      var newAliveLinks = {}
+
+      newNodeNeighbors[revivedLinkStartingNode] = {...this.state.nodeNeighbors[revivedLinkStartingNode],[revivedLinkEndingNode]: revivedLinkVal}
+      newNodeNeighbors[revivedLinkEndingNode] = {...this.state.nodeNeighbors[revivedLinkEndingNode],[revivedLinkStartingNode]: revivedLinkVal}
+      newNodeNextHopsBws[revivedLinkStartingNode][revivedLinkEndingNode] = [revivedLinkStartingNode,revivedLinkVal]
+      newNodeNextHopsBws[revivedLinkEndingNode][revivedLinkStartingNode] = [revivedLinkEndingNode,revivedLinkVal]
+      var newNodeTables = this.updateNodeTables(newNodeNextHopsBws)
+
+      this.setState({
+        nodeNeighbors: newNodeNeighbors,
+        nodeNextHopsBws: newNodeNextHopsBws,
+        nodeTables: newNodeTables,
+        aliveLinks: {...this.state.aliveLinks, [e.target.id]: 0},
+      })
+    }
   }
 
   deleteLinkFromMap = (inputMap,deletedLinkStartingNode,deletedLinkEndingNode) => {
@@ -309,44 +534,65 @@ export default class DistributedRouter extends Component {
     const re = /^[0-9\b]+$/;
     if ((e.target.value === '' || re.test(e.target.value)) && e.target.value.toString().length<4) {
       var newLinks = this.state.links
-      var newNodeNeighbors = this.state.nodeNeighbors
-      var newNodeTables = {}
       var startNode = this.state.links[clickedId].start
       var endNode = this.state.links[clickedId].end
       var newBw = parseInt(e.target.value)
       if (isNaN(newBw)) {
         newBw = 0
       }
-      newLinks[clickedId].val = e.target.value
-      newNodeNeighbors[startNode][endNode] = newBw
-      newNodeNeighbors[endNode][startNode] = newBw
+      if (e.target.id in this.state.aliveLinks) {
+        var newNodeNeighbors = this.state.nodeNeighbors
+        newLinks[clickedId].val = e.target.value
+        newNodeNeighbors[startNode][endNode] = newBw
+        newNodeNeighbors[endNode][startNode] = newBw
+        
+        var newNodeNextHopsBws = this.state.nodeNextHopsBws
+        newNodeNextHopsBws[startNode][endNode] = [startNode,newBw]
+        newNodeNextHopsBws[endNode][startNode] = [endNode,newBw]
+        var newNodeTables = this.updateNodeTables(newNodeNextHopsBws)
 
-      Object.entries(newNodeNeighbors).forEach(([k,v]) => {
-        var newNeighbors = {}
-        Object.entries(v).forEach(([k,v]) => {
-            newNeighbors = {...newNeighbors, [k]: v}
+        this.setState({
+          nodeNeighbors: newNodeNeighbors,
+          nodeNextHopsBws: newNodeNextHopsBws,
+          nodeTables: newNodeTables,
+          links: newLinks,
         })
-      })
-
-      this.setState({
-        nodeNeighbors: newNodeNeighbors,
-        links: newLinks,
-      })
+      } else if (!(e.target.id in this.state.aliveLinks)) {
+        newLinks[clickedId].val = e.target.value
+        this.setState({
+          links: newLinks,
+        })
+      }
     }
   }
   
   onOpenNodeTable = (e) => {
-    this.setState({nodeTables: {...this.state.nodeTables, [e.target.id]: this.state.nodeNextHopsBws[e.target.id]}})
+    var newLabel = 'Show All'
+    if (Object.entries(this.state.nodeTables).length==this.state.nodeIds.length-1) {
+      newLabel = 'Hide All'
+    }
+    this.setState({
+      nodeTables: {...this.state.nodeTables, [e.target.id]: this.state.nodeNextHopsBws[e.target.id]},
+      toggleAllTablesLabel: newLabel,
+    })
+
   }
 
   onCloseNodeTable = (e) => {
     var newNodeTables = {}
+    var newLabel = 'Show All'
+    if (Object.entries(this.state.nodeTables).length==this.state.nodeIds.length-1) {
+      newLabel = 'Hide All'
+    }
     Object.entries(this.state.nodeTables).forEach(([k,v]) => {
       if (k!=e.target.id) {
         newNodeTables = {...newNodeTables, [k]: v}
       }
     })
-    this.setState({nodeTables: newNodeTables})
+    this.setState({
+      nodeTables: newNodeTables,
+      toggleAllTablesLabel: newLabel,
+    })
   }
 
   onMouseMove = (e) => {
@@ -356,47 +602,61 @@ export default class DistributedRouter extends Component {
     }) 
   }
 
-  onStepTimeForward = (e) => {
-    var newNodeNextHopsBws = this.state.nodeNextHopsBws
-    var nodeSendingPacket = this.state.nodeIds[this.state.packetOrderCurrIndex]
-    if (this.state.packetOrderCurrIndex<this.state.nodeIds.length-1) {
-      this.setState({packetOrderCurrIndex: ++this.state.packetOrderCurrIndex})
-    } else {
-      this.setState({packetOrderCurrIndex: 0})
-    }
+  onStepTimeForwardOnce = (e) => {
+    this.stepTimeForward(1)
+  }
 
-    Object.entries(this.state.nodeNeighbors[nodeSendingPacket]).forEach(([k,v]) => {
-      if (!(nodeSendingPacket in this.state.nodeNextHopsBws[k])){
-        newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [nodeSendingPacket]: [nodeSendingPacket, v]}
+  onStepTimeForwardLoop = (e) => {
+    this.stepTimeForward(this.state.nodeIds.length)
+  }
+
+  onStepTimeForwardSteadyState = (e) => {
+    this.stepTimeForward(Math.pow(this.state.nodeIds.length,2))
+  }
+
+  stepTimeForward = (packetsSent) => { 
+    var newNodeNextHopsBws = this.state.nodeNextHopsBws
+    var packetOrderCurrIndex = this.state.packetOrderCurrIndex
+    for (var i=0;i<packetsSent;i++) {
+      var nodeSendingPacket = this.state.nodeIds[packetOrderCurrIndex]
+      if (packetOrderCurrIndex<this.state.nodeIds.length-1) {
+        packetOrderCurrIndex++
+      } else {
+        packetOrderCurrIndex = 0
       }
-      Object.entries(this.state.nodeNextHopsBws[nodeSendingPacket]).forEach(([k1,v1]) => {
-        if (!(k1 in this.state.nodeNextHopsBws[k]) && k1!=k){
-          if (v1[1]=='Inf') {
-            newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [k1]: [nodeSendingPacket, v]}
-          } else {
-            newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [k1]: [nodeSendingPacket, v1[1]+v]}
-          }
-        } else if (k1 in this.state.nodeNextHopsBws[k]) {
-          var currentCost = this.state.nodeNextHopsBws[k][k1][1]
-          var nextHopInReceiving = this.state.nodeNextHopsBws[k][k1][0]
-          var nextHopInSending = v1[0]
-          if (((v1[1]+v<currentCost || currentCost=='Inf') && k!=nextHopInSending) || (nodeSendingPacket==nextHopInReceiving)) {
+
+      Object.entries(this.state.nodeNeighbors[nodeSendingPacket]).forEach(([k,v]) => {
+        if (!(nodeSendingPacket in this.state.nodeNextHopsBws[k])){
+          newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [nodeSendingPacket]: [nodeSendingPacket, v]}
+        }
+        Object.entries(this.state.nodeNextHopsBws[nodeSendingPacket]).forEach(([k1,v1]) => {
+          if (!(k1 in this.state.nodeNextHopsBws[k]) && k1!=k){
             if (v1[1]=='Inf') {
-              newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [k1]: ['-', v1[1]]}
+              newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [k1]: [nodeSendingPacket, v]}
             } else {
               newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [k1]: [nodeSendingPacket, v1[1]+v]}
             }
+          } else if (k1 in this.state.nodeNextHopsBws[k]) {
+            var currentCost = this.state.nodeNextHopsBws[k][k1][1]
+            var nextHopInReceiving = this.state.nodeNextHopsBws[k][k1][0]
+            var nextHopInSending = v1[0]
+            if (((v1[1]+v<currentCost || currentCost=='Inf') && k!=nextHopInSending) || (nodeSendingPacket==nextHopInReceiving)) {
+              if (v1[1]=='Inf') {
+                newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [k1]: ['-', v1[1]]}
+              } else {
+                newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [k1]: [nodeSendingPacket, v1[1]+v]}
+              }
+            }
           }
-        }
+        })
       })
-    })
-
+    }
     var newNodeTables = this.updateNodeTables(newNodeNextHopsBws)
     this.setState({
       nodeNextHopsBws: newNodeNextHopsBws,
-      nodeTables: newNodeTables
+      nodeTables: newNodeTables,
+      packetOrderCurrIndex: packetOrderCurrIndex,
     })
-    for (var i=0;i<1;i++){}
   }
 
   updateNodeTables = (newNodeNextHopsBws) => {
@@ -413,6 +673,44 @@ export default class DistributedRouter extends Component {
     return newNodeTables
   }
 
+  onToggleAllTables = () => {
+    var newNodeTables = {}
+    var newLabel = 'Show All'
+    if (Object.entries(this.state.nodeTables).length<this.state.nodeIds.length) {
+      this.state.nodeIds.forEach(id => {
+        newNodeTables = {...newNodeTables, [id]: this.state.nodeNextHopsBws[id]}
+      })
+      newLabel = 'Hide All'
+    }       
+    this.setState({
+      nodeTables: newNodeTables,
+      toggleAllTablesLabel: newLabel,
+    })
+    
+  }
+
+  onLinkMouseOver = (e) => {
+    var newLinkStrokes = this.state.linkStrokes
+    if (this.state.removeLinkActive || (this.state.killLinkActive && e.target.id in this.state.aliveLinks)) {
+      newLinkStrokes[e.target.id] = 'red'
+      this.setState({linkStroke: newLinkStrokes})
+    } else if (this.state.reviveLinkActive && !(e.target.id in this.state.aliveLinks) && this.state.links[e.target.id].start in this.state.aliveNodes && this.state.links[e.target.id].end in this.state.aliveNodes) {
+      newLinkStrokes[e.target.id] = 'green'
+      this.setState({linkStroke: newLinkStrokes})
+    }
+  }
+
+  onLinkMouseOut = (e) => {
+    var newLinkStrokes = this.state.linkStrokes
+    if (e.target.id in this.state.aliveLinks) {
+      newLinkStrokes[e.target.id] = 'black'
+      this.setState({linkStroke: newLinkStrokes})
+    } else {
+      newLinkStrokes[e.target.id] = '#999999'
+      this.setState({linkStroke: newLinkStrokes})
+    }
+  }
+
   render() {
     return (
       <div style={{display:'flex'}}>
@@ -422,27 +720,48 @@ export default class DistributedRouter extends Component {
           onChangeNodeList={({ oldIndex, newIndex }) => {this.setState({nodeIds: arrayMove(this.state.nodeIds, oldIndex, newIndex)})}}
           onAddNode={this.onAddNode} 
           onRemoveNode={this.onRemoveNode}
+          onKillNode={this.onKillNode}
+          onReviveNode={this.onReviveNode}
           onRemoveLink={this.onRemoveLink}
           onAddLink={this.onAddLink}
-          onStepTimeForward={this.onStepTimeForward}
+          onKillLink={this.onKillLink}
+          onReviveLink={this.onReviveLink}
+          onStepTimeForwardOnce={this.onStepTimeForwardOnce}
+          onStepTimeForwardLoop={this.onStepTimeForwardLoop}
+          onStepTimeForwardSteady={this.onStepTimeForwardSteadyState}
+          onToggleAllTables={this.onToggleAllTables}
+          toggleAllTablesLabel={this.state.toggleAllTablesLabel}
           removeNodeActive={this.state.removeNodeActive}
+          killNodeActive={this.state.killNodeActive}
+          reviveNodeActive={this.state.reviveNodeActive || Object.entries(this.state.aliveNodes).length==Object.entries(this.state.nodeCoords).length}
           removeLinkActive={this.state.removeLinkActive}
-          addLinkActive={this.state.addLinkActive}
+          addLinkActive={this.state.addLinkStartActive || this.state.addLinkEndActive}
+          killLinkActive={this.state.killLinkActive}
+          reviveLinkActive={this.state.reviveLinkActive || Object.entries(this.state.aliveLinks).length==Object.entries(this.state.links).length}
         />
         <NodeMap 
           nodeCoords={this.state.nodeCoords} 
           nodeTables={this.state.nodeTables}
+          aliveNodes={this.state.aliveNodes}
+          aliveLinks={this.state.aliveLinks}
           links={this.state.links}
+          linkStrokes={this.state.linkStrokes}
           mousex={this.state.mousex}
           mousey={this.state.mousey}
-          onNodeClick={ this.onNodeClick }
-          onLinkClick={ this.onLinkClick }
+          onNodeClick={this.onNodeClick}
+          onLinkClick={this.onLinkClick}
           onLinkValChange={this.onLinkValChange}
+          onLinkMouseOver={this.onLinkMouseOver}
+          onLinkMouseOut={this.onLinkMouseOut}
           onOpenNodeTable={this.onOpenNodeTable}
           onCloseNodeTable={this.onCloseNodeTable}
           removeNodeActive={this.state.removeNodeActive}
+          killNodeActive={this.state.killNodeActive}
+          reviveNodeActive={this.state.reviveNodeActive}
           removeLinkActive={this.state.removeLinkActive}
-          addLinkActive={this.state.addLinkActive}
+          killLinkActive={this.state.killLinkActive}
+          reviveLinkActive={this.state.reviveLinkActive}
+          addLinkActive={this.state.addLinkStartActive || this.state.addLinkEndActive}
         />
       </div>
   )}
