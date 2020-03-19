@@ -119,22 +119,22 @@ export default class Menu extends Component {
             -
           </Button>*/}
           <Button 
-            style={{width: 270/4, backgroundColor: 'white', color: 'black',}}
+            style={{backgroundColor: 'white', color: 'black',}}
             onClick={this.props.onStepTimeForwardOnce}  
           >
-            >
+            Send 1
           </Button>
           <Button 
-            style={{width: 270/4, backgroundColor: 'white', color: 'black',}} 
+            style={{backgroundColor: 'white', color: 'black',}} 
             onClick={this.props.onStepTimeForwardLoop}  
           >
-            >>
+            Send All
           </Button>
           <Button 
-            style={{width: 270/4, backgroundColor: 'white', color: 'black',}} 
+            style={{backgroundColor: 'white', color: 'black',}} 
             onClick={this.props.onStepTimeForwardSteady}
           >
-            >>>
+            Steady State
           </Button>
           </div>
       </div>
