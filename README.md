@@ -14,7 +14,7 @@ The app consists of a menu and router sandbox.
 In the router sandbox, create any network to simulate.
 
 
-<p align="center"><img src="readmeFiles/moveDemo.gif?raw=true" />click and drag to move nodes</p>
+<div align="center" margin="10px"><img src="readmeFiles/moveDemo.gif?raw=true" />click and drag to move nodes</div>
 
 click without dragging to open and close routing tables
 
