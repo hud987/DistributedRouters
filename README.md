@@ -17,9 +17,14 @@ moveable nodes
 
 ![Alt text](readmeFiles/moveDemo.gif?raw=true "Title")
 
+click to open tables
+
+![Alt text](readmeFiles/tableDemo.gif?raw=true "Title")
+
 editable links
 
-click to open tables
+![Alt text](readmeFiles/linkDemo.gif?raw=true "Title")
+
 
 ### Menu 
 
