@@ -1,6 +1,6 @@
 # Distributed Router Sim
 
-This Web App simulates a distributed router network to easily demonstrate routing algorithms. Say goodbye to unweildy chalkboard presentations.
+This Web App simulates a distributed router network to easily demonstrate routing algorithms. Say goodbye to unwieldy chalkboard presentations.
 
 [Check out the current version](https://thawing-crag-42208.herokuapp.com/)
 
@@ -18,7 +18,7 @@ In the router sandbox, move nodes and routing tables to simulate any network.
 <p align="center"><img src="readmeFiles/moveDemo.gif?raw=true" /></p>
 <p align="center">click and drag to move nodes</p>
 
-* __Routing tables:__ Each node has its own routing table toggled by clicking on the node without dragging. Routing tables show a destination node, the next hop to get to that node from this node, and the cost of getting to that node. Routing tables are intialized with neighboring nodes and update as a node recieves packets.
+* __Routing tables:__ Each node has its own routing table toggled by clicking on the node without dragging. Routing tables show a destination node, the next hop to get to that node from this node, and the cost of getting to that node. Routing tables are initialized  with neighboring nodes and update as a node receives packets.
 
 <p align="center"><img src="readmeFiles/tableDemo.gif?raw=true" /></p>
 <p align="center">click without dragging to open and close routing tables
@@ -33,9 +33,9 @@ In the router sandbox, move nodes and routing tables to simulate any network.
 
 The menu contains a number of buttons to interact with the routers and a table showing the order in which routers will send messages. 
 
-__Node Interaction:__ the top of the menu interacts with the router sandbox
-
 <p align="center"><img src="readmeFiles/menuTop.png?raw=true" /></p>
+
+__Node Interaction:__ the top of the menu interacts with the router sandbox
 
 * __Add Node:__ a new node appears in the top left corner with the lowest value not currently taken. The new node is added to the end of the messaging order. Node count is capped at 10.
 
@@ -43,11 +43,11 @@ __Node Interaction:__ the top of the menu interacts with the router sandbox
 
 * __Add Link:__ Creates a new link with a delay of 10 between the next two selected nodes. Clicking outside of nodes will cancel the process. Creating a link between two already-linked nodes will cause no link to be created. The two newly connected nodes will add their new neighbor to their routing tables.
 
-* __Remove Link:__ Removes the next selected link, highlighting links on hover when active. When deleted, the two newley separated nodes will remove eachother from their routing tables. Links may be covered by their delay, so move over the link until it highlightes.
+* __Remove Link:__ Removes the next selected link, highlighting links on hover when active. When deleted, the two newly separated nodes will remove each other from their routing tables. Links may be covered by their delay, so move over the link until it highlights.
 
 * __Kill Node:__ Kills the next selected node, causing it to stop sending messages and loose its routing table. Killed nodes take on a faded color. When a node is killed, all connecting links are killed as well.
 
-* __Revive Node:__ Revives the next selected node if it is dead. This button is only available if any nodes are dead. Reviving a node revives all neighboring links and intializes the routing table with neighbors.
+* __Revive Node:__ Revives the next selected node if it is dead. This button is only available if any nodes are dead. Reviving a node revives all neighboring links and initializes the routing table with neighbors.
 
 * __Kill Link:__ Kills the next selected link, preventing messages from traveling. Killed links take on a faded color. the delays of dead links can still be edited.
 
@@ -55,13 +55,13 @@ __Node Interaction:__ the top of the menu interacts with the router sandbox
 
 * __Show All/Hide All:__ Shows all routing tables unless all tables are visible, then hides them all.
 
-* __Split Horizon:__ Toggles the split horizon rule. Intially activated. Forces routers to ignore an entry update if it is the next hop
+* __Split Horizon:__ Toggles the split horizon rule. Initially activated. Forces routers to ignore an entry update if it is the next hop
 
-* __Forced Update:__ Toggles the forced update rule. Intially activated. Forces routers to update an entry recieved from the next hop
-
-__Messaging:__ The bottom of the menu containts messaging simulation functionality.
+* __Forced Update:__ Toggles the forced update rule. Initially activated. Forces routers to update an entry received from the next hop
 
 <p align="center"><img src="readmeFiles/menuBottom.png?raw=true" /></p>
+
+__Messaging:__ The bottom of the menu contains messaging simulation functionality.
 
 * __Messaging Order:__ This list shows the order in which nodes will send packets, with the next node to send a node highlighted. Nodes can be dragged to edit the messaging order. The current index will always stay the same, but different nodes can be placed in that index.
 
@@ -75,7 +75,7 @@ __Messaging:__ The bottom of the menu containts messaging simulation functionali
 
 ## Usage
 
-On open, the app is initalized to a small, four node example network. Initally, no packets have been sent and each node's routing table only contains their neighbors. 
+On open, the app is initialized to a small, four node example network. Initially, no packets have been sent and each node's routing table only contains their neighbors. 
 
 <p align="center"><img src="readmeFiles/initExampleOne.png?raw=true" /></p>
 
