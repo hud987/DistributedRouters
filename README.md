@@ -33,7 +33,7 @@ In the router sandbox, move nodes and routing tables to simulate any network.
 
 The menu contains a number of buttons to interact with the routers and a table showing the order in which routers will send messages. 
 
-#### Node Interaction
+__Node Interaction:__ the top part of the menu contains a number of buttons to interact with the router sandbox
 
 __Image of top part of menu__
 
@@ -55,7 +55,7 @@ __Image of top part of menu__
 
 * __Show All/Hide All:__ Shows all routing tables unless all tables are visible, then hides all.
 
-#### Messaging
+__Messaging:__ The bottom of the menu contains the features for simulating routing messaging.
 
 * __Messaging Order:__ This List allows users to edit the order in which nodes send updates can be rearranged. the current index will always stay the same, but different nodes can be chosen to send at that index.
 
