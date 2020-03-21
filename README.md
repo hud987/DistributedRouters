@@ -55,11 +55,15 @@ __Node Interaction:__ the top part of the menu contains a number of buttons to i
 
 * __Show All/Hide All:__ Shows all routing tables unless all tables are visible, then hides all.
 
+* __Split Horizon:__ Toggles the split horizon rule. Intially activated. Forces routers to ignore an update if it is the next hop
+
+* __Forced Update:__ Toggles the forced update rule. Intially activated. Forces routers to update if it recieves a packet from the router labeld at the next hop
+
 __Messaging:__ The bottom of the menu contains the features for simulating routing messaging.
 
 !!!!! Image of bottom part of menu !!!!!
 
-* __Messaging Order:__ This List allows users to edit the order in which nodes send updates can be rearranged. the current index will always stay the same, but different nodes can be chosen to send at that index.
+* __Messaging Order:__ This List allows users to edit the order in which nodes send updates. the current index will always stay the same, but different nodes can be chosen to send at that index.
 
 * __Messaging Buttons:__ These buttons under the messaging order simulates the sending of a various number of packets. 
 
@@ -71,11 +75,15 @@ __Messaging:__ The bottom of the menu contains the features for simulating routi
 
 ## Usage
 
-run on simple default example
+!!!!! needs 3 pics of intialized network !!!!!
+
+on open, the app is initalized to a small exapmle network, Looking at all nodes routing tables, they can only see their neighbors. Pressing 'send one' without changing the messaging order, node 0 will send an update to its neighbors. Pressing 'send one' again, Node 1 sends an update to its neighbors. At this point, all nodes have determined the shortest route to all other nodes and any subsequent packets will not cause updates.
 
 ## Going Forward
 
 This prototype contains all planned functionality. While all features have been tested, feature interactions and corner cases may still cause bugs.
+
+The product will be given to a variety of users for testing, with feedback used to direct future progress.
 
 the final product will be similar to the current product, future improvements will be based on user feedback and bug fixes. Functionality and user interfacing will continually be better calibrated to user needs based on feedback.
 
