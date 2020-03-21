@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Row, Col } from 'reactstrap'
 import NodeList from './NodeList'
+//import Switch from 'react-switch'
 
 export default class Menu extends Component {
   state = {   
@@ -18,7 +19,7 @@ export default class Menu extends Component {
         style={{
           width: 300,
           height: "100vh",
-          backgroundColor: 'gray',
+          backgroundColor: '#5e5e5e',
           textAlign: 'center',
           display: 'flex',
           flexDirection: 'column',
@@ -27,18 +28,19 @@ export default class Menu extends Component {
       >
           <div style={{
             fontSize: 28,
+            color: 'white',
           }}>
             Distributed Router Sim
           </div>
           <div style={{display: 'flex'}}>
             <Button 
-              style={{backgroundColor: 'white', color: 'black', flex: 1}} 
+              style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white', flex: 1,margin: 4,}} 
               onClick={this.props.onAddNode}
             >
               Add Node
             </Button>
             <Button 
-              style={{backgroundColor: 'white', color: 'black', flex: 1}} 
+              style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white', flex: 1,margin: 4,}} 
               disabled={this.props.removeNodeActive}
               onClick={this.props.onRemoveNode}
             >
@@ -47,14 +49,14 @@ export default class Menu extends Component {
           </div>
           <div style={{display: 'flex'}}>
             <Button 
-              style={{backgroundColor: 'white', color: 'black', flex: 1}} 
+              style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white', flex: 1,margin: 4,}} 
               disabled={this.props.killNodeActive}
               onClick={this.props.onKillNode}
             >
               Kill Node
             </Button>
             <Button 
-              style={{backgroundColor: 'white', color: 'black', flex: 1}} 
+              style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white', flex: 1,margin: 4,}} 
               disabled={this.props.reviveNodeActive}
               onClick={this.props.onReviveNode}
             >
@@ -63,14 +65,14 @@ export default class Menu extends Component {
           </div>
           <div style={{display: 'flex'}}>
             <Button 
-              style={{backgroundColor: 'white', color: 'black', flex: 1}}
+              style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white', flex: 1,margin: 4,}} 
               disabled={this.props.addLinkActive}
               onClick={this.props.onAddLink}
             >
               Add Link
             </Button>
             <Button 
-              style={{backgroundColor: 'white', color: 'black', flex: 1}}
+              style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white', flex: 1,margin: 4,}} 
               disabled={this.props.removeLinkActive}
               onClick={this.props.onRemoveLink}
             >
@@ -79,14 +81,14 @@ export default class Menu extends Component {
           </div>
           <div style={{display: 'flex'}}>
             <Button 
-              style={{backgroundColor: 'white', color: 'black', flex: 1}} 
+              style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white', flex: 1,margin: 4,}} 
               disabled={this.props.killLinkActive}
               onClick={this.props.onKillLink}
             >
               Kill Link
             </Button>
             <Button 
-              style={{backgroundColor: 'white', color: 'black', flex: 1}} 
+              style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white', flex: 1,margin: 4,}} 
               disabled={this.props.reviveLinkActive}
               onClick={this.props.onReviveLink}
             >
@@ -94,34 +96,39 @@ export default class Menu extends Component {
             </Button>
           </div>
           <Button 
-            style={{backgroundColor: 'white', color: 'black',}}
-            onClick={this.props.onToggleAllTables}
+              style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white', flex: 1,margin: 4,}} 
+              onClick={this.props.onToggleAllTables}
           >
             {this.props.toggleAllTablesLabel}
           </Button>
-          <Row>
-            <Col>
-          <label>
-          <input
-            name="splitHorizon"
-            type="checkbox"
-            defaultChecked
-            onChange={this.props.onChangeSplitHorizon} />
-            &nbsp; Split Horizon
-        </label>
-        </Col>
-        <Col>
-        <label>
-          <input
-            name="forcedUpdate"
-            type="checkbox"
-            defaultChecked
-            onChange={this.props.onChangeForcedUpdate} />
-            &nbsp; Forced Update
-        </label>
-        </Col>
-        </Row>
+          <div style={{display: 'flex'}}>
+            <Button 
+              style={{
+                backgroundColor: this.props.splitHorizonActive ? '#363636' : 'transparent',
+                border: this.props.splitHorizonActive ? 'solid 2px #363636' : 'solid 2px #444444', 
+                color: this.props.splitHorizonActive ? 'white' : '#C6C6C6',
+                flex: 1,
+                margin: 4,}} 
+              active={this.props.splitHorizonActive}
+              onClick={this.props.onChangeSplitHorizon}
+            >
+             Split Horizon
+            </Button>
+            <Button 
+              style={{
+                backgroundColor: this.props.forcedUpdateActive ? '#363636' : 'transparent',
+                border: this.props.forcedUpdateActive ? 'solid 2px #363636' : 'solid 2px #444444', 
+                color: this.props.forcedUpdateActive ? 'white' : '#C6C6C6',
+                flex: 1,
+                margin: 4,}} 
+              active={this.props.forcedUpdateActive}
+              onClick={this.props.onChangeForcedUpdate}
+            >
+              Forced Update
+            </Button>
+          </div>
           <div style={{
+            color: 'white',
             paddingTop: 50,
             width: 300,
             fontSize: 30,
@@ -138,20 +145,20 @@ export default class Menu extends Component {
             -
           </Button>*/}
           <Button 
-            style={{backgroundColor: 'white', color: 'black',}}
-            onClick={this.props.onStepTimeForwardOnce}  
+              style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white', flex: 1,margin: 4,}} 
+              onClick={this.props.onStepTimeForwardOnce}  
           >
             Send One
           </Button>
           <Button 
-            style={{backgroundColor: 'white', color: 'black',}} 
-            onClick={this.props.onStepTimeForwardLoop}  
+              style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white', flex: 1,margin: 4,}} 
+              onClick={this.props.onStepTimeForwardLoop}  
           >
             Send All
           </Button>
           <Button 
-            style={{backgroundColor: 'white', color: 'black',}} 
-            onClick={this.props.onStepTimeForwardSteady}
+              style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white', flex: 1,margin: 4,}} 
+              onClick={this.props.onStepTimeForwardSteady}
           >
             Steady
           </Button>

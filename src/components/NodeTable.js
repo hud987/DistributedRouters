@@ -10,13 +10,15 @@ export default class NodeTable extends Component {
   componentDidMount() {
 
   }
+//  style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white', flex: 1,margin: 4,}} 
 
   render() {
 
     return (
       <div 
         style={{
-          backgroundColor: 'white',
+          backgroundColor: 'white',//'#363636',
+          color: 'black',//'white',
           border: '3px solid black',
           borderRadius: 3,
           paddingRight: 15,

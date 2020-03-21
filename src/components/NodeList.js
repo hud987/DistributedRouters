@@ -28,10 +28,11 @@ export default class NodeList extends Component {
           cursor: isDragged ? 'grabbing' : 'grab',
           //border: '2px solid #CCC',
           //boxShadow: '3px 3px #AAA',
-          color: '#333',
+          color: 'white',
           borderRadius: '5px',
           fontFamily: 'Arial, "Helvetica Neue", Helvetica, sans-serif',
-          backgroundColor: index==this.props.selected ? '#AAA' : '#FFF',
+          border: index==this.props.selected ? 'solid 2px orange' : '',
+          backgroundColor: '#363636',
           textAlign: 'center'
         }}>{value}</li>}
         //lockVertically={true}

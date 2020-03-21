@@ -2,7 +2,7 @@
 
 This Web App simulates a distributed router network to easily demonstrate routing algorithms. Say goodbye to unweildy chalkboard presentations.
 
-Check out the current version: https://thawing-crag-42208.herokuapp.com/
+[Check out the current version](https://thawing-crag-42208.herokuapp.com/)
 
 ![Alt text](readmeFiles/overview.png?raw=true "Title")
 
@@ -56,6 +56,8 @@ __Node Interaction:__ the top part of the menu contains a number of buttons to i
 * __Show All/Hide All:__ Shows all routing tables unless all tables are visible, then hides all.
 
 __Messaging:__ The bottom of the menu contains the features for simulating routing messaging.
+
+!!!!! Image of bottom part of menu !!!!!
 
 * __Messaging Order:__ This List allows users to edit the order in which nodes send updates can be rearranged. the current index will always stay the same, but different nodes can be chosen to send at that index.
 

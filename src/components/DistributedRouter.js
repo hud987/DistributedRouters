@@ -749,6 +749,8 @@ export default class DistributedRouter extends Component {
           reviveLinkActive={this.state.reviveLinkActive || Object.entries(this.state.aliveLinks).length==Object.entries(this.state.links).length}
           onChangeSplitHorizon={this.onChangeSplitHorizon}
           onChangeForcedUpdate={this.onChangeForcedUpdate}
+          forcedUpdateActive={this.state.forcedUpdateActive}
+          splitHorizonActive={this.state.splitHorizonActive}
         />
         <NodeMap 
           nodeCoords={this.state.nodeCoords} 
