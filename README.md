@@ -4,7 +4,7 @@ This Web App simulates a distributed router network to easily demonstrate routin
 
 [Check out the current version](https://thawing-crag-42208.herokuapp.com/)
 
-![Alt text](readmeFiles/overview.png?raw=true "Title")
+<p align="center"><img src="readmeFiles/overview.png?raw=true" /></p>
 
 ## Features
 
@@ -63,7 +63,7 @@ __Messaging:__ The bottom of the menu contains messaging simulation functionalit
 
 <p align="center"><img src="readmeFiles/menuBottom.png?raw=true" /></p>
 
-* __Messaging Order:__ This list shows the order in which nodes will send packets, with the next node to send a node highlighted. Nodes can be dragged to edit the messaging order. The current index will always stay the same, but different nodes can be placed in that index.
+* __Messaging Order:__ This list shows the order in which nodes will send packets, with the next node to send a packet highlighted. Nodes can be dragged to edit the messaging order. The highlighted index will always stay the same, but different nodes can be placed in that index.
 
 * __Messaging Buttons:__ These buttons under the messaging order simulate sending a various number of packets. 
 
