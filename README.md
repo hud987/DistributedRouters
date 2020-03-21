@@ -23,7 +23,7 @@ click to open tables
 
 editable links
 
-![Alt text](readmeFiles/linkDemo.gif?raw=true "Title")
+
 
 
 ### Menu 
