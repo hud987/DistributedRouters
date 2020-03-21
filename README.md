@@ -33,9 +33,9 @@ In the router sandbox, move nodes and routing tables to simulate any network.
 
 The menu contains a number of buttons to interact with the routers and a table showing the order in which routers will send messages. 
 
-<p align="center"><img src="readmeFiles/menuTop.png?raw=true" /></p>
-
 __Node Interaction:__ the top of the menu interacts with the router sandbox
+
+<p align="center"><img src="readmeFiles/menuTop.png?raw=true" /></p>
 
 * __Add Node:__ a new node appears in the top left corner with the lowest value not currently taken. The new node is added to the end of the messaging order. Node count is capped at 10.
 
@@ -59,9 +59,9 @@ __Node Interaction:__ the top of the menu interacts with the router sandbox
 
 * __Forced Update:__ Toggles the forced update rule. Initially activated. Forces routers to update an entry received from the next hop
 
-<p align="center"><img src="readmeFiles/menuBottom.png?raw=true" /></p>
-
 __Messaging:__ The bottom of the menu contains messaging simulation functionality.
+
+<p align="center"><img src="readmeFiles/menuBottom.png?raw=true" /></p>
 
 * __Messaging Order:__ This list shows the order in which nodes will send packets, with the next node to send a node highlighted. Nodes can be dragged to edit the messaging order. The current index will always stay the same, but different nodes can be placed in that index.
 
