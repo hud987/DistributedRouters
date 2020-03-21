@@ -89,6 +89,8 @@ Pressing 'Send One' again, node 1 sends an update to its neighbors. The neighbor
 
 ## Going Forward
 
+Please don't let the fact that I've impliment all functionality before the first checkpoint convince you this was a simple app. It was a significant amount of work, I just did my best to finish as soon as possible.
+
 This prototype contains all planned functionality. While all features have been tested, feature interactions and corner cases may still cause bugs. The prototype will be given to a variety of users for testing, with feedback used to direct future progress.
 
 the final product will be similar to the current product, future improvements will be based on user feedback and bug fixes. Functionality and user interfacing will continually be better calibrated to user needs based on feedback.
