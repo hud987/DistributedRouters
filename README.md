@@ -1,28 +1,27 @@
 # Distributed Router Sim
 
-This Web App simulates a distributed router network to easily demonstrate routing algorithms.
+This Web App simulates a distributed router network to easily demonstrate routing algorithms. Say goodbye to unweildy chalkboard presentations.
 
-Current Version: https://thawing-crag-42208.herokuapp.com/
+Check out the current version: https://thawing-crag-42208.herokuapp.com/
 
 ![Alt text](readmeFiles/overview.png?raw=true "Title")
 
 ## Features
 
-The app consistes of a menu and router area. 
+The app consists of a menu and router sandbox. 
 
 ### Sandbox 
-The sandbox allows Users to move nodes, examine routing tables, and edit link delays.
+In the router sandbox, create any network to simulate.
 
-moveable nodes 
+click and drag to move nodes
 
-![Alt text](readmeFiles/moveDemo.gif?raw=true "Title")
+<div style="text-align:center"><img src="readmeFiles/moveDemo.gif?raw=true" /></div>
 
-click to open tables
+click without dragging to open and close routing tables
 
 ![Alt text](readmeFiles/tableDemo.gif?raw=true "Title")
 
-
-editable links
+click on the link delay to edit. These changes instantly appear in routing tables of neighboring nodes.
 
 ![Alt text](readmeFiles/linkDemo.gif?raw=true "Title")
 
