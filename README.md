@@ -13,18 +13,21 @@ The app consists of a menu and router sandbox.
 ### Sandbox 
 In the router sandbox, create any network to simulate.
 
+Nodes can be moved around by clicking and dragging with links following.
 
 <p align="center"><img src="readmeFiles/moveDemo.gif?raw=true" /></p>
 <p align="center">click and drag to move nodes</p>
 
-click without dragging to open and close routing tables
+Each node has a routing tables. These can be toggled by clicking on the node without dragging.
 
+<p align="center"><img src="readmeFiles/tableDemo.gif?raw=true" /></p>
+<p align="center">click without dragging to open and close routing tables
+</p>
 
-![Alt text](readmeFiles/tableDemo.gif?raw=true "Title")
+Link delays can be changed by clicking on them. delays are capped at three characters. These changes instantly appear in routing tables of neighboring nodes.
 
-click on the link delay to edit. These changes instantly appear in routing tables of neighboring nodes.
-
-![Alt text](readmeFiles/linkDemo.gif?raw=true "Title")
+<p align="center"><img src="readmeFiles/linkDemo.gif?raw=true" /></p>
+<p align="center">click on the link delay value to edit</p>
 
 
 ### Menu 
