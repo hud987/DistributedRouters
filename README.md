@@ -4,7 +4,7 @@ This Web App simulates a distributed router network to easily demonstrate routin
 
 Current Version: https://thawing-crag-42208.herokuapp.com/
 
-![Alt text](readmeImages/overview.png?raw=true "Title")
+![Alt text](readmeFiles/overview.png?raw=true "Title")
 
 ## Features
 
@@ -14,6 +14,8 @@ The app consistes of a menu and router area.
 The sandbox allows Users to move nodes, examine routing tables, and edit link delays.
 
 moveable nodes 
+
+![Alt text](readmeFiles/moveDemo.gif?raw=true "Title")
 
 editable links
 
