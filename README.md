@@ -35,7 +35,7 @@ The menu contains a number of buttons to interact with the routers and a table s
 
 __Node Interaction:__ the top part of the menu contains a number of buttons to interact with the router sandbox
 
-__Image of top part of menu__
+!!!!! Image of top part of menu !!!!!
 
 * __Add Node:__ a new node appears in the top left corner. This nodes value is the lowest number not currently taken. this node is added to the end of the messaging order. the number of nodes is capped at 10.
 
