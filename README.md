@@ -8,7 +8,7 @@ Check out the current version: https://thawing-crag-42208.herokuapp.com/
 
 ## Features
 
-The app consists of a menu and router sandbox. 
+The app consists of a menu on the left and router sandbox on the right. 
 
 ### Sandbox 
 In the router sandbox, move nodes and routing tables to simulate any network.
@@ -18,7 +18,7 @@ In the router sandbox, move nodes and routing tables to simulate any network.
 <p align="center"><img src="readmeFiles/moveDemo.gif?raw=true" /></p>
 <p align="center">click and drag to move nodes</p>
 
-* __Routing tables:__ Each node has its own routing table toggled by clicking on the node without dragging.
+* __Routing tables:__ Each node has its own routing table toggled by clicking on the node without dragging. Routing nodes automatically adjust when too close to an edge.
 
 <p align="center"><img src="readmeFiles/tableDemo.gif?raw=true" /></p>
 <p align="center">click without dragging to open and close routing tables
@@ -29,12 +29,11 @@ In the router sandbox, move nodes and routing tables to simulate any network.
 <p align="center"><img src="readmeFiles/linkDemo.gif?raw=true" /></p>
 <p align="center">click on the link delay value to edit</p>
 
-
 ### Menu 
 
 The menu contains a number of buttons to interact with the routers and a table showing the order in which routers will send messages. 
 
-### Node Functionality
+#### Node Interaction
 
 __Image of top part of menu__
 
@@ -56,7 +55,7 @@ __Image of top part of menu__
 
 * __Show All/Hide All:__ Shows all routing tables unless all tables are visible, then hides all.
 
-### Messaging
+#### Messaging
 
 * __Messaging Order:__ This List allows users to edit the order in which nodes send updates can be rearranged. the current index will always stay the same, but different nodes can be chosen to send at that index.
 
@@ -67,7 +66,6 @@ __Image of top part of menu__
   * __Send All:__ Send all goes through one whole loop of the messageing order. 
 
   * __Steady:__ Steady loops through the messaging order sufficently for all nodes to see all other nodes.
-
 
 ## Usage
 
