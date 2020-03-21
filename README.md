@@ -18,7 +18,7 @@ In the router sandbox, move nodes and routing tables to simulate any network.
 <p align="center"><img src="readmeFiles/moveDemo.gif?raw=true" /></p>
 <p align="center">click and drag to move nodes</p>
 
-* __Routing tables:__ Each node has its own routing table toggled by clicking on the node without dragging. Routing nodes automatically adjust when too close to an edge.
+* __Routing tables:__ Each node has its own routing table toggled by clicking on the node without dragging. Routing tables show a destination node, the next hop to get to that node from this node, and the cost of getting to that node. Routing tables are intialized with neighboring nodes and update as a node recieves packets.
 
 <p align="center"><img src="readmeFiles/tableDemo.gif?raw=true" /></p>
 <p align="center">click without dragging to open and close routing tables
