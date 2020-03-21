@@ -24,7 +24,7 @@ In the router sandbox, move nodes and routing tables to simulate any network.
 <p align="center">click without dragging to open and close routing tables
 </p>
 
-* __Link Delays:__ Each link has its own delay value. Delays can be changed by clicking and are capped at three characters. These changes instantly appear in routing tables of neighboring nodes.
+* __Link Delays:__ Each link has its own delay value. Delays can be changed by clicking and are capped at three characters. These changes instantly appear in connecting nodes' routing tables.
 
 <p align="center"><img src="readmeFiles/linkDemo.gif?raw=true" /></p>
 <p align="center">click on the link delay value to edit</p>
@@ -35,7 +35,7 @@ The menu contains a number of buttons to interact with the routers and a table s
 
 __Node Interaction:__ the top of the menu interacts with the router sandbox
 
-!!!!! Image of top part of menu !!!!!
+<p align="center"><img src="readmeFiles/menuTop.png?raw=true" /></p>
 
 * __Add Node:__ a new node appears in the top left corner with the lowest value not currently taken. The new node is added to the end of the messaging order. Node count is capped at 10.
 
@@ -61,7 +61,7 @@ __Node Interaction:__ the top of the menu interacts with the router sandbox
 
 __Messaging:__ The bottom of the menu containts messaging simulation functionality.
 
-!!!!! Image of bottom part of menu !!!!!
+<p align="center"><img src="readmeFiles/menuBottom.png?raw=true" /></p>
 
 * __Messaging Order:__ This list shows the order in which nodes will send packets, with the next node to send a node highlighted. Nodes can be dragged to edit the messaging order. The current index will always stay the same, but different nodes can be placed in that index.
 
