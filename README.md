@@ -33,57 +33,63 @@ In the router sandbox, move nodes and routing tables to simulate any network.
 
 The menu contains a number of buttons to interact with the routers and a table showing the order in which routers will send messages. 
 
-__Node Interaction:__ the top part of the menu contains a number of buttons to interact with the router sandbox
+__Node Interaction:__ the top of the menu interacts with the router sandbox
 
 !!!!! Image of top part of menu !!!!!
 
-* __Add Node:__ a new node appears in the top left corner. This nodes value is the lowest number not currently taken. this node is added to the end of the messaging order. the number of nodes is capped at 10.
+* __Add Node:__ a new node appears in the top left corner with the lowest value not currently taken. The new node is added to the end of the messaging order. Node count is capped at 10.
 
-* __Remove Node:__ 
+* __Remove Node:__ Deletes the next selected node, highlighting nodes on hover when active. The node will disappear from all routing tables and the messaging order list.
 
-* __Add Link:__
+* __Add Link:__ Creates a new link with a delay of 10 between the next two selected nodes. Clicking outside of nodes will cancel the process. Creating a link between two already-linked nodes will cause no link to be created. The two newly connected nodes will add their new neighbor to their routing tables.
 
-* __Remove Link:__
+* __Remove Link:__ Removes the next selected link, highlighting links on hover when active. When deleted, the two newley separated nodes will remove eachother from their routing tables. Links may be covered by their delay, so move over the link until it highlightes.
 
-* __Kill Node:__
+* __Kill Node:__ Kills the next selected node, causing it to stop sending messages and loose its routing table. Killed nodes take on a faded color. When a node is killed, all connecting links are killed as well.
 
-* __Revive Node:__
+* __Revive Node:__ Revives the next selected node if it is dead. This button is only available if any nodes are dead. Reviving a node revives all neighboring links and intializes the routing table with neighbors.
 
-* __Kill Link:__
+* __Kill Link:__ Kills the next selected link, preventing messages from traveling. Killed links take on a faded color. the delays of dead links can still be edited.
 
-* __Revive Link:__ Links can only be revived in both nodes are alive
+* __Revive Link:__ Revives the next selected link if it is dead. This button is only available if any links are dead. Links can only be revived in both connected nodes are alive
 
-* __Show All/Hide All:__ Shows all routing tables unless all tables are visible, then hides all.
+* __Show All/Hide All:__ Shows all routing tables unless all tables are visible, then hides them all.
 
-* __Split Horizon:__ Toggles the split horizon rule. Intially activated. Forces routers to ignore an update if it is the next hop
+* __Split Horizon:__ Toggles the split horizon rule. Intially activated. Forces routers to ignore an entry update if it is the next hop
 
-* __Forced Update:__ Toggles the forced update rule. Intially activated. Forces routers to update if it recieves a packet from the router labeld at the next hop
+* __Forced Update:__ Toggles the forced update rule. Intially activated. Forces routers to update an entry recieved from the next hop
 
-__Messaging:__ The bottom of the menu contains the features for simulating routing messaging.
+__Messaging:__ The bottom of the menu containts messaging simulation functionality.
 
 !!!!! Image of bottom part of menu !!!!!
 
-* __Messaging Order:__ This List allows users to edit the order in which nodes send updates. the current index will always stay the same, but different nodes can be chosen to send at that index.
+* __Messaging Order:__ This list shows the order in which nodes will send packets, with the next node to send a node highlighted. Nodes can be dragged to edit the messaging order. The current index will always stay the same, but different nodes can be placed in that index.
 
-* __Messaging Buttons:__ These buttons under the messaging order simulates the sending of a various number of packets. 
+* __Messaging Buttons:__ These buttons under the messaging order simulate sending a various number of packets. 
 
-  * __Send One:__ sends a single packet, moving down the messaging order. 
+  * __Send One:__ Sends a single packet, moving one node down the messaging order. 
 
-  * __Send All:__ Send all goes through one whole loop of the messageing order. 
+  * __Send All:__ Loops through the messaging order once, causing all nodes to send a packet.
 
-  * __Steady:__ Steady loops through the messaging order sufficently for all nodes to see all other nodes.
+  * __Steady:__ Loops through the messaging order enough times to achieve steady state routing tables.
 
 ## Usage
 
-!!!!! needs 3 pics of intialized network !!!!!
+On open, the app is initalized to a small, four node example network. Initally, no packets have been sent and each node's routing table only contains their neighbors. 
 
-on open, the app is initalized to a small exapmle network, Looking at all nodes routing tables, they can only see their neighbors. Pressing 'send one' without changing the messaging order, node 0 will send an update to its neighbors. Pressing 'send one' again, Node 1 sends an update to its neighbors. At this point, all nodes have determined the shortest route to all other nodes and any subsequent packets will not cause updates.
+<p align="center"><img src="readmeFiles/initExampleOne.png?raw=true" /></p>
+
+Pressing 'Send One' without changing the messaging order, node 0 will send an update to its neighbors. Since node 0 has entries not in its neighbors' tables, they will update their tables with the new routes.
+
+<p align="center"><img src="readmeFiles/initExampleTwo.png?raw=true" /></p>
+
+Pressing 'Send One' again, node 1 sends an update to its neighbors. The neighbors again update any new or shorter paths in their routing table. At this point, all nodes have determined the shortest route to all other nodes and any subsequent packets will not cause updates.
+
+<p align="center"><img src="readmeFiles/initExampleThree.png?raw=true" /></p>
 
 ## Going Forward
 
-This prototype contains all planned functionality. While all features have been tested, feature interactions and corner cases may still cause bugs.
-
-The product will be given to a variety of users for testing, with feedback used to direct future progress.
+This prototype contains all planned functionality. While all features have been tested, feature interactions and corner cases may still cause bugs. The prototype will be given to a variety of users for testing, with feedback used to direct future progress.
 
 the final product will be similar to the current product, future improvements will be based on user feedback and bug fixes. Functionality and user interfacing will continually be better calibrated to user needs based on feedback.
 
