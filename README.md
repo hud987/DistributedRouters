@@ -19,7 +19,7 @@ moveable nodes
 
 click to open tables
 
-![Alt text](readmeFiles/tableDemo2.gif?raw=true "Title")
+![Alt text](readmeFiles/tableDemo.gif?raw=true "Title")
 
 
 editable links
