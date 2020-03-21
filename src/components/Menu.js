@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button } from 'reactstrap'
+import { Button, Row, Col } from 'reactstrap'
 import NodeList from './NodeList'
 
 export default class Menu extends Component {
@@ -26,10 +26,9 @@ export default class Menu extends Component {
         }}
       >
           <div style={{
-            width: 300,
-            fontSize: 30,
+            fontSize: 28,
           }}>
-            Distributed Routers
+            Distributed Router Sim
           </div>
           <div style={{display: 'flex'}}>
             <Button 
@@ -100,8 +99,28 @@ export default class Menu extends Component {
           >
             {this.props.toggleAllTablesLabel}
           </Button>
-          {//forced update, split horizon
-          }
+          <Row>
+            <Col>
+          <label>
+          <input
+            name="splitHorizon"
+            type="checkbox"
+            defaultChecked
+            onChange={this.props.onChangeSplitHorizon} />
+            &nbsp; Split Horizon
+        </label>
+        </Col>
+        <Col>
+        <label>
+          <input
+            name="forcedUpdate"
+            type="checkbox"
+            defaultChecked
+            onChange={this.props.onChangeForcedUpdate} />
+            &nbsp; Forced Update
+        </label>
+        </Col>
+        </Row>
           <div style={{
             paddingTop: 50,
             width: 300,
@@ -122,7 +141,7 @@ export default class Menu extends Component {
             style={{backgroundColor: 'white', color: 'black',}}
             onClick={this.props.onStepTimeForwardOnce}  
           >
-            Send 1
+            Send One
           </Button>
           <Button 
             style={{backgroundColor: 'white', color: 'black',}} 
@@ -134,7 +153,7 @@ export default class Menu extends Component {
             style={{backgroundColor: 'white', color: 'black',}} 
             onClick={this.props.onStepTimeForwardSteady}
           >
-            Steady State
+            Steady
           </Button>
           </div>
       </div>

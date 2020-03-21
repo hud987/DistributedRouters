@@ -45,6 +45,8 @@ export default class DistributedRouter extends Component {
     addLinkStartActive: false,
     addLinkEndActive: false,
     addLinkActive: false,
+    splitHorizonActive: true,
+    forcedUpdateActive: true,
     packetOrderCurrIndex: 0,
     mousex: 0,
     mousey: 0,
@@ -73,7 +75,7 @@ export default class DistributedRouter extends Component {
         aliveNodes: {...this.state.aliveNodes, [idOfNewNode]: 0},
         nodeNextHopsBws: {...this.state.nodeNextHopsBws, [idOfNewNode]: {}}, 
         nodeNeighbors: {...this.state.nodeNeighbors, [idOfNewNode]: {}},
-        nodeCoords: {...this.state.nodeCoords,[idOfNewNode]: {x: 0, y: 0} }, 
+        nodeCoords: {...this.state.nodeCoords,[idOfNewNode]: {x: 14, y: 14} }, 
         nodeIds: newNodeIds,
       });
     }
@@ -340,7 +342,7 @@ export default class DistributedRouter extends Component {
 
       Object.entries(this.state.nodeNextHopsBws).forEach(([k,v]) => {
         if (k!=clickedId) {
-          if (e.target.id in v){
+          if (e.target.id in v && k in this.state.nodeNeighbors[e.target.id]){
             v[e.target.id] = ['-','Inf']
           }
           newNodeNextHopsBws = {...newNodeNextHopsBws, [k]:v}
@@ -560,7 +562,7 @@ export default class DistributedRouter extends Component {
   
   onOpenNodeTable = (e) => {
     var newLabel = 'Show All'
-    if (Object.entries(this.state.nodeTables).length==this.state.nodeIds.length-1) {
+    if (Object.entries(this.state.nodeTables).length+1==Object.entries(this.state.nodeCoords).length) {
       newLabel = 'Hide All'
     }
     this.setState({
@@ -573,7 +575,7 @@ export default class DistributedRouter extends Component {
   onCloseNodeTable = (e) => {
     var newNodeTables = {}
     var newLabel = 'Show All'
-    if (Object.entries(this.state.nodeTables).length==this.state.nodeIds.length-1) {
+    if (Object.entries(this.state.nodeTables).length-1==Object.entries(this.state.nodeCoords).length) {
       newLabel = 'Hide All'
     }
     Object.entries(this.state.nodeTables).forEach(([k,v]) => {
@@ -581,6 +583,9 @@ export default class DistributedRouter extends Component {
         newNodeTables = {...newNodeTables, [k]: v}
       }
     })
+
+ 
+    
     this.setState({
       nodeTables: newNodeTables,
       toggleAllTablesLabel: newLabel,
@@ -616,7 +621,7 @@ export default class DistributedRouter extends Component {
       } else {
         packetOrderCurrIndex = 0
       }
-
+      console.log('sendingPacket')
       Object.entries(this.state.nodeNeighbors[nodeSendingPacket]).forEach(([k,v]) => {
         if (!(nodeSendingPacket in this.state.nodeNextHopsBws[k])){
           newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [nodeSendingPacket]: [nodeSendingPacket, v]}
@@ -632,7 +637,8 @@ export default class DistributedRouter extends Component {
             var currentCost = this.state.nodeNextHopsBws[k][k1][1]
             var nextHopInReceiving = this.state.nodeNextHopsBws[k][k1][0]
             var nextHopInSending = v1[0]
-            if (((v1[1]+v<currentCost || currentCost=='Inf') && k!=nextHopInSending) || (nodeSendingPacket==nextHopInReceiving)) {
+
+            if (((v1[1]+v<currentCost || currentCost=='Inf') && (!this.state.splitHorizonActive || k!=nextHopInSending)) || (nodeSendingPacket==nextHopInReceiving && this.state.forcedUpdateActive)) {
               if (v1[1]=='Inf') {
                 newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [k1]: ['-', v1[1]]}
               } else {
@@ -703,6 +709,14 @@ export default class DistributedRouter extends Component {
     }
   }
 
+  onChangeSplitHorizon = (e) => {
+    this.setState({splitHorizonActive: !this.state.splitHorizonActive})
+  }
+
+  onChangeForcedUpdate = (e) => {
+    this.setState({forcedUpdateActive: !this.state.forcedUpdateActive})
+  }
+
   render() {
     return (
       <div style={{display:'flex'}}>
@@ -731,6 +745,8 @@ export default class DistributedRouter extends Component {
           addLinkActive={this.state.addLinkStartActive || this.state.addLinkEndActive}
           killLinkActive={this.state.killLinkActive}
           reviveLinkActive={this.state.reviveLinkActive || Object.entries(this.state.aliveLinks).length==Object.entries(this.state.links).length}
+          onChangeSplitHorizon={this.onChangeSplitHorizon}
+          onChangeForcedUpdate={this.onChangeForcedUpdate}
         />
         <NodeMap 
           nodeCoords={this.state.nodeCoords} 

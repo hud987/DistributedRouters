@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Row, Col } from 'reactstrap'
 
 export default class NodeTable extends Component {
   state = {   
@@ -18,16 +19,32 @@ export default class NodeTable extends Component {
           backgroundColor: 'white',
           border: '3px solid black',
           borderRadius: 3,
-          padding: 3,
+          paddingRight: 15,
+          paddingLeft: 15,
           position: 'absolute',
-          left: this.props.x>window.innerWidth-124 ? this.props.x-141 : this.props.x, 
+          left: this.props.x>window.innerWidth-184 ? this.props.x-202 : this.props.x, 
           top: this.props.y<4 ? this.props.y+130 : this.props.y,
         }}
       >
-        Dest | Hop | Cst
+        <Row style={{borderBottom: 'solid black 2px'}}>
+          <Col sm='4' style={{textAlign: 'center'}}>Dest
+          </Col>
+          <Col sm='4' style={{textAlign: 'center'}}>Hop
+          </Col>
+          <Col sm='4' style={{textAlign: 'center'}}>Cst
+          </Col>
+        </Row>
         { Object.entries(this.props.nodeInfo).map(([k,v]) => {
             return (  
-              <div key={k}>{k} | {v[0]} | {v[1]}</div>
+              <Row key={k}>
+                <Col sm='4' style={{textAlign: 'center', borderRight: 'solid black 2px'}}>{k}
+                </Col>
+                <Col sm='4' style={{textAlign: 'center',borderRight: 'solid black 2px'}}> {v[0]}
+                </Col>
+                <Col sm='4' style={{textAlign: 'center'}}> {v[1]}
+                </Col>
+              </Row>
+
             )
           })
         }
