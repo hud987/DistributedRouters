@@ -15,7 +15,7 @@ In the router sandbox, create any network to simulate.
 
 click and drag to move nodes
 
-<div style="text-align:center"><img src="readmeFiles/moveDemo.gif?raw=true" /></div>
+<p align="center"><img src="readmeFiles/moveDemo.gif?raw=true" /></p>
 
 click without dragging to open and close routing tables
 
