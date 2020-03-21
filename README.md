@@ -1,4 +1,4 @@
-## Distributed Router Sim
+# Distributed Router Sim
 
 This Web App simulates a distributed router network to easily demonstrate routing algorithms.
 
@@ -19,7 +19,7 @@ editable links
 
 click to open tables
 
-## Menu 
+### Menu 
 
 The menu contains a number of buttons to interact with the routers and a table showing the order in which routers will send messages. 
 
