@@ -26,7 +26,7 @@ export default class NodeTable extends Component {
           top: this.props.y<4 ? this.props.y+130 : this.props.y,
         }}
       >
-        <Row style={{borderBottom: 'solid black 2px'}}>
+        <Row style={{borderBottom: Object.entries(this.props.nodeInfo).length>0 ? 'solid black 2px' : ''}}>
           <Col sm='4' style={{textAlign: 'center'}}>Dest
           </Col>
           <Col sm='4' style={{textAlign: 'center'}}>Hop

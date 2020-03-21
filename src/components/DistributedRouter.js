@@ -614,47 +614,49 @@ export default class DistributedRouter extends Component {
   stepTimeForward = (packetsSent) => { 
     var newNodeNextHopsBws = this.state.nodeNextHopsBws
     var packetOrderCurrIndex = this.state.packetOrderCurrIndex
-    for (var i=0;i<packetsSent;i++) {
-      var nodeSendingPacket = this.state.nodeIds[packetOrderCurrIndex]
-      if (packetOrderCurrIndex<this.state.nodeIds.length-1) {
-        packetOrderCurrIndex++
-      } else {
-        packetOrderCurrIndex = 0
-      }
-      console.log('sendingPacket')
-      Object.entries(this.state.nodeNeighbors[nodeSendingPacket]).forEach(([k,v]) => {
-        if (!(nodeSendingPacket in this.state.nodeNextHopsBws[k])){
-          newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [nodeSendingPacket]: [nodeSendingPacket, v]}
+    if (this.state.nodeIds.length!=0) {
+      for (var i=0;i<packetsSent;i++) {
+        var nodeSendingPacket = this.state.nodeIds[packetOrderCurrIndex]
+        if (packetOrderCurrIndex<this.state.nodeIds.length-1) {
+          packetOrderCurrIndex++
+        } else {
+          packetOrderCurrIndex = 0
         }
-        Object.entries(this.state.nodeNextHopsBws[nodeSendingPacket]).forEach(([k1,v1]) => {
-          if (!(k1 in this.state.nodeNextHopsBws[k]) && k1!=k){
-            if (v1[1]=='Inf') {
-              newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [k1]: [nodeSendingPacket, v]}
-            } else {
-              newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [k1]: [nodeSendingPacket, v1[1]+v]}
-            }
-          } else if (k1 in this.state.nodeNextHopsBws[k]) {
-            var currentCost = this.state.nodeNextHopsBws[k][k1][1]
-            var nextHopInReceiving = this.state.nodeNextHopsBws[k][k1][0]
-            var nextHopInSending = v1[0]
-
-            if (((v1[1]+v<currentCost || currentCost=='Inf') && (!this.state.splitHorizonActive || k!=nextHopInSending)) || (nodeSendingPacket==nextHopInReceiving && this.state.forcedUpdateActive)) {
+        console.log('sendingPacket')
+        Object.entries(this.state.nodeNeighbors[nodeSendingPacket]).forEach(([k,v]) => {
+          if (!(nodeSendingPacket in this.state.nodeNextHopsBws[k])){
+            newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [nodeSendingPacket]: [nodeSendingPacket, v]}
+          }
+          Object.entries(this.state.nodeNextHopsBws[nodeSendingPacket]).forEach(([k1,v1]) => {
+            if (!(k1 in this.state.nodeNextHopsBws[k]) && k1!=k){
               if (v1[1]=='Inf') {
-                newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [k1]: ['-', v1[1]]}
+                newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [k1]: [nodeSendingPacket, v]}
               } else {
                 newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [k1]: [nodeSendingPacket, v1[1]+v]}
               }
+            } else if (k1 in this.state.nodeNextHopsBws[k]) {
+              var currentCost = this.state.nodeNextHopsBws[k][k1][1]
+              var nextHopInReceiving = this.state.nodeNextHopsBws[k][k1][0]
+              var nextHopInSending = v1[0]
+
+              if (((v1[1]+v<currentCost || currentCost=='Inf') && (!this.state.splitHorizonActive || k!=nextHopInSending)) || (nodeSendingPacket==nextHopInReceiving && this.state.forcedUpdateActive)) {
+                if (v1[1]=='Inf') {
+                  newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [k1]: ['-', v1[1]]}
+                } else {
+                  newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [k1]: [nodeSendingPacket, v1[1]+v]}
+                }
+              }
             }
-          }
+          })
         })
+      }
+      var newNodeTables = this.updateNodeTables(newNodeNextHopsBws)
+      this.setState({
+        nodeNextHopsBws: newNodeNextHopsBws,
+        nodeTables: newNodeTables,
+        packetOrderCurrIndex: packetOrderCurrIndex,
       })
     }
-    var newNodeTables = this.updateNodeTables(newNodeNextHopsBws)
-    this.setState({
-      nodeNextHopsBws: newNodeNextHopsBws,
-      nodeTables: newNodeTables,
-      packetOrderCurrIndex: packetOrderCurrIndex,
-    })
   }
 
   updateNodeTables = (newNodeNextHopsBws) => {
