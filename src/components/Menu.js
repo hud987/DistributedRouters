@@ -95,12 +95,14 @@ export default class Menu extends Component {
               Revive Link
             </Button>
           </div>
-          <Button 
-              style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white', flex: 1,margin: 4,}} 
-              onClick={this.props.onToggleAllTables}
-          >
-            {this.props.toggleAllTablesLabel}
-          </Button>
+          <div>
+            <Button 
+                style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white',width:280,margin: 4,}} 
+                onClick={this.props.onToggleAllTables}
+            >
+              {this.props.toggleAllTablesLabel}
+            </Button>
+          </div>
           <div style={{display: 'flex'}}>
             <Button 
               style={{

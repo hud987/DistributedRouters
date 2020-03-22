@@ -14,7 +14,7 @@ export default class NodeList extends Component {
           padding: 5, 
           cursor: isDragged ? 'grabbing' : undefined,
           overflowY: 'scroll',
-          height: 375,
+          //height: 375,
           //borderTop: '5px solid #F9F9F9',
           //borderBottom: '5px solid #F9F9F9',
           //borderLeft: '5px solid #F9F9F9',
