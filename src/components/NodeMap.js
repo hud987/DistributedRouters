@@ -37,7 +37,7 @@ export default class NodeMap extends Component {
     this.pos4 = e.clientY
     var newY,newX;
     var nodeCoordsNew = this.props.nodeCoords
-    console.log(this.reff.getBoundingClientRect())
+    //console.log(this.reff.getBoundingClientRect())
     //if (!(this.reff.offsetTop==14 && this.pos2<1)) {
       if (this.reff.offsetTop - this.pos2 < 14) {
         newY = 14

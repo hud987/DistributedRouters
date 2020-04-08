@@ -629,8 +629,11 @@ export default class DistributedRouter extends Component {
           }
           Object.entries(this.state.nodeNextHopsBws[nodeSendingPacket]).forEach(([k1,v1]) => {
             if (!(k1 in this.state.nodeNextHopsBws[k]) && k1!=k){
+              console.log('added entry')
+              console.log(nodeSendingPacket)
+              console.log(v)
               if (v1[1]=='Inf') {
-                newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [k1]: [nodeSendingPacket, v]}
+                newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [k1]: ['-', 'Inf']}
               } else {
                 newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [k1]: [nodeSendingPacket, v1[1]+v]}
               }
