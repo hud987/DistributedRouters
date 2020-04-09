@@ -541,8 +541,8 @@ export default class DistributedRouter extends Component {
         newNodeNeighbors[endNode][startNode] = newBw
         
         var newNodeNextHopsBws = this.state.nodeNextHopsBws
-        newNodeNextHopsBws[startNode][endNode] = [startNode,newBw]
-        newNodeNextHopsBws[endNode][startNode] = [endNode,newBw]
+        newNodeNextHopsBws[startNode][endNode] = [endNode,newBw]
+        newNodeNextHopsBws[endNode][startNode] = [startNode,newBw]
         var newNodeTables = this.updateNodeTables(newNodeNextHopsBws)
 
         this.setState({
