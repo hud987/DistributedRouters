@@ -25,7 +25,7 @@ export default class Menu extends Component {
           flexDirection: 'column',
           padding: 6
         }}
-      >
+      > 
           <div style={{
             fontSize: 28,
             color: 'white',
@@ -95,17 +95,10 @@ export default class Menu extends Component {
               Revive Link
             </Button>
           </div>
-          <div>
-            <Button 
-                style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white',width:280,margin: 4,}} 
-                onClick={this.props.onToggleAllTables}
-            >
-              {this.props.toggleAllTablesLabel}
-            </Button>
-          </div>
-          <div style={{display: 'flex'}}>
+                    <div style={{display: 'flex'}}>
             <Button 
               style={{
+                fontSize: 13,
                 backgroundColor: this.props.splitHorizonActive ? '#363636' : 'transparent',
                 border: this.props.splitHorizonActive ? 'solid 2px #363636' : 'solid 2px #444444', 
                 color: this.props.splitHorizonActive ? 'white' : '#C6C6C6',
@@ -118,6 +111,7 @@ export default class Menu extends Component {
             </Button>
             <Button 
               style={{
+                fontSize: 13,
                 backgroundColor: this.props.forcedUpdateActive ? '#363636' : 'transparent',
                 border: this.props.forcedUpdateActive ? 'solid 2px #363636' : 'solid 2px #444444', 
                 color: this.props.forcedUpdateActive ? 'white' : '#C6C6C6',
@@ -128,7 +122,55 @@ export default class Menu extends Component {
             >
               Forced Update
             </Button>
+            <Button 
+              style={{
+                fontSize: 13,
+                backgroundColor: this.props.pathUpdateActive ? '#363636' : 'transparent',
+                border: this.props.pathUpdateActive ? 'solid 2px #363636' : 'solid 2px #444444', 
+                color: this.props.pathUpdateActive ? 'white' : '#C6C6C6',
+                flex: 1,
+                margin: 4,}} 
+              active={this.props.pathUpdateActive}
+              onClick={this.props.onChangePathUpdate}
+            >
+              Path Update
+            </Button>
           </div>
+          <div>
+            <Button 
+                style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white',width:280,margin: 4,}} 
+                onClick={this.props.onToggleAllTables}
+            >
+              {this.props.toggleAllTablesLabel}
+            </Button>
+          </div>
+          <div style={{display: 'flex'}}>
+            <Button 
+               style={{
+                backgroundColor: this.props.nextHopActive ? '#363636' : 'transparent',
+                border: this.props.nextHopActive ? 'solid 2px #363636' : 'solid 2px #444444', 
+                color: this.props.nextHopActive ? 'white' : '#C6C6C6',
+                flex: 1,
+                margin: 4,}} 
+              active={this.props.nextHopActive}
+              onClick={this.props.onChangeNextHop}
+            >
+              Next Hop
+            </Button>
+            <Button 
+               style={{
+                backgroundColor: this.props.pathsActive ? '#363636' : 'transparent',
+                border: this.props.pathsActive ? 'solid 2px #363636' : 'solid 2px #444444', 
+                color: this.props.pathsActive ? 'white' : '#C6C6C6',
+                flex: 1,
+                margin: 4,}} 
+              active={this.props.pathsActive}
+              onClick={this.props.onChangePaths}
+            >
+              Paths
+            </Button>
+          </div>
+
           <div style={{
             color: 'white',
             paddingTop: 50,
@@ -164,6 +206,13 @@ export default class Menu extends Component {
           >
             Steady
           </Button>
+          </div>
+          <div style={{paddingTop: 10,}}>
+          <a style={{
+            color: 'white',
+            fontSize: 18,
+            textDecorationLine: 'underline',
+          }} href={'https://github.com/hud987/DistributedRouters'}>More Info</a>
           </div>
       </div>
   )}

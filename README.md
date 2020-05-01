@@ -55,9 +55,15 @@ __Node Interaction:__ the top of the menu interacts with the router sandbox
 
 * __Show All/Hide All:__ Shows all routing tables unless all tables are visible, then hides them all.
 
-* __Split Horizon:__ Toggles the split horizon rule. Initially activated. Forces routers to ignore an entry update if it is the next hop
+* __Next Hop:__ Toggles showing the next hop to a destionation node
+
+* __Paths:__ Toggles showing the path to a destionation node
+
+* __Split Horizon:__ Toggles the split horizon rule. Initially activated. Forces routers to ignore an entry received from the next hop
 
 * __Forced Update:__ Toggles the forced update rule. Initially activated. Forces routers to update an entry received from the next hop
+
+* __Path Vector:__ Toggles the path vector rule. Initially deactivated. Forces routers to ignore an entry received from a node in the path
 
 __Messaging:__ The bottom of the menu contains messaging simulation functionality.
 
@@ -87,11 +93,6 @@ Pressing 'Send One' again, node 1 sends an update to its neighbors. The neighbor
 
 <p align="center"><img src="readmeFiles/initExampleThree.png?raw=true" /></p>
 
-## Going Forward
+## User Survey
 
-Please don't let the fact that I've impliment all functionality before the first checkpoint convince you this was a simple app. It was a significant amount of work, I just did my best to finish as soon as possible.
-
-This prototype contains all planned functionality. While all features have been tested, feature interactions and corner cases may still cause bugs. The prototype will be given to a variety of users for testing, with feedback used to direct future progress.
-
-the final product will be similar to the current product, future improvements will be based on user feedback and bug fixes. Functionality and user interfacing will continually be better calibrated to user needs based on feedback.
-
+A user survey was conducted, responses can be found in the corrisponding folder. the feedback focused on usability and better expalining to users how the app works. Messaging order entries were made narrower. A link to github was added 

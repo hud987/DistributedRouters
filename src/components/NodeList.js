@@ -22,10 +22,11 @@ export default class NodeList extends Component {
 
         renderItem={({ value, index, props, isDragged, isSelected }) => <li {...props} style={{
           ...props.style,
-          padding: '1.5em',
+          padding: '.4em',
           margin: '0.5em 0em',
           listStyleType: 'none',
           cursor: isDragged ? 'grabbing' : 'grab',
+          //height: 7,
           //border: '2px solid #CCC',
           //boxShadow: '3px 3px #AAA',
           color: index==this.props.selected ? '#363636' : 'white',

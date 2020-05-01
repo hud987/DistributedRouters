@@ -1,0 +1,5 @@
+I must say I'm very impressed you got this done so quickly, you must be a react wizard. I have a few comments. 
+
+Regarding the front end, the Messaging order section takes too much space and is a tad off-putting, maybe make the rectangle smaller or divide them into smaller squares. The application doesn't seem to handle window adjustment (making the window small) very well, see screenshot. 
+
+The sim works great from what I can see, would be useful for testing configuration and lectures but lacks some sort of exercise for someone who new to routers sim. Maybe adding a problem set or a game mode showing how important rules like Split Horizon and Forced update are. This could give this much more purpose and would be useful for studying for exams

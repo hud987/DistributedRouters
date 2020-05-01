@@ -145,12 +145,14 @@ export default class NodeMap extends Component {
 
           </svg>
           { Object.entries(this.props.nodeTables).map(([k,v]) => {
+            //console.log('error part: ' + v)
             return (
               <NodeTable 
                 key={k}
                 x={this.props.nodeCoords[k].x+350} 
                 y={this.props.nodeCoords[k].y-70}
                 nodeInfo={v}
+                pathsActive={this.props.pathsActive}
               />
             )
           })}

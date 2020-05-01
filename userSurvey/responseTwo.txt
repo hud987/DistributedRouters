@@ -1,0 +1,2 @@
+It would be nice if each button had a tooltip come up when you hover over the button so you know what it does.
+Also maybe an information page so you can read about the website's purpose

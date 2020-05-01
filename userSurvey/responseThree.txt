@@ -1,0 +1,6 @@
+Seems like the app gives cost values between routers and how to get from
+one to the other. Might be helpful to add a description of what it's
+doing for a better learning experience. Also you can add working links
+to dead nodes, not sure if this supposed to be allowed. Instead of using
+dest, hop, and cst, it would be an easier learning experience to read
+full words for what they represent.
