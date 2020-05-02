@@ -9,9 +9,9 @@ export default class DistributedRouter extends Component {
   state = {  
     nodeCoords: {
       0: {x: 200, y: 200},
-      1: {x: 400, y: 200},
-      2: {x: 200, y: 400},
-      3: {x: 400, y: 400},
+      1: {x: 450, y: 200},
+      2: {x: 200, y: 450},
+      3: {x: 450, y: 450},
     },
     links: {
       0: {start: 0,end: 1, val: 10},
@@ -770,7 +770,7 @@ export default class DistributedRouter extends Component {
                 }
               })
 
-              if (((v1[1]+v<currentCost || currentCost=='Inf') && (!this.state.splitHorizonActive || k!=nextHopInSending)) || (this.state.forcedUpdateActive && nodeSendingPacket==nextHopInReceiving) || (this.state.pathUpdateActive && nodeSendingPacketInReceivingNodePath)) {
+              if (((v1[1]+v<currentCost || currentCost=='Inf') && (!this.state.splitHorizonActive || k!=nextHopInSending) && (!this.state.pathUpdateActive || !nodeSendingPacketInReceivingNodePath)) || (this.state.forcedUpdateActive && nodeSendingPacket==nextHopInReceiving)) {
                 if (v1[1]=='Inf') {
                   newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [k1]: ['-', v1[1]]}
                   newNodeDestPathCosts[k] = {...newNodeDestPathCosts[k], [k1]: [['-'], v1[1]]}
