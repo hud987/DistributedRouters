@@ -33,14 +33,16 @@ export default class NodeTable extends Component {
           top: this.props.y<4 ? this.props.y+130 : this.props.y,
         }}
       >
-        <Row style={{borderBottom: Object.entries(this.props.nodeInfo).length>0 ? 'solid black 2px' : ''}}>
+        <Row style={{borderBottom: this.props.nodeInfo && Object.entries(this.props.nodeInfo).length>0 ? 'solid black 2px' : ''}}>
           <Col sm='3' style={{textAlign: 'center', fontSize: 12}}>Dest.
           </Col>
           { middleColumnTitle }
           <Col sm='3' style={{textAlign: 'center', fontSize: 12}}>Cost
           </Col>
         </Row>
-        { Object.entries(this.props.nodeInfo).map(([k,v]) => {
+        { 
+          this.props.nodeInfo &&
+          Object.entries(this.props.nodeInfo).map(([k,v]) => {
             var middleColumnVals
             if (this.props.pathsActive) {
               var stringOutputOfPath = ''

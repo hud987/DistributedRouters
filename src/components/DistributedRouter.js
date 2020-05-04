@@ -399,6 +399,23 @@ export default class DistributedRouter extends Component {
           if (e.target.id in v && k in this.state.nodeNeighbors[e.target.id]){
             v[e.target.id] = ['-','Inf']
           }
+          var killedNodeInNeighborNodePath = false
+          Object.entries(this.state.nodeDestPathCosts[k]).forEach(e => {
+            killedNodeInNeighborNodePath = false
+            //console.log(e)
+            if (e[0]!=clickedId) {
+              console.log(e[1][0])
+              e[1][0].forEach(e => {
+                console.log(e)
+                if (e==clickedId) {
+                  killedNodeInNeighborNodePath = true
+                }
+              })
+            }
+            if (killedNodeInNeighborNodePath){
+              v[e[0]] = [['-'],'Inf']
+            } 
+          })
           newNodeNextHopsBws = {...newNodeNextHopsBws, [k]:v}
         } else {
           newNodeNextHopsBws = {...newNodeNextHopsBws, [k]:{}}
@@ -409,12 +426,32 @@ export default class DistributedRouter extends Component {
         if (k!=clickedId) {
           if (e.target.id in v && k in this.state.nodeNeighbors[e.target.id]){
             v[e.target.id] = [['-'],'Inf']
-          }
+          } 
+          console.log('k: ' + k + ', e.target.id: ' + e.target.id)
+          var killedNodeInNeighborNodePath = false
+          Object.entries(v).forEach(e => {
+            killedNodeInNeighborNodePath = false
+            //console.log(e)
+            if (e[0]!=clickedId) {
+              console.log(e[1][0])
+              e[1][0].forEach(e => {
+                console.log(e)
+                if (e==clickedId) {
+                  killedNodeInNeighborNodePath = true
+                }
+              })
+            }
+            if (killedNodeInNeighborNodePath){
+              v[e[0]] = [['-'],'Inf']
+            } 
+          })
+          
           newNodeDestPathCosts = {...newNodeDestPathCosts, [k]:v}
         } else {
           newNodeDestPathCosts = {...newNodeDestPathCosts, [k]:{}}
         }
       })
+      
 
       var newNodeTables = this.updateNodeTables(newNodeNextHopsBws)
       var newNodePathTables = this.updateNodeTables(newNodeDestPathCosts)

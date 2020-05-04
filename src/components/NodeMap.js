@@ -79,6 +79,7 @@ export default class NodeMap extends Component {
     return (
       <div style={{overflow: 'hidden'}}>
           { 
+            this.props.links &&
             Object.entries(this.props.links).map(([k,v]) => {
             if (v.end!=-1) {
               var angle=Math.atan2(this.props.nodeCoords[v.end].x-this.props.nodeCoords[v.start].x,this.props.nodeCoords[v.end].y-this.props.nodeCoords[v.start].y)
@@ -104,7 +105,9 @@ export default class NodeMap extends Component {
             }
           })}
           
-          { Object.entries(this.props.nodeCoords).map(([k,v]) => {
+          { 
+            this.props.nodeCoords &&
+            Object.entries(this.props.nodeCoords).map(([k,v]) => {
             return ( 
               <Node 
                 key={k} 
@@ -124,7 +127,9 @@ export default class NodeMap extends Component {
           })}
           <svg width={window.innerWidth} height={window.innerHeight}>
           
-          { Object.entries(this.props.links).map(([k,v]) => {
+          { 
+            this.props.links &&
+            Object.entries(this.props.links).map(([k,v]) => {
             return ( 
               <Link 
                 key={k}
@@ -144,7 +149,9 @@ export default class NodeMap extends Component {
           })}
 
           </svg>
-          { Object.entries(this.props.nodeTables).map(([k,v]) => {
+          { 
+            this.props.nodeTables && 
+            Object.entries(this.props.nodeTables).map(([k,v]) => {
             //console.log('error part: ' + v)
             return (
               <NodeTable 
