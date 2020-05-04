@@ -254,6 +254,20 @@ export default class DistributedRouter extends Component {
       Object.entries(this.state.nodeNextHopsBws).forEach(([k,v]) => {
         if (k!=clickedId) {
           var newNextHopsBws = {}
+          Object.entries(this.state.nodeDestPathCosts[k]).forEach(e => {
+            var killedNodeInNeighborNodePath = false
+            if (e[0]!=clickedId) {
+              e[1][0].forEach(e => {
+                console.log(e)
+                if (e==clickedId) {
+                  killedNodeInNeighborNodePath = true
+                }
+              })
+            }
+            if (killedNodeInNeighborNodePath){
+              v[e[0]] = [['-'],'Inf']
+            } 
+          })
           Object.entries(v).forEach(([k,v]) => {
             if (k!=clickedId) {
               newNextHopsBws = {...newNextHopsBws, [k]: v}
@@ -270,6 +284,18 @@ export default class DistributedRouter extends Component {
         if (k!=clickedId) {
           var newDestPathCosts = {}
           Object.entries(v).forEach(([k,v]) => {
+            var killedNodeInNeighborNodePath = false
+            if (k!=clickedId) {
+              v[0].forEach(e => {
+                console.log(e)
+                if (e==clickedId) {
+                  killedNodeInNeighborNodePath = true
+                }
+              })
+            }
+            if (killedNodeInNeighborNodePath){
+              v = [['-'],'Inf']
+            } 
             if (k!=clickedId) {
               newDestPathCosts = {...newDestPathCosts, [k]: v}
             }
