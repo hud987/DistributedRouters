@@ -571,8 +571,8 @@ export default class DistributedRouter extends Component {
                   killedNodeInNeighborNodePath = true
                 }
               })
-            if (!killedNodeInNeighborNodePath) {
-              newNextHopsBws = {...newNextHopsBws, [e[0]]: this.state.nodeNextHopsBws[k][e[0]]}
+              if (!killedNodeInNeighborNodePath && e[0]!=deletedLinkEndingNode){
+                newNextHopsBws = {...newNextHopsBws, [e[0]]: this.state.nodeNextHopsBws[k][e[0]]}
             }
           })
           newNodeNextHopsBws = {...newNodeNextHopsBws, [k]: newNextHopsBws}
@@ -586,7 +586,7 @@ export default class DistributedRouter extends Component {
                   killedNodeInNeighborNodePath = true
                 }
               })
-              if (!killedNodeInNeighborNodePath) {
+              if (!killedNodeInNeighborNodePath && e[0]!=deletedLinkStartingNode){
                 newNextHopsBws = {...newNextHopsBws, [e[0]]: this.state.nodeNextHopsBws[k][e[0]]}
               }
             })
@@ -606,12 +606,11 @@ export default class DistributedRouter extends Component {
           Object.entries(v).forEach(([k,v]) => {
             var killedNodeInNeighborNodePath = false
             v[0].forEach(e => {
-              console.log(e)
               if (e==deletedLinkEndingNode) {
                 killedNodeInNeighborNodePath = true
               }
             })
-            if (!killedNodeInNeighborNodePath){
+            if (!killedNodeInNeighborNodePath && k!=deletedLinkEndingNode){
               newDestPathCosts = {...newDestPathCosts, [k]: v}
             }
           })
@@ -621,12 +620,11 @@ export default class DistributedRouter extends Component {
           Object.entries(v).forEach(([k,v]) => {
             var killedNodeInNeighborNodePath = false
             v[0].forEach(e => {
-              console.log(e)
               if (e==deletedLinkStartingNode) {
                 killedNodeInNeighborNodePath = true
               }
             })
-            if (!killedNodeInNeighborNodePath){
+            if (!killedNodeInNeighborNodePath && k!=deletedLinkStartingNode){
               newDestPathCosts = {...newDestPathCosts, [k]: v}
             }
           })
