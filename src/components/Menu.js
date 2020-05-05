@@ -37,9 +37,9 @@ export default class Menu extends Component {
             <Button 
               style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white', flex: 1,margin: 4,}} 
               onClick={this.props.onAddNode}
-              data-tip="a new node appears in top left corner"
-              data-place="right"
-              data-delay-show='400'
+              //data-tip="a new node appears in top left corner"
+              //data-place="right"
+              //data-delay-show='1200'
             >
               Add Node
             </Button>
@@ -47,9 +47,9 @@ export default class Menu extends Component {
               style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white', flex: 1,margin: 4,}} 
               disabled={this.props.removeNodeActive}
               onClick={this.props.onRemoveNode}
-              data-tip="removes next node clicked"
-              data-place="right"
-              data-delay-show='400'
+              //data-tip="removes the next node clicked"
+              //data-place="right"
+              //data-delay-show='1200'
             >
               Remove Node
             </Button>
@@ -59,9 +59,9 @@ export default class Menu extends Component {
               style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white', flex: 1,margin: 4,}} 
               disabled={this.props.killNodeActive}
               onClick={this.props.onKillNode}
-              data-tip="kills next node clicked, stopping it from sending packets"
-              data-place="right"
-              data-delay-show='400'
+              //data-tip="kills the next node clicked, stopping it from sending packets"
+              //data-place="right"
+              //data-delay-show='1200'
             >
               Kill Node
             </Button>
@@ -69,9 +69,9 @@ export default class Menu extends Component {
               style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white', flex: 1,margin: 4,}} 
               disabled={this.props.reviveNodeActive}
               onClick={this.props.onReviveNode}
-              data-tip="revives next node clicked, sending packets again"
-              data-place="right"
-              data-delay-show='400'
+              //data-tip="revives the next node clicked, sending packets again"
+              //data-place="right"
+              //data-delay-show='1200'
             >
               Revive Node
             </Button>
@@ -81,9 +81,9 @@ export default class Menu extends Component {
               style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white', flex: 1,margin: 4,}} 
               disabled={this.props.addLinkActive}
               onClick={this.props.onAddLink}
-              data-tip="adds link between next two nodes clicked"
-              data-place="right"
-              data-delay-show='400'
+              //data-tip="adds a link between next two nodes clicked"
+              //data-place="right"
+              //data-delay-show='1200'
             >
               Add Link
             </Button>
@@ -91,9 +91,9 @@ export default class Menu extends Component {
               style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white', flex: 1,margin: 4,}} 
               disabled={this.props.removeLinkActive}
               onClick={this.props.onRemoveLink}
-              data-tip="removes next link clicked"
-              data-place="right"
-              data-delay-show='400'
+              //data-tip="removes the next link clicked"
+              //data-place="right"
+              //data-delay-show='1200'
             >
               Remove Link
             </Button>
@@ -103,9 +103,9 @@ export default class Menu extends Component {
               style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white', flex: 1,margin: 4,}} 
               disabled={this.props.killLinkActive}
               onClick={this.props.onKillLink}
-              data-tip="kills next link clicked, stopping packets"
-              data-place="right"
-              data-delay-show='400'
+              //data-tip="kills the next link clicked, stopping packets"
+              //data-place="right"
+              //data-delay-show='1200'
             >
               Kill Link
             </Button>
@@ -113,9 +113,9 @@ export default class Menu extends Component {
               style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white', flex: 1,margin: 4,}} 
               disabled={this.props.reviveLinkActive}
               onClick={this.props.onReviveLink}
-              data-tip="revives next link clicked, allowing packets"
-              data-place="right"
-              data-delay-show='400'
+              //data-tip="revives the next link clicked, allowing packets"
+              //data-place="right"
+              //data-delay-show='1200'
             >
               Revive Link
             </Button>
@@ -131,9 +131,9 @@ export default class Menu extends Component {
                 margin: 4,}} 
               active={this.props.splitHorizonActive}
               onClick={this.props.onChangeSplitHorizon}
-              data-tip="activates split horizon, forcing routers to ignore an entry in they are the next hop"
-              data-place="right"
-              data-delay-show='400'
+              //data-tip="activates split horizon, forcing routers to ignore an entry if they are the next hop"
+              //data-place="right"
+              //data-delay-show='1200'
             >
              Split Horizon
             </Button>
@@ -147,9 +147,9 @@ export default class Menu extends Component {
                 margin: 4,}} 
               active={this.props.forcedUpdateActive}
               onClick={this.props.onChangeForcedUpdate}
-              data-tip="activates forced update, forcing routers to update an entry received from the next hop"
-              data-place="right"
-              data-delay-show='400'
+              //data-tip="activates forced update, forcing routers to update an entry received from the next hop"
+              //data-place="right"
+              //data-delay-show='1200'
             >
               Forced Update
             </Button>
@@ -163,20 +163,20 @@ export default class Menu extends Component {
                 margin: 4,}} 
               active={this.props.pathUpdateActive}
               onClick={this.props.onChangePathUpdate}
-              data-tip="activates forced update, forcing routers to ignore an entry in they are in the path"
-              data-place="right"
-              data-delay-show='400'
+              //data-tip="activates path vector, forcing routers to ignore an entry if they are in the path"
+              //data-place="right"
+              //data-delay-show='1200'
             >
-              Path Update
+              Path Vector
             </Button>
           </div>
           <div>
             <Button 
-                style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white',width:280,margin: 4,}} 
-                onClick={this.props.onToggleAllTables}
-                data-tip="toggles displaying all routing tables"
-                data-place="right"
-                data-delay-show='400'
+              style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white',width:280,margin: 4,}} 
+              onClick={this.props.onToggleAllTables}
+              //data-tip="toggles displaying all routing tables"
+              //data-place="right"
+              //data-delay-show='1200'
             >
               {this.props.toggleAllTablesLabel}
             </Button>
@@ -191,9 +191,9 @@ export default class Menu extends Component {
                 margin: 4,}} 
               active={this.props.nextHopActive}
               onClick={this.props.onChangeNextHop}
-              data-tip="displays next hops in routing tables"
-              data-place="right"
-              data-delay-show='400'
+              //data-tip="displays next hops in routing tables"
+              //data-place="right"
+              //data-delay-show='1200'
             >
               Next Hop
             </Button>
@@ -206,9 +206,9 @@ export default class Menu extends Component {
                 margin: 4,}} 
               active={this.props.pathsActive}
               onClick={this.props.onChangePaths}
-              data-tip="displays paths in routing tables"
-              data-place="right"
-              data-delay-show='400'
+              //data-tip="displays paths in routing tables"
+              //data-place="right"
+              //data-delay-show='1200'
             >
               Paths
             </Button>
@@ -232,29 +232,29 @@ export default class Menu extends Component {
             -
           </Button>*/}
           <Button 
-              style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white', flex: 1,margin: 4,}} 
-              onClick={this.props.onStepTimeForwardOnce}  
-              data-tip="sends a single packet from the marked node"
-              data-place="right"
-              data-delay-show='400'
+            style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white', flex: 1,margin: 4,}} 
+            onClick={this.props.onStepTimeForwardOnce}  
+            //data-tip="sends a single packet from the marked node"
+            //data-place="right"
+            //data-delay-show='1200'
           >
             Send One
           </Button>
           <Button 
-              style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white', flex: 1,margin: 4,}} 
-              onClick={this.props.onStepTimeForwardLoop}  
-              data-tip="sends a single packet from all nodes in order"
-              data-place="right"
-              data-delay-show='400'
+            style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white', flex: 1,margin: 4,}} 
+            onClick={this.props.onStepTimeForwardLoop}  
+            //data-tip="sends a single packet from all nodes in order"
+            //data-place="right"
+            //data-delay-show='1200'
           >
             Send All
           </Button>
           <Button 
-              style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white', flex: 1,margin: 4,}} 
-              onClick={this.props.onStepTimeForwardSteady}
-              data-tip="sends enough packets to achieve steady state"
-              data-place="right"
-              data-delay-show='400'
+            style={{backgroundColor: '#363636',borderColor: '#363636', color: 'white', flex: 1,margin: 4,}} 
+            onClick={this.props.onStepTimeForwardSteady}
+            //data-tip="sends enough packets to achieve steady state"
+            //data-place="right"
+            //data-delay-show='1200'
           >
             Steady
           </Button>

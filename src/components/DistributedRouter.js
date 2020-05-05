@@ -254,25 +254,21 @@ export default class DistributedRouter extends Component {
       Object.entries(this.state.nodeNextHopsBws).forEach(([k,v]) => {
         if (k!=clickedId) {
           var newNextHopsBws = {}
-          Object.entries(this.state.nodeDestPathCosts[k]).forEach(e => {
-            var killedNodeInNeighborNodePath = false
-            if (e[0]!=clickedId) {
-              e[1][0].forEach(e => {
-                console.log(e)
-                if (e==clickedId) {
-                  killedNodeInNeighborNodePath = true
-                }
-              })
-            }
-            if (e[0]!=clickedId && !killedNodeInNeighborNodePath) {
-              newNextHopsBws = {...newNextHopsBws, [e[0]]: this.state.nodeNextHopsBws[k][e[0]]}
-            }
-          })
-
+            Object.entries(this.state.nodeDestPathCosts[k]).forEach(e => {
+              var killedNodeInNeighborNodePath = false
+              if (e[0]!=clickedId) {
+                e[1][0].forEach(e => {
+                  console.log(e)
+                  if (e==clickedId) {
+                    killedNodeInNeighborNodePath = true
+                  }
+                })
+              }
+              if (e[0]!=clickedId && !killedNodeInNeighborNodePath) {
+                newNextHopsBws = {...newNextHopsBws, [e[0]]: this.state.nodeNextHopsBws[k][e[0]]}
+              }
+            })
           newNodeNextHopsBws = {...newNodeNextHopsBws, [k]: newNextHopsBws}
-          if (k in this.state.nodeTables){
-            newNodeTables = {...newNodeTables, [k]: newNextHopsBws}
-          }
         }
       })
 
@@ -294,11 +290,11 @@ export default class DistributedRouter extends Component {
             }
           })
           newNodeDestPathCosts = {...newNodeDestPathCosts, [k]: newDestPathCosts}
-          if (k in this.state.nodeTables){
-            newNodePathTables = {...newNodePathTables, [k]: newDestPathCosts}
-          }
         }
       })
+
+      var newNodeTables = this.updateNodeTables(newNodeNextHopsBws)
+      var newNodePathTables = this.updateNodePathTables(newNodeDestPathCosts)
 
       this.setState({
         nodeCoords: newNodes,
@@ -473,7 +469,7 @@ export default class DistributedRouter extends Component {
       
 
       var newNodeTables = this.updateNodeTables(newNodeNextHopsBws)
-      var newNodePathTables = this.updateNodeTables(newNodeDestPathCosts)
+      var newNodePathTables = this.updateNodePathTables(newNodeDestPathCosts)
 
       this.state.nodeIds.forEach((id,i) => {
         if (id==e.target.id){
@@ -645,7 +641,7 @@ export default class DistributedRouter extends Component {
       })
 
       var newNodeTables = this.updateNodeTables(newNodeNextHopsBws)
-      var newNodePathTables = this.updateNodeTables(newNodeDestPathCosts)
+      var newNodePathTables = this.updateNodePathTables(newNodeDestPathCosts)
       
       this.setState({
         nodeNeighbors: newNodeNeighbors,
@@ -682,8 +678,8 @@ export default class DistributedRouter extends Component {
               }
             })
             if (killedNodeInNeighborNodePath){
-              v[e[0]] = [['-'],'Inf']
-              newNodeNextHopsBws[k][e[0]] = [['-'],'Inf']
+              newNodeDestPathCosts[k][e[0]] = [['-'],'Inf']
+              newNodeNextHopsBws[k][e[0]] = ['-','Inf']
             }
           })
         } else if (k==killedLinkEndingNode) {
@@ -695,20 +691,29 @@ export default class DistributedRouter extends Component {
               }
             })
             if (killedNodeInNeighborNodePath){
-              v[e[0]] = [['-'],'Inf']
-              newNodeNextHopsBws[k][e[0]] = [['-'],'Inf']
+              newNodeDestPathCosts[k][e[0]] = [['-'],'Inf']
+              newNodeNextHopsBws[k][e[0]] = ['-','Inf']
             } 
           })
         } 
       })
 
       var newNodeTables = this.updateNodeTables(newNodeNextHopsBws)
-      var newNodePathTables = this.updateNodeTables(newNodeDestPathCosts)
+      var newNodePathTables = this.updateNodePathTables(newNodeDestPathCosts)
+      
+      console.log('newNodeTables')
+      Object.entries(newNodeTables).forEach(e => {
+        console.log(e)
+      })
+      console.log('newNodePathTables')
+      Object.entries(newNodePathTables).forEach(e => {
+        console.log(e)
+      })
 
       this.setState({
         nodeNeighbors: newNodeNeighbors,
         nodeNextHopsBws: newNodeNextHopsBws,
-        nodeDestPathCosts: newNodePathTables,
+        nodeDestPathCosts: newNodeDestPathCosts,
         nodeTables: newNodeTables,
         nodePathTables: newNodePathTables,
         aliveLinks: newAliveLinks,
@@ -730,7 +735,7 @@ export default class DistributedRouter extends Component {
       newNodeDestPathCosts[revivedLinkEndingNode][revivedLinkStartingNode] = [[revivedLinkEndingNode],revivedLinkVal]
       
       var newNodeTables = this.updateNodeTables(newNodeNextHopsBws)
-      var newNodePathTables = this.updateNodeTables(newNodeDestPathCosts)
+      var newNodePathTables = this.updateNodePathTables(newNodeDestPathCosts)
 
       this.setState({
         nodeNeighbors: newNodeNeighbors,
@@ -834,6 +839,10 @@ export default class DistributedRouter extends Component {
     if (Object.entries(this.state.nodeTables).length+1==Object.entries(this.state.nodeCoords).length) {
       newLabel = 'Hide All'
     }
+    console.log('this.state.nodeDestPathCosts')    
+    Object.entries(this.state.nodeDestPathCosts).forEach(e => {
+      console.log(e)
+    })
     this.setState({
       nodeTables: {...this.state.nodeTables, [e.target.id]: this.state.nodeNextHopsBws[e.target.id]},
       nodePathTables: {...this.state.nodePathTables, [e.target.id]: this.state.nodeDestPathCosts[e.target.id]},
@@ -948,8 +957,7 @@ export default class DistributedRouter extends Component {
         })
       }
       var newNodeTables = this.updateNodeTables(newNodeNextHopsBws)
-      //console.log(newNodeDestPathCosts)
-      var newNodePathTables = this.updateNodeTables(newNodeDestPathCosts)
+      var newNodePathTables = this.updateNodePathTables(newNodeDestPathCosts)
       var temp = this.state.nodeDestPathCosts
       
       this.setState({
