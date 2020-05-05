@@ -59,11 +59,11 @@ __Node Interaction:__ the top of the menu interacts with the router sandbox
 
 * __Paths:__ Toggles showing the path to a destionation node
 
-* __Split Horizon:__ Toggles the split horizon rule. Initially activated. Forces routers to ignore an entry received from the next hop
+* __Split Horizon:__ Toggles the split horizon rule. Initially activated. Forces routers to ignore an entry if they are the next hop
 
 * __Forced Update:__ Toggles the forced update rule. Initially activated. Forces routers to update an entry received from the next hop
 
-* __Path Vector:__ Toggles the path vector rule. Initially deactivated. Forces routers to ignore an entry received from a node in the path
+* __Path Vector:__ Toggles the path vector rule. Initially deactivated. Forces routers to ignore an entry if they are a node in the path
 
 __Messaging:__ The bottom of the menu contains messaging simulation functionality.
 
