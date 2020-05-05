@@ -264,15 +264,11 @@ export default class DistributedRouter extends Component {
                 }
               })
             }
-            if (killedNodeInNeighborNodePath){
-              v[e[0]] = [['-'],'Inf']
-            } 
-          })
-          Object.entries(v).forEach(([k,v]) => {
-            if (k!=clickedId) {
-              newNextHopsBws = {...newNextHopsBws, [k]: v}
+            if (e[0]!=clickedId && !killedNodeInNeighborNodePath) {
+              newNextHopsBws = {...newNextHopsBws, [e[0]]: this.state.nodeNextHopsBws[k][e[0]]}
             }
           })
+
           newNodeNextHopsBws = {...newNodeNextHopsBws, [k]: newNextHopsBws}
           if (k in this.state.nodeTables){
             newNodeTables = {...newNodeTables, [k]: newNextHopsBws}
@@ -293,10 +289,7 @@ export default class DistributedRouter extends Component {
                 }
               })
             }
-            if (killedNodeInNeighborNodePath){
-              v = [['-'],'Inf']
-            } 
-            if (k!=clickedId) {
+            if (k!=clickedId && !killedNodeInNeighborNodePath) {
               newDestPathCosts = {...newDestPathCosts, [k]: v}
             }
           })
@@ -568,11 +561,92 @@ export default class DistributedRouter extends Component {
       })
 
       var newNodeNeighbors = this.deleteLinkFromMap(this.state.nodeNeighbors,deletedLinkStartingNode,deletedLinkEndingNode)
-      var newNodeNextHopsBws = this.deleteLinkFromMap(this.state.nodeNextHopsBws,deletedLinkStartingNode,deletedLinkEndingNode)
-      var newNodeDestPathCosts = this.deleteLinkFromMap(this.state.nodeDestPathCosts,deletedLinkStartingNode,deletedLinkEndingNode)
+      var newNodeNextHopsBws = {}
+      var newNodeDestPathCosts = {}
+
+      Object.entries(this.state.nodeNextHopsBws).forEach(([k,v]) => {
+        if (k==deletedLinkStartingNode) {
+          var newNextHopsBws = {}
+          Object.entries(this.state.nodeDestPathCosts[k]).forEach(e => {
+            var killedNodeInNeighborNodePath = false
+              e[1][0].forEach(e => {
+                console.log(e)
+                if (e==deletedLinkEndingNode) {
+                  killedNodeInNeighborNodePath = true
+                }
+              })
+            if (!killedNodeInNeighborNodePath) {
+              newNextHopsBws = {...newNextHopsBws, [e[0]]: this.state.nodeNextHopsBws[k][e[0]]}
+            }
+          })
+          newNodeNextHopsBws = {...newNodeNextHopsBws, [k]: newNextHopsBws}
+        } else if (k==deletedLinkEndingNode) {
+            var newNextHopsBws = {}
+            Object.entries(this.state.nodeDestPathCosts[k]).forEach(e => {
+              var killedNodeInNeighborNodePath = false
+              e[1][0].forEach(e => {
+                console.log(e)
+                if (e==deletedLinkStartingNode) {
+                  killedNodeInNeighborNodePath = true
+                }
+              })
+              if (!killedNodeInNeighborNodePath) {
+                newNextHopsBws = {...newNextHopsBws, [e[0]]: this.state.nodeNextHopsBws[k][e[0]]}
+              }
+            })
+            newNodeNextHopsBws = {...newNodeNextHopsBws, [k]: newNextHopsBws}
+          } else {
+            var newNextHopsBws = {}
+            Object.entries(v).forEach(([k,v]) => {
+              newNextHopsBws = {...newNextHopsBws, [k]: v}
+            })
+            newNodeNextHopsBws = {...newNodeNextHopsBws, [k]: newNextHopsBws}
+          }
+      })
+
+      Object.entries(this.state.nodeDestPathCosts).forEach(([k,v]) => {
+        if (k==deletedLinkStartingNode) {
+          var newDestPathCosts = {}
+          Object.entries(v).forEach(([k,v]) => {
+            var killedNodeInNeighborNodePath = false
+            v[0].forEach(e => {
+              console.log(e)
+              if (e==deletedLinkEndingNode) {
+                killedNodeInNeighborNodePath = true
+              }
+            })
+            if (!killedNodeInNeighborNodePath){
+              newDestPathCosts = {...newDestPathCosts, [k]: v}
+            }
+          })
+          newNodeDestPathCosts = {...newNodeDestPathCosts, [k]: newDestPathCosts}
+        } else if (k==deletedLinkEndingNode) {
+          var newDestPathCosts = {}
+          Object.entries(v).forEach(([k,v]) => {
+            var killedNodeInNeighborNodePath = false
+            v[0].forEach(e => {
+              console.log(e)
+              if (e==deletedLinkStartingNode) {
+                killedNodeInNeighborNodePath = true
+              }
+            })
+            if (!killedNodeInNeighborNodePath){
+              newDestPathCosts = {...newDestPathCosts, [k]: v}
+            }
+          })
+          newNodeDestPathCosts = {...newNodeDestPathCosts, [k]: newDestPathCosts}
+        } else {
+          var newDestPathCosts = {}
+          Object.entries(v).forEach(([k,v]) => {
+            newDestPathCosts = {...newDestPathCosts, [k]: v}
+          })
+          newNodeDestPathCosts = {...newNodeDestPathCosts, [k]: newDestPathCosts}
+        }
+      })
+
       var newNodeTables = this.updateNodeTables(newNodeNextHopsBws)
       var newNodePathTables = this.updateNodeTables(newNodeDestPathCosts)
-
+      
       this.setState({
         nodeNeighbors: newNodeNeighbors,
         nodeNextHopsBws: newNodeNextHopsBws,
@@ -596,10 +670,37 @@ export default class DistributedRouter extends Component {
       var newNodeNeighbors = this.deleteLinkFromMap(this.state.nodeNeighbors,killedLinkStartingNode,killedLinkEndingNode)
       var newNodeNextHopsBws = this.state.nodeNextHopsBws
       var newNodeDestPathCosts = this.state.nodeDestPathCosts
-      newNodeNextHopsBws[killedLinkStartingNode][killedLinkEndingNode] = ['-','Inf']
-      newNodeNextHopsBws[killedLinkEndingNode][killedLinkStartingNode] = ['-','Inf']
-      newNodeDestPathCosts[killedLinkStartingNode][killedLinkEndingNode] = [['-'],'Inf']
-      newNodeDestPathCosts[killedLinkEndingNode][killedLinkStartingNode] = [['-'],'Inf']
+
+      Object.entries(newNodeDestPathCosts).forEach(([k,v]) => {
+        if (k==killedLinkStartingNode) {
+          Object.entries(v).forEach(e => {
+            var killedNodeInNeighborNodePath = false
+            e[1][0].forEach(e => {
+              console.log(e)
+              if (e==killedLinkEndingNode) {
+                killedNodeInNeighborNodePath = true
+              }
+            })
+            if (killedNodeInNeighborNodePath){
+              v[e[0]] = [['-'],'Inf']
+              newNodeNextHopsBws[k][e[0]] = [['-'],'Inf']
+            }
+          })
+        } else if (k==killedLinkEndingNode) {
+          Object.entries(v).forEach(e => {
+            var killedNodeInNeighborNodePath = false
+            e[1][0].forEach(e => {
+              if (e==killedLinkStartingNode) {
+                killedNodeInNeighborNodePath = true
+              }
+            })
+            if (killedNodeInNeighborNodePath){
+              v[e[0]] = [['-'],'Inf']
+              newNodeNextHopsBws[k][e[0]] = [['-'],'Inf']
+            } 
+          })
+        } 
+      })
 
       var newNodeTables = this.updateNodeTables(newNodeNextHopsBws)
       var newNodePathTables = this.updateNodeTables(newNodeDestPathCosts)
