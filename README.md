@@ -85,7 +85,7 @@ __Messaging:__ The bottom of the menu contains messaging simulation functionalit
 
 ## Usage
 
-<p align="center">__Remove Node:__</p>
+<p align="center"><b>Remove Node:</b></p>
 
 <p align="center"><img src="readmeFiles/removeNodeDemo.gif?raw=true" /></p>
 <p align="center">After selecting Remove Node, click on the Node to remove. Add Node and Add Link can be used to replace the removed node</p>
