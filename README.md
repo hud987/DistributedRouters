@@ -57,17 +57,17 @@ __Node Interaction:__ the top of the menu interacts with the router sandbox
 
 * __Revive Link:__ Revives the next selected link if it is dead. This button is only available if any links are dead. Links can only be revived in both connected nodes are alive
 
-* __Show All/Hide All:__ Shows all routing tables unless all tables are visible, then hides them all.
-
-* __Next Hop:__ Toggles showing the next hop to a destionation node
-
-* __Paths:__ Toggles showing the path to a destionation node
-
 * __Split Horizon:__ Toggles the split horizon rule. Initially activated. Forces routers to ignore an entry if they are the next hop
 
 * __Forced Update:__ Toggles the forced update rule. Initially activated. Forces routers to update an entry received from the next hop
 
 * __Path Vector:__ Toggles the path vector rule. Initially deactivated. Forces routers to ignore an entry if they are a node in the path
+
+* __Show All/Hide All:__ Shows all routing tables unless all tables are visible, then hides them all.
+
+* __Next Hop:__ Toggles showing the next hop to a destionation node
+
+* __Paths:__ Toggles showing the path to a destionation node
 
 __Messaging:__ The bottom of the menu contains messaging simulation functionality.
 
@@ -83,24 +83,26 @@ __Messaging:__ The bottom of the menu contains messaging simulation functionalit
 
   * __Steady:__ Loops through the messaging order enough times to achieve steady state routing tables.
 
+* __More Info:__ Links users to this github. 
+
 ## Usage
 
 <p align="center"><b>Add/Remove Node:</b></p>
 
 <p align="center"><img src="readmeFiles/removeNodeDemo.gif?raw=true" /></p>
-<p align="center">After selecting Remove Node, click on the Node to remove. Add Node and Add Link can be used to replace the removed node</p>
+<p align="center">After selecting Remove Node, click on a node to remove it. Add Node and Add Link can be used to replace the removed node</p>
 
 <p align="center"><b>Add/Remove Link:</b></p>
 <p align="center"><img src="readmeFiles/removeLinkDemo.gif?raw=true" /></p>
-<p align="center">After selecting Remove Link, click on the Link to remove. Add Link can be used to replace the removed link</p>
+<p align="center">After selecting Remove Link, click on a link to remove it. Add Link can be used to replace the removed link</p>
 
 <p align="center"><b>Kill/Revive Node:</b></p>
 <p align="center"><img src="readmeFiles/killNodeDemo.gif?raw=true" /></p>
-<p align="center">After selecting Kill Node, click on the Node to kill. Revive Node can be used to revived the killed node</p>
+<p align="center">After selecting Kill Node, click on a node to kill it. Revive Node can be used to revived the killed node</p>
 
 <p align="center"><b>Kill/Revive Link:</b></p>
 <p align="center"><img src="readmeFiles/killLinkDemo.gif?raw=true" /></p>
-<p align="center">After selecting Kill Link, click on the Link to kill. Revive Link can be used to revived the killed link</p>
+<p align="center">After selecting Kill Link, click on a link to kill it. Revive Link can be used to revived the killed link</p>
 
 ## Demo
 On open, the app is initialized to a small, four node example network. Initially, no packets have been sent and each node's routing table only contains their neighbors. 
@@ -115,10 +117,10 @@ Pressing 'Send One' again, node 1 sends an update to its neighbors. The neighbor
 
 After the first prototype, a user survey was conducted (responses can be found in the corrisponding folder). Feedback focused on usability and better explaining how the app works to new users. Some changes were implemented based on feedback:
  * A link to the project github was added so users can access documentation
- * messaging order entries were made narrower to increase usability
+ * Messaging order entries were made narrower to increase usability
 
 <p align="center">
   <img src="readmeFiles/menuBottom.png?raw=true" />
   <img src="readmeFiles/menuLower.png?raw=true" />
 </p>
-<p align="center">Before (left) and After (right) feedback was implemented</p>
+<p align="center">Before (left) and after (right) feedback was implemented</p>

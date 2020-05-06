@@ -26,20 +26,12 @@ export default class DistributedRouter extends Component {
       3: {1:20, 2:30},
     },
     nodeNextHopsBws: {
-      /*0: {1:[1,10],2:[1,80]},
-      1: {0:[0,10],3:[0,120]},
-      2: {0:[0,40],3:[0,330]},
-      3: {1:[1,20],2:[1,430]},*/
       0: {1:[1,10],2:[2,40]},
       1: {0:[0,10],3:[3,20]},
       2: {0:[0,40],3:[3,30]},
       3: {1:[1,20],2:[2,30]},
     },
     nodeDestPathCosts: {
-      /*0: {1:[[1,],10],2:[[2,3,1],80]},
-      1: {0:[[0,],10],3:[[3,2,0],120]},
-      2: {0:[[0,],40],3:[[3,1,0],330]},
-      3: {1:[[1,],20],2:[[2,0,1],430]},*/
       0: {1:[[1,],10],2:[[2,],40]},
       1: {0:[[0,],10],3:[[3,],20]},
       2: {0:[[0,],40],3:[[3,],30]},
@@ -893,13 +885,11 @@ export default class DistributedRouter extends Component {
             var nodeEntryEditedInReceiving = k1
             if (!(k1 in this.state.nodeNextHopsBws[k]) && k1!=k){
               //console.log('added entry')
-              //console.log(nodeSendingPacket)
               if (v1[1]=='Inf') {
                 newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [k1]: ['-', 'Inf']}
                 newNodeDestPathCosts[k] = {...newNodeDestPathCosts[k], [k1]: [['-'], 'Inf']}
               } else {
                 //console.log('nodeReceivingPacket: ' + nodeReceivingPacket + ', nodeEntryEditedInReceiving: ' + nodeEntryEditedInReceiving)
-                //console.log(newNodeDestPathCosts[nodeReceivingPacket])
                 newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [k1]: [nodeSendingPacket, v1[1]+v]}
                 newNodeDestPathCosts[k] = {...newNodeDestPathCosts[nodeReceivingPacket], [nodeEntryEditedInReceiving]: [[...newNodeDestPathCosts[nodeSendingPacket][nodeEntryEditedInReceiving][0],nodeSendingPacket], v1[1]+v]}
               }
