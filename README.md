@@ -90,15 +90,15 @@ __Messaging:__ The bottom of the menu contains messaging simulation functionalit
 <p align="center"><img src="readmeFiles/removeNodeDemo.gif?raw=true" /></p>
 <p align="center">After selecting Remove Node, click on the Node to remove. Add Node and Add Link can be used to replace the removed node</p>
 
-* __Remove Link:__
+<p align="center"><b>Remove Link:</b></p>
 <p align="center"><img src="readmeFiles/removeLinkDemo.gif?raw=true" /></p>
 <p align="center">After selecting Remove Link, click on the Link to remove. Add Link can be used to replace the removed link</p>
 
-* __Kill Node:__
+<p align="center"><b>Kill Node:</b></p>
 <p align="center"><img src="readmeFiles/killNodeDemo.gif?raw=true" /></p>
 <p align="center">After selecting Kill Node, click on the Node to kill. Revive Node can be used to revived the killed node</p>
 
-* __Kill Link:__
+<p align="center"><b>Kill Link:</b></p>
 <p align="center"><img src="readmeFiles/killLinkDemo.gif?raw=true" /></p>
 <p align="center">After selecting Kill Link, click on the Link to kill. Revive Link can be used to revived the killed link</p>
 
