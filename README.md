@@ -105,7 +105,7 @@ __Messaging:__ The bottom of the menu contains messaging simulation functionalit
 ## Demo
 On open, the app is initialized to a small, four node example network. Initially, no packets have been sent and each node's routing table only contains their neighbors. 
 
-<p align="center"><img src="readmeFiles/sendDemo.gif?raw=true" /></p>
+<p align="center"><img src="readmeFiles/sendPacketDemo.gif?raw=true" /></p>
 
 Pressing 'Send One' without changing the messaging order, node 0 will send an update to its neighbors. Since node 0 has entries not in its neighbors' tables, they will update their tables with the new routes.
 
