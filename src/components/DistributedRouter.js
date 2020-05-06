@@ -698,15 +698,6 @@ export default class DistributedRouter extends Component {
 
       var newNodeTables = this.updateNodeTables(newNodeNextHopsBws)
       var newNodePathTables = this.updateNodePathTables(newNodeDestPathCosts)
-      
-      console.log('newNodeTables')
-      Object.entries(newNodeTables).forEach(e => {
-        console.log(e)
-      })
-      console.log('newNodePathTables')
-      Object.entries(newNodePathTables).forEach(e => {
-        console.log(e)
-      })
 
       this.setState({
         nodeNeighbors: newNodeNeighbors,
@@ -723,15 +714,18 @@ export default class DistributedRouter extends Component {
       var newNodeNeighbors = this.state.nodeNeighbors
       var newNodeNextHopsBws = this.state.nodeNextHopsBws
       var newNodeDestPathCosts = this.state.nodeDestPathCosts
-      var newAliveLinks = {}
 
       newNodeNeighbors[revivedLinkStartingNode] = {...this.state.nodeNeighbors[revivedLinkStartingNode],[revivedLinkEndingNode]: revivedLinkVal}
       newNodeNeighbors[revivedLinkEndingNode] = {...this.state.nodeNeighbors[revivedLinkEndingNode],[revivedLinkStartingNode]: revivedLinkVal}
-      newNodeNextHopsBws[revivedLinkStartingNode][revivedLinkEndingNode] = [revivedLinkStartingNode,revivedLinkVal]
-      newNodeNextHopsBws[revivedLinkEndingNode][revivedLinkStartingNode] = [revivedLinkEndingNode,revivedLinkVal]
-      newNodeDestPathCosts[revivedLinkStartingNode][revivedLinkEndingNode] = [[revivedLinkStartingNode],revivedLinkVal]
-      newNodeDestPathCosts[revivedLinkEndingNode][revivedLinkStartingNode] = [[revivedLinkEndingNode],revivedLinkVal]
+      newNodeNextHopsBws[revivedLinkStartingNode][revivedLinkEndingNode] = [revivedLinkEndingNode,revivedLinkVal]
+      newNodeNextHopsBws[revivedLinkEndingNode][revivedLinkStartingNode] = [revivedLinkStartingNode,revivedLinkVal]
+      newNodeDestPathCosts[revivedLinkStartingNode][revivedLinkEndingNode] = [[revivedLinkEndingNode],revivedLinkVal]
+      newNodeDestPathCosts[revivedLinkEndingNode][revivedLinkStartingNode] = [[revivedLinkStartingNode],revivedLinkVal]
       
+      Object.entries(newNodeNeighbors).forEach(e => {
+        console.log(e)
+      })
+
       var newNodeTables = this.updateNodeTables(newNodeNextHopsBws)
       var newNodePathTables = this.updateNodePathTables(newNodeDestPathCosts)
 
@@ -911,6 +905,13 @@ export default class DistributedRouter extends Component {
           if (!(nodeSendingPacket in this.state.nodeNextHopsBws[k])){
             newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [nodeSendingPacket]: [nodeSendingPacket, v]}
             newNodeDestPathCosts[k] = {...newNodeDestPathCosts[k], [nodeSendingPacket]: [[nodeSendingPacket], v]}
+          } else {
+            var currentCost = this.state.nodeNextHopsBws[k][nodeSendingPacket][1]
+            //console.log('currentCost: ' + currentCost + ', newCost: ' + v)
+            if (v<currentCost ) {
+                newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [nodeSendingPacket]: [nodeSendingPacket, v]}
+                newNodeDestPathCosts[k] = {...newNodeDestPathCosts[k], [nodeSendingPacket]: [[nodeSendingPacket], v]}
+            }
           }
           Object.entries(this.state.nodeNextHopsBws[nodeSendingPacket]).forEach(([k1,v1]) => {
             var nodeEntryEditedInReceiving = k1
@@ -933,15 +934,12 @@ export default class DistributedRouter extends Component {
               var nextHopInSending = v1[0]
               var nodeSendingPacketInReceivingNodePath = false
               //check if nodeSendingPacket is in receiving nodes Path
-              //console.log('k: ' + k + ', k1: ' + k1)
               this.state.nodeDestPathCosts[k][k1][0].forEach(e => {
-                //console.log(e)
                 if (e==nodeSendingPacket) {
                   nodeSendingPacketInReceivingNodePath = true
                 }
               })
-
-              if (((v1[1]+v<currentCost || currentCost=='Inf') && (!this.state.splitHorizonActive || k!=nextHopInSending) && (!this.state.pathUpdateActive || !nodeSendingPacketInReceivingNodePath)) || (this.state.forcedUpdateActive && nodeSendingPacket==nextHopInReceiving)) {
+              if ((((v1[1]+v<currentCost || currentCost=='Inf') && (!this.state.splitHorizonActive || k!=nextHopInSending)) || (this.state.forcedUpdateActive && nodeSendingPacket==nextHopInReceiving)) && (!this.state.pathUpdateActive || !nodeSendingPacketInReceivingNodePath)) {
                 if (v1[1]=='Inf') {
                   newNodeNextHopsBws[k] = {...newNodeNextHopsBws[k], [k1]: ['-', v1[1]]}
                   newNodeDestPathCosts[k] = {...newNodeDestPathCosts[k], [k1]: [['-'], v1[1]]}
