@@ -15,18 +15,22 @@ In the router sandbox, move nodes and routing tables to simulate any network.
 
 * __Move Nodes:__ Nodes can be moved around by clicking and dragging. Nodes can overlap but can't be dragged offscreen.
 
-<p align="center"><img src="readmeFiles/moveNode.gif?raw=true" /></p>
+<p align="center"><img src="readmeFiles/moveNodeDemo.gif?raw=true" /></p>
 <p align="center">click and drag to move nodes</p>
 
-* __Routing tables:__ Each node has its own routing table toggled by clicking on the node without dragging. Routing tables show a destination node, the next hop to get to that node from this node, and the cost of getting to that node. Routing tables are initialized  with neighboring nodes and update as a node receives packets.
+* __Routing tables:__ Each node has its own routing table toggled by clicking on the node without dragging. Routing tables show a destination node, the next hop or path to get to that node from this node, and the cost of getting to that node. Displaying next hop or paths can be set in the menu. Routing tables are initialized  with neighboring nodes and update as a node receives packets.
 
-<p align="center"><img src="readmeFiles/openTable.gif?raw=true" /></p>
+<p align="center"><img src="readmeFiles/openTableDemo.gif?raw=true" /></p>
 <p align="center">click without dragging to open and close routing tables
+</p>
+
+<p align="center"><img src="readmeFiles/linkPathDemo.gif?raw=true" /></p>
+<p align="center">switch between viewing the next hop or entire path
 </p>
 
 * __Link Delays:__ Each link has its own delay value. Delays can be changed by clicking and are capped at three characters. These changes instantly appear in connecting nodes' routing tables.
 
-<p align="center"><img src="readmeFiles/editLink.gif?raw=true" /></p>
+<p align="center"><img src="readmeFiles/editLinkDemo.gif?raw=true" /></p>
 <p align="center">click on the link delay value to edit</p>
 
 ### Menu 
@@ -95,24 +99,26 @@ Pressing 'Send One' again, node 1 sends an update to its neighbors. The neighbor
 <p align="center"><img src="readmeFiles/startExThree.png?raw=true" /></p>
 
 * __Remove Node:__
-<p align="center"><img src="readmeFiles/removeNode.gif?raw=true" /></p>
+<p align="center"><img src="readmeFiles/removeNodeDemo.gif?raw=true" /></p>
 <p align="center">After selecting Remove Node, click on the Node to remove</p>
 
 * __Remove Link:__
-<p align="center"><img src="readmeFiles/removeLink.gif?raw=true" /></p>
+<p align="center"><img src="readmeFiles/removeLinkDemo.gif?raw=true" /></p>
 <p align="center">After selecting Remove Link, click on the Link to remove</p>
 
 * __Kill Node:__
-<p align="center"><img src="readmeFiles/killNode.gif?raw=true" /></p>
+<p align="center"><img src="readmeFiles/killNodeDemo.gif?raw=true" /></p>
 <p align="center">After selecting Kill Node, click on the Node to kill</p>
 
 * __Kill Link:__
-<p align="center"><img src="readmeFiles/killLink.gif?raw=true" /></p>
+<p align="center"><img src="readmeFiles/killLinkDemo.gif?raw=true" /></p>
 <p align="center">After selecting Kill Link, click on the Link to kill</p>
 
 ## User Survey
 
-A user survey was conducted, responses can be found in the corrisponding folder. Feedback focused on usability and better explaining how the app works to new users. Some changes were implemented based on feedback. A link to the project github was added so users can access the documentation and understand how the app works. To increase usability, messaging order entries were made narrower.  
+After the first prototype, a user survey was conducted (responses can be found in the corrisponding folder). Feedback focused on usability and better explaining how the app works to new users. Some changes were implemented based on feedback:
+ * A link to the project github was added so users can access documentation
+ * messaging order entries were made narrower to increase usability
 
 <p align="center">
   <img src="readmeFiles/menuBottom.png?raw=true" />
