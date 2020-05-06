@@ -4,7 +4,7 @@ This Web App simulates a distributed router network to easily demonstrate routin
 
 [Check out the current version](https://thawing-crag-42208.herokuapp.com/)
 
-<p align="center"><img src="readmeFiles/overview.png?raw=true" /></p>
+<p align="center"><img src="readmeFiles/screen.png?raw=true" /></p>
 
 ## Features
 
@@ -35,7 +35,7 @@ The menu contains a number of buttons to interact with the routers and a table s
 
 __Node Interaction:__ the top of the menu interacts with the router sandbox
 
-<p align="center"><img src="readmeFiles/menuTop.png?raw=true" /></p>
+<p align="center"><img src="readmeFiles/menuUpper.png?raw=true" /></p>
 
 * __Add Node:__ a new node appears in the top left corner with the lowest value not currently taken. The new node is added to the end of the messaging order. Node count is capped at 10.
 
@@ -67,7 +67,7 @@ __Node Interaction:__ the top of the menu interacts with the router sandbox
 
 __Messaging:__ The bottom of the menu contains messaging simulation functionality.
 
-<p align="center"><img src="readmeFiles/menuBottom.png?raw=true" /></p>
+<p align="center"><img src="readmeFiles/menuLower.png?raw=true" /></p>
 
 * __Messaging Order:__ This list shows the order in which nodes will send packets, with the next node to send a packet highlighted. Nodes can be dragged to edit the messaging order. The highlighted index will always stay the same, but different nodes can be placed in that index.
 
@@ -83,15 +83,15 @@ __Messaging:__ The bottom of the menu contains messaging simulation functionalit
 
 On open, the app is initialized to a small, four node example network. Initially, no packets have been sent and each node's routing table only contains their neighbors. 
 
-<p align="center"><img src="readmeFiles/initExampleOne.png?raw=true" /></p>
+<p align="center"><img src="readmeFiles/startExOne.png?raw=true" /></p>
 
 Pressing 'Send One' without changing the messaging order, node 0 will send an update to its neighbors. Since node 0 has entries not in its neighbors' tables, they will update their tables with the new routes.
 
-<p align="center"><img src="readmeFiles/initExampleTwo.png?raw=true" /></p>
+<p align="center"><img src="readmeFiles/startExTwo.png?raw=true" /></p>
 
 Pressing 'Send One' again, node 1 sends an update to its neighbors. The neighbors again update any new or shorter paths in their routing table. At this point, all nodes have determined the shortest route to all other nodes and any subsequent packets will not cause updates.
 
-<p align="center"><img src="readmeFiles/initExampleThree.png?raw=true" /></p>
+<p align="center"><img src="readmeFiles/startExThree.png?raw=true" /></p>
 
 ## User Survey
 
