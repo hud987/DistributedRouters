@@ -115,7 +115,7 @@ Pressing 'Send One' again, node 1 sends an update to its neighbors. The neighbor
 A user survey was conducted, responses can be found in the corrisponding folder. Feedback focused on usability and better explaining how the app works to new users. Some changes were implemented based on feedback. A link to the project github was added so users can access the documentation and understand how the app works. To increase usability, messaging order entries were made narrower.  
 
 <p align="center">
-  <img src="readmeFiles/menuBottom.gif?raw=true" />
-  <img src="readmeFiles/menuLower.gif?raw=true" />
+  <img src="readmeFiles/menuBottom.png?raw=true" />
+  <img src="readmeFiles/menuLower.png?raw=true" />
 </p>
 <p align="center">Before (left) and After (right) feedback was implemented</p>
