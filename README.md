@@ -15,18 +15,18 @@ In the router sandbox, move nodes and routing tables to simulate any network.
 
 * __Move Nodes:__ Nodes can be moved around by clicking and dragging. Nodes can overlap but can't be dragged offscreen.
 
-<p align="center"><img src="readmeFiles/moveDemo.gif?raw=true" /></p>
+<p align="center"><img src="readmeFiles/moveNode.gif?raw=true" /></p>
 <p align="center">click and drag to move nodes</p>
 
 * __Routing tables:__ Each node has its own routing table toggled by clicking on the node without dragging. Routing tables show a destination node, the next hop to get to that node from this node, and the cost of getting to that node. Routing tables are initialized  with neighboring nodes and update as a node receives packets.
 
-<p align="center"><img src="readmeFiles/tableDemo.gif?raw=true" /></p>
+<p align="center"><img src="readmeFiles/openTable.gif?raw=true" /></p>
 <p align="center">click without dragging to open and close routing tables
 </p>
 
 * __Link Delays:__ Each link has its own delay value. Delays can be changed by clicking and are capped at three characters. These changes instantly appear in connecting nodes' routing tables.
 
-<p align="center"><img src="readmeFiles/linkDemo.gif?raw=true" /></p>
+<p align="center"><img src="readmeFiles/editLink.gif?raw=true" /></p>
 <p align="center">click on the link delay value to edit</p>
 
 ### Menu 
@@ -81,6 +81,7 @@ __Messaging:__ The bottom of the menu contains messaging simulation functionalit
 
 ## Usage
 
+* __Demo:__
 On open, the app is initialized to a small, four node example network. Initially, no packets have been sent and each node's routing table only contains their neighbors. 
 
 <p align="center"><img src="readmeFiles/startExOne.png?raw=true" /></p>
@@ -92,6 +93,22 @@ Pressing 'Send One' without changing the messaging order, node 0 will send an up
 Pressing 'Send One' again, node 1 sends an update to its neighbors. The neighbors again update any new or shorter paths in their routing table. At this point, all nodes have determined the shortest route to all other nodes and any subsequent packets will not cause updates.
 
 <p align="center"><img src="readmeFiles/startExThree.png?raw=true" /></p>
+
+* __Remove Node:__
+<p align="center"><img src="readmeFiles/removeNode.gif?raw=true" /></p>
+<p align="center">After selecting Remove Node, click on the Node to remove</p>
+
+* __Remove Link:__
+<p align="center"><img src="readmeFiles/removeLink.gif?raw=true" /></p>
+<p align="center">After selecting Remove Link, click on the Link to remove</p>
+
+* __Kill Node:__
+<p align="center"><img src="readmeFiles/killNode.gif?raw=true" /></p>
+<p align="center">After selecting Kill Node, click on the Node to kill</p>
+
+* __Kill Link:__
+<p align="center"><img src="readmeFiles/killLink.gif?raw=true" /></p>
+<p align="center">After selecting Kill Link, click on the Link to kill</p>
 
 ## User Survey
 
