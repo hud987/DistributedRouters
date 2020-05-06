@@ -85,7 +85,24 @@ __Messaging:__ The bottom of the menu contains messaging simulation functionalit
 
 ## Usage
 
-* __Demo:__
+<p align="center">__Remove Node:__</p>
+
+<p align="center"><img src="readmeFiles/removeNodeDemo.gif?raw=true" /></p>
+<p align="center">After selecting Remove Node, click on the Node to remove. Add Node and Add Link can be used to replace the removed node</p>
+
+* __Remove Link:__
+<p align="center"><img src="readmeFiles/removeLinkDemo.gif?raw=true" /></p>
+<p align="center">After selecting Remove Link, click on the Link to remove. Add Link can be used to replace the removed link</p>
+
+* __Kill Node:__
+<p align="center"><img src="readmeFiles/killNodeDemo.gif?raw=true" /></p>
+<p align="center">After selecting Kill Node, click on the Node to kill. Revive Node can be used to revived the killed node</p>
+
+* __Kill Link:__
+<p align="center"><img src="readmeFiles/killLinkDemo.gif?raw=true" /></p>
+<p align="center">After selecting Kill Link, click on the Link to kill. Revive Link can be used to revived the killed link</p>
+
+## Demo
 On open, the app is initialized to a small, four node example network. Initially, no packets have been sent and each node's routing table only contains their neighbors. 
 
 <p align="center"><img src="readmeFiles/startExOne.png?raw=true" /></p>
@@ -97,22 +114,6 @@ Pressing 'Send One' without changing the messaging order, node 0 will send an up
 Pressing 'Send One' again, node 1 sends an update to its neighbors. The neighbors again update any new or shorter paths in their routing table. At this point, all nodes have determined the shortest route to all other nodes and any subsequent packets will not cause updates.
 
 <p align="center"><img src="readmeFiles/startExThree.png?raw=true" /></p>
-
-* __Remove Node:__
-<p align="center"><img src="readmeFiles/removeNodeDemo.gif?raw=true" /></p>
-<p align="center">After selecting Remove Node, click on the Node to remove</p>
-
-* __Remove Link:__
-<p align="center"><img src="readmeFiles/removeLinkDemo.gif?raw=true" /></p>
-<p align="center">After selecting Remove Link, click on the Link to remove</p>
-
-* __Kill Node:__
-<p align="center"><img src="readmeFiles/killNodeDemo.gif?raw=true" /></p>
-<p align="center">After selecting Kill Node, click on the Node to kill</p>
-
-* __Kill Link:__
-<p align="center"><img src="readmeFiles/killLinkDemo.gif?raw=true" /></p>
-<p align="center">After selecting Kill Link, click on the Link to kill</p>
 
 ## User Survey
 
