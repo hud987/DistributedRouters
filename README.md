@@ -85,35 +85,31 @@ __Messaging:__ The bottom of the menu contains messaging simulation functionalit
 
 ## Usage
 
-<p align="center"><b>Remove Node:</b></p>
+<p align="center"><b>Add/Remove Node:</b></p>
 
 <p align="center"><img src="readmeFiles/removeNodeDemo.gif?raw=true" /></p>
 <p align="center">After selecting Remove Node, click on the Node to remove. Add Node and Add Link can be used to replace the removed node</p>
 
-<p align="center"><b>Remove Link:</b></p>
+<p align="center"><b>Add/Remove Link:</b></p>
 <p align="center"><img src="readmeFiles/removeLinkDemo.gif?raw=true" /></p>
 <p align="center">After selecting Remove Link, click on the Link to remove. Add Link can be used to replace the removed link</p>
 
-<p align="center"><b>Kill Node:</b></p>
+<p align="center"><b>Kill/Revive Node:</b></p>
 <p align="center"><img src="readmeFiles/killNodeDemo.gif?raw=true" /></p>
 <p align="center">After selecting Kill Node, click on the Node to kill. Revive Node can be used to revived the killed node</p>
 
-<p align="center"><b>Kill Link:</b></p>
+<p align="center"><b>Kill/Revive Link:</b></p>
 <p align="center"><img src="readmeFiles/killLinkDemo.gif?raw=true" /></p>
 <p align="center">After selecting Kill Link, click on the Link to kill. Revive Link can be used to revived the killed link</p>
 
 ## Demo
 On open, the app is initialized to a small, four node example network. Initially, no packets have been sent and each node's routing table only contains their neighbors. 
 
-<p align="center"><img src="readmeFiles/startExOne.png?raw=true" /></p>
+<p align="center"><img src="readmeFiles/sendDemo.gif?raw=true" /></p>
 
 Pressing 'Send One' without changing the messaging order, node 0 will send an update to its neighbors. Since node 0 has entries not in its neighbors' tables, they will update their tables with the new routes.
 
-<p align="center"><img src="readmeFiles/startExTwo.png?raw=true" /></p>
-
 Pressing 'Send One' again, node 1 sends an update to its neighbors. The neighbors again update any new or shorter paths in their routing table. At this point, all nodes have determined the shortest route to all other nodes and any subsequent packets will not cause updates.
-
-<p align="center"><img src="readmeFiles/startExThree.png?raw=true" /></p>
 
 ## User Survey
 
