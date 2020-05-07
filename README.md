@@ -1,6 +1,8 @@
 # Distributed Router Sim
 
-This Web App simulates a distributed router network to easily demonstrate routing algorithms. Say goodbye to unwieldy chalkboard presentations.
+This Web App simulates a distributed router network to easily demonstrate routing algorithms. Say goodbye to unwieldy chalkboard presentations. 
+
+Created by Michael Hudachek
 
 [Check out the current version](https://thawing-crag-42208.herokuapp.com/)
 
@@ -124,3 +126,10 @@ After the first prototype, a user survey was conducted (responses can be found i
   <img src="readmeFiles/menuLower.png?raw=true" />
 </p>
 <p align="center">Before (left) and after (right) feedback was implemented</p>
+
+## Host it Yourself
+
+If you don't want to rely on my hosting, host this web app yourself. This project has no database so hosting is relativley easy:
+* download the project from github
+* run npm install to ensure all modules are functional
+* push project to hosting service of your choice (This one uses Heroku)
