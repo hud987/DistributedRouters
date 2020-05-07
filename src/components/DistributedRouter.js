@@ -899,8 +899,10 @@ export default class DistributedRouter extends Component {
               var nextHopInSending = v1[0]
               var nodeSendingPacketInReceivingNodePath = false
               //check if nodeSendingPacket is in receiving nodes Path
-              this.state.nodeDestPathCosts[k][k1][0].forEach(e => {
-                if (e==nodeSendingPacket) {
+              console.log('nodeSendingPacket: ' + nodeSendingPacket)
+              this.state.nodeDestPathCosts[nodeSendingPacket][k1][0].forEach(e => {
+                console.log('e:' + e)
+                if (e==nodeReceivingPacket) {
                   nodeSendingPacketInReceivingNodePath = true
                 }
               })
