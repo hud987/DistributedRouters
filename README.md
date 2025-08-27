@@ -4,7 +4,7 @@ This Web App simulates a distributed router network to easily demonstrate routin
 
 Created by Michael Hudachek
 
-[Check out the current version](https://thawing-crag-42208.herokuapp.com/)
+[The current version is no longer hosted,](https://thawing-crag-42208.herokuapp.com/) V but there's plenty of demos below V
 
 <p align="center"><img src="readmeFiles/screen.png?raw=true" /></p>
 
